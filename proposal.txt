@@ -1,0 +1,31 @@
+.`  .`  .`  .`  .`  .`  .`  .`  .`  .`  .`   `  .`  .`  .`  .` . `   `  .`  .`  
+  .`  .`  .`  .`  .`  .`  .`  .`  .`  .`  .  =__   `  .`  .`   ~-__   .`  .`  .`
+.`  .`   __   __    ___ __    __  _  _    __  ~~==__    .`     _/~!~-   .`  .`  
+  .`  . /_| | |_)    |  |_)  /_| |_ |_ | /    .   ~~==__    _-~_-~    .`  .`  .`
+.`  .` /  | | | \    |  | \ /  | |  |  | \__ `  .     ~~==-~  /     .`  .`  .`  
+=====================================================  .^ `_=Z=___  ============
+                                                     .^ _-~    ~~~===___
+                                                     --~             ~~~=--
+Team Members:
+Darwin Pek      - Bullet
+Michael Fanelli - GUI
+Janek Lehr      - Networking
+
+A dogfighting game where you play as a glider and you have to stay afloat for
+as long as possible. You lose the game when you hit the floor or when another
+player shoots you down. As it is a multiplayer game, the last person standing
+will be the winner of the game.
+
+The controls will involve the mouse and WASD or arrow key controls to point and
+move the plane, respectively.
+
+The large addition we will make for this game will be importing scenes from real
+life for the levels using the Lynx camera technology developed by Lynx
+Laboratories.
+
+We will add a clearer server-client distinction and better access to globally-
+needed objects and variables. We will also try to add in Game States to make
+in particular input managment easier.
+
+AK 5-b Sailplane ASCII art by Werner Bennert, bilux@akaflieg.uni-karlsruhe.de
+ASCII Art obtained from http://xcski.com/~ptomblin/planes.txt
