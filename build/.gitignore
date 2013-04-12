@@ -1,0 +1,10 @@
+# Ignore everything in this directory...
+*
+# ...except the original build files.
+!.gitignore
+!buildit
+!configure.ac
+!Makefile.am
+!makeit
+!plugins.cfg
+!resources.cfg

@@ -1,0 +1,7 @@
+#!/bin/sh
+#export BULLET_INSTALL_DIR=${HOME}/bullet
+#export LD_RUN_PATH=${BULLET_INSTALL_DIR}/lib
+export SDL_MIXER_INSTALL_DIR=../SDL_mixer-1.2.12/lib/
+export LD_RUN_PATH=${SDL_MIXER_INSTALL_DIR}
+make clean
+make

@@ -1,0 +1,34 @@
+ <?xml version="1.0" ?>
+ <GUILayout>
+     <Window Type="WindowsLook/StaticImage" Name="Menu/Background">
+     <Property Name="UnifiedSize" Value="{{1.0,0},{1.0,0}}" />
+     <Property Name="Image" Value="set:Background image:Background" />
+ 
+         <Window Type="WindowsLook/Button" Name="Menu/NewGame">
+             <Property Name="UnifiedAreaRect" Value="{{0.2,0.0},{0.2,0.0},{0.6,0.0},{0.4,0.0}}" />
+             <Property Name="NormalImage" Value="set:Buttons image:ButtonUp" />
+             <Property Name="HoverImage" Value="set:Buttons image:ButtonDisabled" />
+             <Property Name="PushedImage" Value="set:Buttons image:ButtonHighlighted" />
+             <Property Name="DisabledImage" Value="set:Buttons image:ButtonDisabled" />
+             <Property Name="Tooltip" Value="Start a new game"/>
+         </Window>
+ 
+         <Window Type="WindowsLook/Button" Name="Menu/LoadGame">
+             <Property Name="UnifiedAreaRect" Value="{{0.2,0.0},{0.45,0.0},{0.6,0.0},{0.65,0.0}}" />
+             <Property Name="NormalImage" Value="set:Buttons image:ButtonUp" />
+             <Property Name="HoverImage" Value="set:Buttons image:ButtonDisabled" />
+             <Property Name="PushedImage" Value="set:Buttons image:ButtonHighlighted" />
+             <Property Name="DisabledImage" Value="set:Buttons image:ButtonDisabled" />
+             <Property Name="Tooltip" Value="Not implemented yet"/>
+          </Window>
+ 
+         <Window Type="WindowsLook/Button" Name="Menu/QuitGame">
+             <Property Name="UnifiedAreaRect" Value="{{0.2,0.0},{0.7,0.0},{0.6,0.0},{0.9,0.0}}" />
+             <Property Name="NormalImage" Value="set:Buttons image:ButtonUp" />
+             <Property Name="HoverImage" Value="set:Buttons image:ButtonDisabled" />
+             <Property Name="PushedImage" Value="set:Buttons image:ButtonHighlighted" />
+             <Property Name="DisabledImage" Value="set:Buttons image:ButtonDisabled" />
+             <Property Name="Tooltip" Value="Exit To Desktop"/>
+          </Window>
+     </Window>
+ </GUILayout>

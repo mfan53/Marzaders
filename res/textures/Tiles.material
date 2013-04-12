@@ -1,0 +1,30 @@
+material Template/texture_map
+ {
+    technique
+    {
+       pass
+        {
+          texture_unit
+          {
+            texture GabeNewell.png
+           // scale 0.5 1.0 // Scale the texture twice on the x axis and once on the y axis
+          }
+       }   
+    }
+ }
+
+material Template/texture_map2
+ {
+    technique
+    {
+       pass
+        {
+          texture_unit
+          {
+            texture blacktile.jpg
+           // scale 0.1 0.1
+            // this means that the texture will be tiled 10 times (1/10 = 0.1)
+          }
+       }   
+    }
+ }

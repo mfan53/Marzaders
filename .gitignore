@@ -1,0 +1,17 @@
+#Ignore compile folders
+Debug/
+Release/
+
+#Ignore certain hidden folders and files
+.deps/
+
+#ignore eclipse settings
+.project
+.cproject
+
+# Generic files
+*~
+*.lock
+*.DS_Store
+*.swp
+*.out
