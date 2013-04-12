@@ -4,7 +4,7 @@
 #include "btBulletDynamicsCommon.h"
 #include <OgreSceneManager.h>
 #include <OgreEntity.h>
-#include "Sound.h"
+#include "sound/Sound.h"
 
 namespace Arsenal {
 	class Entity {

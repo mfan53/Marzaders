@@ -1,7 +1,7 @@
 #ifndef INC_ARSENAL_SCOREMANAGER_H
 #define INC_ARSENAL_SCOREMANAGER_H
 
-#include "Sound.h"
+#include "sound/Sound.h"
 #include "event/EventManager.h"
 
 namespace Arsenal {

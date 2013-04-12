@@ -9,7 +9,7 @@
 #include "BaseApplication.h"
 #include "btBulletDynamicsCommon.h"
 #include "Entity.h"
-#include "SoundManager.h"
+#include "sound/SoundManager.h"
 #include "ScoreManager.h"
 #include "event/Event.h"
 #include "event/EventManager.h"
