@@ -32,7 +32,7 @@ bool Socket::send(const Endpoint &dest, const char *data, const size_t size) {
 	return true;
 }
 
-size_t Socket::receive(const Endpoint &sender, char *data, const size_t size) {
+size_t Socket::receive(Endpoint &sender, char *data, const size_t size) {
 	if (socket.available() == 0)
 		return 0;
 	return socket.receive_from(buffer(data, size), sender.endpoint);

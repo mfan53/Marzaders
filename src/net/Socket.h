@@ -17,10 +17,10 @@ namespace Arsenal {
 		bool open(const uint16_t port);
 		void close();
 		
-		bool send(const Endpoint &dest, const char *data, const size_t size);
-		size_t receive(Endpoint &sender, char *data, const size_t size);
+		bool send(const Endpoint &dest, const char *data, size_t size);
+		size_t receive(Endpoint &sender, char *data, size_t size);
 
-		bool isOpen() { return mOpen; };
+		bool isOpen() { return m_open; };
 	
 	private:
 		boost::asio::ip::udp::socket socket;
