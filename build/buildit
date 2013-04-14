@@ -1,6 +1,4 @@
 #!/bin/sh
-#export BULLET_INSTALL_DIR=${HOME}/bullet/lib
-#export PKG_CONFIG_PATH=${BULLET_INSTALL_DIR}/pkgconfig
 export SDL_MIXER_INSTALL_DIR=../SDL_mixer-1.2.12/lib/pkgconfig/
 export PKG_CONFIG_PATH=${SDL_MIXER_INSTALL_DIR}
 rm -rf autom4te.cache
