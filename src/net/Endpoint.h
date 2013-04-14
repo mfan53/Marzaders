@@ -16,7 +16,7 @@ namespace Arsenal
 	private:
 		friend class Socket;
 		
-		boost::asio::ip::udp::endpoint	endpoint;
+		boost::asio::ip::udp::endpoint endpoint;
 	};
 }
 

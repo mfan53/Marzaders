@@ -6,7 +6,7 @@
 namespace Arsenal {
 	class Host {
 	public:	
-		static const uint32_t protocolID = (unsigned)0x16610be1b30c8375;
+		static const uint32_t protocolID = (unsigned) 0x16610be1b30c8375;
 		
 	private:
 		friend class Socket;
