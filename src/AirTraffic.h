@@ -16,6 +16,8 @@
 #include "net/Endpoint.h"
 #include "net/Host.h"
 #include "net/Socket.h"
+#include "Wall.h"
+#include "Plane.h"
 
 class AirTraffic : public BaseApplication
 {

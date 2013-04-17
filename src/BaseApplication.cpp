@@ -1,4 +1,3 @@
-#include "BaseApplication.h"
 #include "AirTraffic.h"
 #include <vector>
 
@@ -66,10 +65,10 @@ void BaseApplication::createCamera(void)
 	// Create the camera
 	mCamera = mSceneMgr->createCamera("PlayerCam");
 
-	// 
-	mCamera->setPosition(Ogre::Vector3(0,400,0));
-	// Look back along -Z
-	mCamera->lookAt(Ogre::Vector3(0,-100,-10));
+	// Position it
+	mCamera->setPosition(Ogre::Vector3(0,35,-150));
+        // Look back along -Z
+	mCamera->lookAt(Ogre::Vector3(0,0,500));
 	mCamera->setNearClipDistance(5);
 
 	// create a default camera controller
@@ -247,7 +246,7 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	mMouse->capture();
 
 	//need to inject the timestamps to CEGUI system
-	CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
+	//CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
 
 	mTrayMgr->frameRenderingQueued(evt);
 

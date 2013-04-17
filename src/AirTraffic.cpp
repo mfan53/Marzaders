@@ -13,5 +13,8 @@ AirTraffic::~AirTraffic(void)
 //-------------------------------------------------------------------------------------
 void AirTraffic::createScene(void)
 {
-    // create your scene here :)
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0f,1.0f,1.0f));
+
+	//plane entity
+	
 }
