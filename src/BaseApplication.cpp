@@ -66,9 +66,9 @@ void BaseApplication::createCamera(void)
 	mCamera = mSceneMgr->createCamera("PlayerCam");
 
 	// Position it
-	mCamera->setPosition(Ogre::Vector3(0,35,-150));
+	mCamera->setPosition(Ogre::Vector3(0,35,95));
         // Look back along -Z
-	mCamera->lookAt(Ogre::Vector3(0,0,500));
+	mCamera->lookAt(Ogre::Vector3(0,0,-500));
 	mCamera->setNearClipDistance(5);
 
 	// create a default camera controller

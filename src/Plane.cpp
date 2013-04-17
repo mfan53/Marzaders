@@ -31,6 +31,8 @@ Plane::Plane(Ogre::SceneManager* mSceneMgr,
 	mSceneNode->attachObject(mRenderEntity);
 	mRenderEntity->setCastShadows(true);
 	mSceneNode->setPosition(Ogre::Vector3(xcoord,ycoord,zcoord));
+	//rotate the plane
+	mSceneNode->yaw(Ogre::Radian(M_PI));
 }
 
 Plane::~Plane() {

@@ -18,19 +18,20 @@
 #include "net/Socket.h"
 #include "Wall.h"
 #include "Plane.h"
+#include <math.h>
 
 class AirTraffic : public BaseApplication
 {
 public:
-    AirTraffic(void);
-    virtual ~AirTraffic(void);
+   	AirTraffic(void);
+   	virtual ~AirTraffic(void);
 
-	bool keyPressed(const OIS::KeyEvent &arg);
-    bool keyReleased(const OIS::KeyEvent &arg);
+	//bool keyPressed(const OIS::KeyEvent &arg);
+   	//bool keyReleased(const OIS::KeyEvent &arg);
  
 protected:
-    virtual void createScene(void);
-	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+   	virtual void createScene(void);
+	//virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 };
 
 #endif // #ifndef __AirTraffic_h_
