@@ -5,6 +5,12 @@
 using namespace Arsenal;
 using namespace EventManager;
 
+int ScoreManager::p1Score = 0;
+int ScoreManager::p2Score = 0;
+int ScoreManager::numPlayed = 0;
+Sound * ScoreManager::mSound;
+
+/*
 ScoreManager::ScoreManager() {
 	reset();
 }
@@ -16,6 +22,7 @@ ScoreManager::ScoreManager(EventManager::EventQueue* eq): eventQueue(eq) {
 ScoreManager::~ScoreManager() {
 	// Nothing to do
 }
+*/
 
 void ScoreManager::netP1UpdateScore(EventManager::score_t delta) {
 	if (delta == EventManager::PLUS_ONE)
@@ -35,20 +42,22 @@ void ScoreManager::netP2UpdateScore(EventManager::score_t delta) {
 
 void ScoreManager::p1UpdateScore(int delta) {
 	mSound->play(0);
+	/*
 	if (delta == 1)
 		eventQueue->add(createScoreEvent(0, PLUS_ONE));
 	else
 		eventQueue->add(createScoreEvent(0, MINUS_THREE));
-	printf("p1 score: %d, p2 score: %d\n", p1Score, p2Score);
+	*/
 }
 
 void ScoreManager::p2UpdateScore(int delta) {
 	mSound->play(0);
+	/*
 	if (delta == 1)
 		eventQueue->add(createScoreEvent(1, PLUS_ONE));
 	else
 		eventQueue->add(createScoreEvent(1, MINUS_THREE));
-	printf("p1 score: %d, p2 score: %d\n", p1Score, p2Score);
+	*/
 }
 
 void ScoreManager::reset() {

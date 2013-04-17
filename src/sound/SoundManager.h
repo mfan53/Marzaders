@@ -34,8 +34,8 @@ namespace Arsenal {
             static void musicDone();
             static void channelFinished(int channel);
         public:
-            //SoundManager();
-            //SoundManager(int numChannels);
+            //static SoundManager();
+            //static SoundManager(int numChannels);
             //virtual ~SoundManager();
 
             static void init(int channels);
