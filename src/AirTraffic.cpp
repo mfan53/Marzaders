@@ -53,6 +53,13 @@ void AirTraffic::createScene(void)
 	node->attachObject(back);
 	node->setPosition(Ogre::Vector3(0,0,-200));
 	node->scale(100,100,0);
+	for(float x = -100; x <= 100; x += 25) {
+		for(float y = -100; y <= 100; y+= 25) {
+			Arsenal::Box* mBox = new Arsenal::Box(mSceneMgr,mWorld,x,y);
+			boxes.push_back(mBox);
+			entities.push_back(mBox);
+		}
+	}
 	
 	//mSceneMgr->setSkyBox(true,"Examples/EveningSkyBox");
 }
@@ -71,6 +78,10 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 		iter != entities.end(); ++iter) {
    		(*iter)->update(delta);
 	}
+
+	// Update camera position
+	mCamera->setPosition(Ogre::Vector3(mPlane->getX(), mPlane->getY(), 95));
+	mCamera->lookAt(Ogre::Vector3(0,0,-500));
 
 	return true;
 }
