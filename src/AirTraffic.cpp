@@ -41,8 +41,20 @@ void AirTraffic::createScene(void)
 	//plane entity
 	mPlane = new Arsenal::Plane(mSceneMgr,mWorld,"plane",mCamera);
 	entities.push_back(mPlane);
+
+	//space sky plane
+	entities.push_back(new Arsenal::Wall(mSceneMgr,mWorld,0,-50,0,"Examples/Ground","back wall"));
+
+	//back cloud screen
+	Ogre::Entity* back = mSceneMgr->createEntity("back",Ogre::SceneManager::PT_CUBE);
+	Ogre::SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+	back->setMaterialName("Examples/Cloud");
+	back->setCastShadows(false);
+	node->attachObject(back);
+	node->setPosition(Ogre::Vector3(0,0,-200));
+	node->scale(100,100,0);
 	
-	mSceneMgr->setSkyBox(true,"Examples/EveningSkyBox");
+	//mSceneMgr->setSkyBox(true,"Examples/EveningSkyBox");
 }
 
 bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
