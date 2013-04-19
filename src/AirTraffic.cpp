@@ -41,6 +41,13 @@ void AirTraffic::createScene(void)
 	//plane entity
 	mPlane = new Arsenal::Plane(mSceneMgr,mWorld,"plane");
 	entities.push_back(mPlane);
+	for(float x = -100; x <= 100; x += 25) {
+		for(float y = -100; y <= 100; y+= 25) {
+			Arsenal::Box* mBox = new Arsenal::Box(mSceneMgr,mWorld,x,y);
+			boxes.push_back(mBox);
+			entities.push_back(mBox);
+		}
+	}
 	
 	mSceneMgr->setSkyBox(true,"Examples/EveningSkyBox");
 }
