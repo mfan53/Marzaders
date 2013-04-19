@@ -3,7 +3,19 @@
 using namespace Arsenal;
 
 Plane::Plane(Ogre::SceneManager* mSceneMgr,btDiscreteDynamicsWorld* dynamicsWorld, std::string name, Ogre::Camera* mCamera) {
-	mShape = new btBoxShape(btVector3(5,5,5));
+	// OGRE
+	mRender = mSceneMgr->createEntity(name,"RZR-002.mesh");
+	float boundingRadius = mRender->getMesh()-getBoundingSphereRadius();
+	mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+	mNode->attachObject(mRender);
+	//mNode->attachObject(mCamera);
+	mRender->setCastShadows(true);
+	mNode->setPosition(Ogre::Vector3(xcoord,ycoord,zcoord));
+	//rotate the plane
+	mNode->yaw(Ogre::Radian(M_PI));
+
+	// Bullet
+	mShape = new btBoxShape(btVector3(boundingRadius,boundingRadius,boundingRadius));
 	btScalar mass = 10;
 	btVector3 localInertia = btVector3(btScalar(0),btScalar(0),btScalar(0));
 	btTransform transform;
@@ -22,14 +34,6 @@ Plane::Plane(Ogre::SceneManager* mSceneMgr,btDiscreteDynamicsWorld* dynamicsWorl
 	mBody->setLinearFactor(btVector3(1,1,0)); // only allow movement on x,y axis
 	//mBody->setAngularFactor(btVector3(0,0,0)); // Allow no rotations
 
-	mRender = mSceneMgr->createEntity(name,"RZR-002.mesh");
-	mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-	mNode->attachObject(mRender);
-	//mNode->attachObject(mCamera);
-	mRender->setCastShadows(true);
-	mNode->setPosition(Ogre::Vector3(xcoord,ycoord,zcoord));
-	//rotate the plane
-	mNode->yaw(Ogre::Radian(M_PI));
 
 	mMoveUp = false;
 	mMoveDown = false;
