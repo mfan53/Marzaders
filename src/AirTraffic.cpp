@@ -67,6 +67,10 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
    		(*iter)->update(delta);
 	}
 
+	// Update camera position
+	mCamera->setPosition(Ogre::Vector3(mPlane->getX(), mPlane->getY(), 95));
+	mCamera->lookAt(Ogre::Vector3(0,0,-500));
+
 	return true;
 }
 
