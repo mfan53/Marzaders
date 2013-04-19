@@ -82,8 +82,19 @@ bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 
 bool AirTraffic::keyReleased(const OIS::KeyEvent &arg) {
 	BaseApplication::keyReleased(arg);
-	if (arg.key == OIS::KC_W || arg.key == OIS::KC_S || arg.key == OIS::KC_A || arg.key == OIS::KC_D) {
-		mPlane->stop();
+	switch (arg.key) {
+		case OIS::KC_W :
+			mPlane->stop(Arsenal::UP);
+			break; 
+		case OIS::KC_S :
+			mPlane->stop(Arsenal::DOWN);
+			break; 
+		case OIS::KC_A :
+			mPlane->stop(Arsenal::LEFT);
+			break; 
+		case OIS::KC_D :
+			mPlane->stop(Arsenal::RIGHT);
+			break;
 	} 
 	return true;
 }

@@ -37,57 +37,60 @@ Plane::~Plane() {
 }
 
 void Plane::update(float delta) {
-	if (!mMoveUp && !mMoveDown && !mMoveLeft && !mMoveRight) {
-		stop();
+	// if (!mMoveUp && !mMoveDown && !mMoveLeft && !mMoveRight) {
+	// 	stop();
+	// }
+	// else
+	float y = 0;
+	float x = 0;
+	if (mMoveUp) {
+		y += 50;
 	}
-	else if (mMoveUp) {
-		mBody->setLinearVelocity(btVector3(0.0f, 50.0f, 0.0f));
+	if (mMoveDown) {
+		y -= 50;
 	}
-	else if (mMoveDown) {
-		mBody->setLinearVelocity(btVector3(0.0f, -50.0f, 0.0f));
+	if (mMoveLeft) {
+		x -= 50;
 	}
-	else if (mMoveLeft) {
-		mBody->setLinearVelocity(btVector3(-50.0f, 0.0f, 0.0f));
+	if (mMoveRight) {
+		x += 50;
 	}
-	else if (mMoveRight) {
-		mBody->setLinearVelocity(btVector3(50.0f, 0.0f, 0.0f));
-	}
-
+	mBody->setLinearVelocity(btVector3(x, y, 0.0f));
 	Entity::update(delta);
 }
 
 void Plane::moveUp() {
 	mMoveUp = true;
-	mMoveDown = false;
-	mMoveLeft = false;
-	mMoveRight = false;
 }
 
 void Plane::moveDown() {
-	mMoveUp = false;
 	mMoveDown = true;
-	mMoveLeft = false;
-	mMoveRight = false;
 }
 
 void Plane::moveLeft() {
-	mMoveUp = false;
-	mMoveDown = false;
 	mMoveLeft = true;
-	mMoveRight = false;
 }
 
 void Plane::moveRight() {
-	mMoveUp = false;
-	mMoveDown = false;
-	mMoveLeft = false;
 	mMoveRight = true;
 }
 
-void Plane::stop() {
-	mMoveUp = false;
-	mMoveDown = false;
-	mMoveLeft = false;
-	mMoveRight = false;
-	mBody->setLinearVelocity(btVector3(0.0f,0.0f,0.0f));
+void Plane::stop(direction_t dir) {
+	switch (dir) {
+		case UP:
+			mMoveUp = false;
+			break;
+		case DOWN:  
+			mMoveDown = false;
+			break;
+		case LEFT: 
+			mMoveLeft = false;
+			break;
+		case RIGHT: 
+			mMoveRight = false;
+		break;
+	}
+	// if (!mMoveUp && !mMoveDown && !mMoveRight && !mMoveLeft){
+	// 	mBody->setLinearVelocity(btVector3(0.0f,0.0f,0.0f));
+	// }
 }
