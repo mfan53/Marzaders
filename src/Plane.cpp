@@ -4,32 +4,31 @@ using namespace Arsenal;
 
 Plane::Plane(Ogre::SceneManager* mSceneMgr,btDiscreteDynamicsWorld* dynamicsWorld, std::string name) {
 	mShape = new btBoxShape(btVector3(5,5,5));
-	mMass = 10;
-	isDynamic = true;
-	mLocalInertia = btVector3(btScalar(0),btScalar(0),btScalar(0));
+	btScalar mass = 10;
+	btVector3 localInertia = btVector3(btScalar(0),btScalar(0),btScalar(0));
 	btTransform transform;
 	transform.setIdentity();
 	transform.setOrigin(btVector3(xcoord,ycoord,zcoord));
-	mMotionState = new btDefaultMotionState(transform);
+	mMotion = new btDefaultMotionState(transform);
 	btRigidBody::btRigidBodyConstructionInfo rbInfo
 		= btRigidBody::btRigidBodyConstructionInfo
-		(mMass,mMotionState,mShape,mLocalInertia);
+		(mass,mMotion,mShape,localInertia);
 	mBody = new btRigidBody(rbInfo);
-	this->dynamicsWorld = dynamicsWorld;
-	dynamicsWorld->addRigidBody(mBody);
+	this->mDynamics = dynamicsWorld;
+	mDynamics->addRigidBody(mBody);
 
 	mBody->setRestitution(1);
 	mBody->setActivationState(DISABLE_DEACTIVATION);
 	mBody->setLinearFactor(btVector3(1,1,0)); // only allow movement on x,y axis
 	//mBody->setAngularFactor(btVector3(0,0,0)); // Allow no rotations
 
-	mRenderEntity = mSceneMgr->createEntity(name,"RZR-002.mesh");
-	mSceneNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-	mSceneNode->attachObject(mRenderEntity);
-	mRenderEntity->setCastShadows(true);
-	mSceneNode->setPosition(Ogre::Vector3(xcoord,ycoord,zcoord));
+	mRender = mSceneMgr->createEntity(name,"RZR-002.mesh");
+	mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+	mNode->attachObject(mRender);
+	mRender->setCastShadows(true);
+	mNode->setPosition(Ogre::Vector3(xcoord,ycoord,zcoord));
 	//rotate the plane
-	mSceneNode->yaw(Ogre::Radian(M_PI));
+	mNode->yaw(Ogre::Radian(M_PI));
 }
 
 Plane::~Plane() {

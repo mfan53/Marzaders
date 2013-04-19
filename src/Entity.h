@@ -14,33 +14,33 @@ namespace Arsenal {
 		
 		virtual void update(float delta);
 
-		int getId() { return m_id; }
+		int getId() { return mID; }
 		float getX();
 		float getY();
 		float getZ();
 		float getXV();
 		float getYV();
 		float getZV();
-		Ogre::SceneNode* getNode() { return m_node; };
+		Ogre::SceneNode* getNode() { return mNode; };
 
 		void setPos(float x, float y, float z);
 		void setVel(float vx, float vy, float vz);
 
 	protected:
 		// The id of the Entity
-		int m_id;
+		int mID;
 
 		// A reference to the scene node that this Entity belongs to
-		Ogre::SceneNode* m_node;
+		Ogre::SceneNode* mNode;
 		// A reference to the dynamics world that this Entity belongs to
-		btDiscreteDynamicsWorld* m_dynamics;
+		btDiscreteDynamicsWorld* mDynamics;
 
 		// The Ogre render component
-		Ogre::Entity* m_render;
+		Ogre::Entity* mRender;
 		// The bullet physics components
-		btRigidBody* m_body;
-		btCollisionShape* m_shape;
-		btDefaultMotionState* m_motion;
+		btRigidBody* mBody;
+		btCollisionShape* mShape;
+		btDefaultMotionState* mMotion;
 	};
 }
 

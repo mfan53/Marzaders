@@ -28,12 +28,12 @@ void Socket::close() {
 }
 
 bool Socket::send(const Endpoint &dest, const char *data, const size_t size) {
-	m_socket.send_to(buffer(data, size), dest.endpoint);
+	m_socket.send_to(buffer(data, size), dest.m_endpoint);
 	return true;
 }
 
 size_t Socket::receive(Endpoint &sender, char *data, const size_t size) {
 	if (m_socket.available() == 0)
 		return 0;
-	return m_socket.receive_from(buffer(data, size), sender.endpoint);
+	return m_socket.receive_from(buffer(data, size), sender.m_endpoint);
 }
