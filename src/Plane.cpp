@@ -3,7 +3,7 @@
 using namespace Arsenal;
 
 Plane::Plane(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* world,
-			std::string name )
+			std::string name, Ogre::Camera* mCamera)
 		: Entity(world,btVector3(5,5,5)) {
 	// Modify bullet behaviour
 	mBody->setActivationState(DISABLE_DEACTIVATION);
@@ -14,10 +14,16 @@ Plane::Plane(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* world,
 	mRender = mSceneMgr->createEntity(name,"RZR-002.mesh");
 	mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	mNode->attachObject(mRender);
+	//mNode->attachObject(mCamera);
 	mRender->setCastShadows(true);
 	mNode->setPosition(Ogre::Vector3(xcoord,ycoord,zcoord));
 	//rotate the plane
 	mNode->yaw(Ogre::Radian(M_PI));
+
+	mMoveUp = false;
+	mMoveDown = false;
+	mMoveLeft = false;
+	mMoveRight = false;
 }
 
 Plane::~Plane() {
@@ -25,10 +31,6 @@ Plane::~Plane() {
 }
 
 void Plane::update(float delta) {
-	// if (!mMoveUp && !mMoveDown && !mMoveLeft && !mMoveRight) {
-	// 	stop();
-	// }
-	// else
 	float y = 0;
 	float x = 0;
 	if (mMoveUp) {
@@ -78,7 +80,4 @@ void Plane::stop(direction_t dir) {
 			mMoveRight = false;
 		break;
 	}
-	// if (!mMoveUp && !mMoveDown && !mMoveRight && !mMoveLeft){
-	// 	mBody->setLinearVelocity(btVector3(0.0f,0.0f,0.0f));
-	// }
 }

@@ -39,7 +39,7 @@ void AirTraffic::createScene(void)
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0f,1.0f,1.0f));
 
 	//plane entity
-	mPlane = new Arsenal::Plane(mSceneMgr,mWorld,"plane");
+	mPlane = new Arsenal::Plane(mSceneMgr,mWorld,"plane",mCamera);
 	entities.push_back(mPlane);
 	for(float x = -100; x <= 100; x += 25) {
 		for(float y = -100; y <= 100; y+= 25) {
