@@ -19,6 +19,7 @@
 #include "Wall.h"
 #include "Plane.h"
 #include "Plasma.h"
+#include "Box.h"
 #include <math.h>
 
 class AirTraffic : public BaseApplication
@@ -35,6 +36,7 @@ protected:
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
 	std::list<Arsenal::Entity*> entities;
+	std::list<Arsenal::Box*> boxes;
 	Arsenal::Plane *mPlane;
 	
 	btDefaultCollisionConfiguration* mCollisionConfig;

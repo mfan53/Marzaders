@@ -2,10 +2,18 @@
 
 using namespace Arsenal;
 
-Plane::Plane(Ogre::SceneManager* mSceneMgr,btDiscreteDynamicsWorld* dynamicsWorld, std::string name, Ogre::Camera* mCamera) {
+Plane::Plane(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* world,
+			std::string name, Ogre::Camera* mCamera)
+		: Entity(world,btVector3(5,5,5)) {
+	// Modify bullet behaviour
+	mBody->setActivationState(DISABLE_DEACTIVATION);
+	mBody->setRestitution(1);
+	mBody->setLinearFactor(btVector3(1,1,0)); // only allow movement on x,y axis
+	//mBody->setAngularFactor(btVector3(0,0,0)); // Allow no rotations
 	// OGRE
 	mRender = mSceneMgr->createEntity(name,"RZR-002.mesh");
 	float boundingRadius = mRender->getMesh()->getBoundingSphereRadius();
+	//TODO: Change bullet bounding box to be bounding radius
 	mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	mNode->attachObject(mRender);
 	//mNode->attachObject(mCamera);
@@ -13,27 +21,6 @@ Plane::Plane(Ogre::SceneManager* mSceneMgr,btDiscreteDynamicsWorld* dynamicsWorl
 	mNode->setPosition(Ogre::Vector3(xcoord,ycoord,zcoord));
 	//rotate the plane
 	mNode->yaw(Ogre::Radian(M_PI));
-
-	// Bullet
-	mShape = new btBoxShape(btVector3(boundingRadius,boundingRadius,boundingRadius));
-	btScalar mass = 10;
-	btVector3 localInertia = btVector3(btScalar(0),btScalar(0),btScalar(0));
-	btTransform transform;
-	transform.setIdentity();
-	transform.setOrigin(btVector3(xcoord,ycoord,zcoord));
-	mMotion = new btDefaultMotionState(transform);
-	btRigidBody::btRigidBodyConstructionInfo rbInfo
-		= btRigidBody::btRigidBodyConstructionInfo
-		(mass,mMotion,mShape,localInertia);
-	mBody = new btRigidBody(rbInfo);
-	this->mDynamics = dynamicsWorld;
-	mDynamics->addRigidBody(mBody);
-
-	mBody->setRestitution(1);
-	mBody->setActivationState(DISABLE_DEACTIVATION);
-	mBody->setLinearFactor(btVector3(1,1,0)); // only allow movement on x,y axis
-	//mBody->setAngularFactor(btVector3(0,0,0)); // Allow no rotations
-
 
 	mMoveUp = false;
 	mMoveDown = false;

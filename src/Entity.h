@@ -12,8 +12,10 @@ namespace Arsenal {
 	class Entity {
 	public:
 		Entity();
+		Entity(btDiscreteDynamicsWorld* dynamics, btVector3 hitbox,
+			btScalar mass = 10);
 		virtual ~Entity();
-		
+
 		virtual void update(float delta);
 
 		int getId() { return mID; }
@@ -43,6 +45,9 @@ namespace Arsenal {
 		btRigidBody* mBody;
 		btCollisionShape* mShape;
 		btDefaultMotionState* mMotion;
+
+	private:
+		void initID();
 	};
 }
 
