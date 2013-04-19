@@ -1,4 +1,3 @@
-#include "BaseApplication.h"
 #include "AirTraffic.h"
 #include <vector>
 
@@ -66,10 +65,10 @@ void BaseApplication::createCamera(void)
 	// Create the camera
 	mCamera = mSceneMgr->createCamera("PlayerCam");
 
-	// 
-	mCamera->setPosition(Ogre::Vector3(0,400,0));
-	// Look back along -Z
-	mCamera->lookAt(Ogre::Vector3(0,-100,-10));
+	// Position it
+	mCamera->setPosition(Ogre::Vector3(0,35,95));
+        // Look back along -Z
+	mCamera->lookAt(Ogre::Vector3(0,0,-500));
 	mCamera->setNearClipDistance(5);
 
 	// create a default camera controller
@@ -247,7 +246,7 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	mMouse->capture();
 
 	//need to inject the timestamps to CEGUI system
-	CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
+	//CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
 
 	mTrayMgr->frameRenderingQueued(evt);
 
@@ -359,34 +358,34 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
 	{
 		mShutDown = true;
 	}
-	mCameraMan->injectKeyDown(arg);
+	//mCameraMan->injectKeyDown(arg);
 	return true;
 }
 
 bool BaseApplication::keyReleased( const OIS::KeyEvent &arg )
 {
-	mCameraMan->injectKeyUp(arg);
+	//mCameraMan->injectKeyUp(arg);
 	return true;
 }
 
 bool BaseApplication::mouseMoved( const OIS::MouseEvent &arg )
 {
 	if (mTrayMgr->injectMouseMove(arg)) return true;
-	mCameraMan->injectMouseMove(arg);
+	//mCameraMan->injectMouseMove(arg);
 	return true;
 }
 
 bool BaseApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
 	if (mTrayMgr->injectMouseDown(arg, id)) return true;
-	mCameraMan->injectMouseDown(arg, id);
+	//mCameraMan->injectMouseDown(arg, id);
 	return true;
 }
 
 bool BaseApplication::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
 	if (mTrayMgr->injectMouseUp(arg, id)) return true;
-	mCameraMan->injectMouseUp(arg, id);
+	//mCameraMan->injectMouseUp(arg, id);
 	return true;
 }
 
