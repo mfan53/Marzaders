@@ -17,10 +17,7 @@ namespace Arsenal {
 		Plane(Ogre::SceneManager* mSceneMgr,btDiscreteDynamicsWorld* dynamicsWorld,std::string name, Ogre::Camera* mCamera);
 		virtual ~Plane();
 		void update(float delta);
-		void moveUp();
-		void moveDown();
-		void moveLeft();
-		void moveRight();
+		void move(direction_t dir);
 		void stop(direction_t dir);
 
 

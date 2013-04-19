@@ -68,8 +68,8 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 	}
 
 	// Update camera position
-	mCamera->setPosition(Ogre::Vector3(mPlane->getX(), mPlane->getY(), 95));
-	mCamera->lookAt(Ogre::Vector3(0,0,-500));
+	mCamera->setPosition(Ogre::Vector3(mPlane->getX(), mPlane->getY()+20, 95));
+	mCamera->lookAt(Ogre::Vector3(mPlane->getX(), mPlane->getY(),-500));
 
 	return true;
 }
@@ -77,16 +77,16 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 	BaseApplication::keyPressed(arg);
 	if (arg.key == OIS::KC_W) {
-		mPlane->moveUp();
+		mPlane->move(Arsenal::UP);
 	} 
 	else if (arg.key == OIS::KC_S) {
-		mPlane->moveDown();
+		mPlane->move(Arsenal::DOWN);
 	}
 	else if (arg.key == OIS::KC_D) {
-		mPlane->moveRight();
+		mPlane->move(Arsenal::RIGHT);
 	}
 	else if (arg.key == OIS::KC_A) {
-		mPlane->moveLeft();
+		mPlane->move(Arsenal::LEFT);
 	}
 	return true;
 }

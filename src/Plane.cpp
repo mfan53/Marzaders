@@ -49,20 +49,21 @@ void Plane::update(float delta) {
 	Entity::update(delta);
 }
 
-void Plane::moveUp() {
-	mMoveUp = true;
-}
-
-void Plane::moveDown() {
-	mMoveDown = true;
-}
-
-void Plane::moveLeft() {
-	mMoveLeft = true;
-}
-
-void Plane::moveRight() {
-	mMoveRight = true;
+void Plane::move(direction_t dir) {
+	switch (dir) {
+		case UP:
+			mMoveUp = true;
+			break;
+		case DOWN:  
+			mMoveDown = true;
+			break;
+		case LEFT: 
+			mMoveLeft = true;
+			break;
+		case RIGHT: 
+			mMoveRight = true;
+		break;
+	}
 }
 
 void Plane::stop(direction_t dir) {

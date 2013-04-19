@@ -1,0 +1,10 @@
+Progress report #1:
+
+We made a new proposal with a different game idea that we think we will be able
+to finish in a shorter amount of time. Despite this, we have decided to carry
+over the old working title, AirTraffic, but we have not decided on a team name
+yet.
+
+Today we implemented the ship, shields, and a moving floor. We plan on
+implementing enemies by the end of next week and have some rudimentary UI in
+place.
