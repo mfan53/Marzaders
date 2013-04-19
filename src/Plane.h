@@ -14,7 +14,7 @@ namespace Arsenal {
 	public:
 
 		Plane() {}
-		Plane(Ogre::SceneManager* mSceneMgr,btDiscreteDynamicsWorld* dynamicsWorld,std::string name);
+		Plane(Ogre::SceneManager* mSceneMgr,btDiscreteDynamicsWorld* dynamicsWorld,std::string name, Ogre::Camera* mCamera);
 		virtual ~Plane();
 		void update(float delta);
 		void moveUp();

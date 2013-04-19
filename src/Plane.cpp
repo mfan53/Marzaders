@@ -2,7 +2,7 @@
 
 using namespace Arsenal;
 
-Plane::Plane(Ogre::SceneManager* mSceneMgr,btDiscreteDynamicsWorld* dynamicsWorld, std::string name) {
+Plane::Plane(Ogre::SceneManager* mSceneMgr,btDiscreteDynamicsWorld* dynamicsWorld, std::string name, Ogre::Camera* mCamera) {
 	mShape = new btBoxShape(btVector3(5,5,5));
 	btScalar mass = 10;
 	btVector3 localInertia = btVector3(btScalar(0),btScalar(0),btScalar(0));
@@ -25,6 +25,7 @@ Plane::Plane(Ogre::SceneManager* mSceneMgr,btDiscreteDynamicsWorld* dynamicsWorl
 	mRender = mSceneMgr->createEntity(name,"RZR-002.mesh");
 	mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	mNode->attachObject(mRender);
+	//mNode->attachObject(mCamera);
 	mRender->setCastShadows(true);
 	mNode->setPosition(Ogre::Vector3(xcoord,ycoord,zcoord));
 	//rotate the plane
