@@ -23,7 +23,7 @@ namespace Arsenal {
 		bool isOpen() { return m_open; };
 	
 	private:
-		boost::asio::ip::udp::socket socket;
+		boost::asio::ip::udp::socket m_socket;
 
 		bool m_open;
 	};

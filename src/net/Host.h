@@ -10,7 +10,7 @@ namespace Arsenal {
 		
 	private:
 		friend class Socket;
-		boost::asio::io_service ioService;
+		boost::asio::io_service m_ioService;
 	};
 }
 
