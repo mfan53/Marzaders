@@ -3,35 +3,40 @@
 using namespace Arsenal;
 
 Entity::Entity() {
+	// Set the ID of the entity
 	static int next_id = 0;
-	mId = next_id;
+	mID = next_id;
 	next_id++;
-	mShape = new btBoxShape(btVector3(btScalar(50),btScalar(50),btScalar(50)));
-	mMass = 10;
-	isDynamic = true;
-	mLocalInertia = btVector3(btScalar(0),btScalar(0),btScalar(0));
+
+	// Create the physics components of the entity
+	btScalar mass = 10;
+	btVector3 localInertia = btVector3(btScalar(0),btScalar(0),btScalar(0));
 	btTransform transform;
 	transform.setIdentity();
 	transform.setOrigin(btVector3(0,0,0));
-	mMotionState = new btDefaultMotionState(transform);
+	mMotion = new btDefaultMotionState(transform);
+	mShape = new btBoxShape(btVector3(btScalar(50),btScalar(50),btScalar(50)));
 	btRigidBody::btRigidBodyConstructionInfo rbInfo
 		= btRigidBody::btRigidBodyConstructionInfo
-			(mMass,mMotionState,mShape,mLocalInertia);
+			(mass,mMotion,mShape,localInertia);
 	mBody = new btRigidBody(rbInfo);
 }
 
 Entity::~Entity() {
-	dynamicsWorld->removeCollisionObject(mBody);
-	delete mMotionState;	
+	mDynamics->removeCollisionObject(mBody);
+	delete mMotion;
 	delete mShape;
 	delete mBody;
 }
 
 void Entity::update(float delta) {
+	// Get the bullet transform
 	btTransform trans;
 	mBody->getMotionState()->getWorldTransform(trans);
-	if(mSceneNode) {
-		mSceneNode->setPosition(
+
+	// Update the Ogre scene node position
+	if(mNode) {
+		mNode->setPosition(
 			trans.getOrigin().getX(),
 			trans.getOrigin().getY(),
 			trans.getOrigin().getZ());
@@ -50,12 +55,6 @@ float Entity::getZ() {
 	return mBody->getCenterOfMassTransform().getOrigin().getZ();
 }
 
-void Entity::setPos(float x, float y, float z) {
-	btTransform transform = mBody->getCenterOfMassTransform();
-	transform.setOrigin(btVector3(x,y,z));
-	mBody->setCenterOfMassTransform(transform);
-}
-
 float Entity::getXV() {
 	return mBody->getLinearVelocity().getX();
 }
@@ -66,6 +65,19 @@ float Entity::getYV() {
 
 float Entity::getZV() {
 	return mBody->getLinearVelocity().getZ();
+}
+
+void Entity::setPos(float x, float y, float z) {
+	// Update the bullet position
+	btTransform trans = mBody->getCenterOfMassTransform();
+	trans.setOrigin(btVector3(x,y,z));
+	mBody->setCenterOfMassTransform(trans);
+
+	// Update the Ogre scene node position
+	mNode->setPosition(
+		trans.getOrigin().getX(),
+		trans.getOrigin().getY(),
+		trans.getOrigin().getZ());
 }
 
 void Entity::setVel(float xv, float yv, float zv) {

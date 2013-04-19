@@ -1,11 +1,11 @@
-#Ignore compile folders
+# Ignore compile folders
 Debug/
 Release/
 
-#Ignore certain hidden folders and files
+# Ignore certain hidden folders and files
 .deps/
 
-#ignore eclipse settings
+# Ignore eclipse settings
 .project
 .cproject
 
@@ -15,3 +15,4 @@ Release/
 *.DS_Store
 *.swp
 *.out
+

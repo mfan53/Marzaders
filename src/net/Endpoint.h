@@ -11,14 +11,13 @@ namespace Arsenal
 		Endpoint() {};
 		Endpoint(const std::string &ip, uint16_t port);
 	
-		std::string getIP() { return endpoint.address().to_string(); }
+		std::string getIP() { return m_endpoint.address().to_string(); }
 
 	private:
 		friend class Socket;
 		
-		boost::asio::ip::udp::endpoint endpoint;
+		boost::asio::ip::udp::endpoint m_endpoint;
 	};
 }
 
 #endif // INC_ARSENAL_NET_ENDPOINT_H
-

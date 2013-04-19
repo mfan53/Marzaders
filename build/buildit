@@ -1,6 +1,4 @@
 #!/bin/sh
-export SDL_MIXER_INSTALL_DIR=../SDL_mixer-1.2.12/lib/pkgconfig/
-export PKG_CONFIG_PATH=${SDL_MIXER_INSTALL_DIR}
 rm -rf autom4te.cache
 libtoolize --force --copy &&  aclocal &&  autoheader &&  automake --add-missing --force-missing --copy --foreign &&  autoconf
 ./configure && ./makeit

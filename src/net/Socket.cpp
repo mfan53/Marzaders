@@ -6,7 +6,7 @@ using namespace boost::asio;
 using namespace boost::asio::ip;
 
 Socket::Socket(Host &host)
-	: socket(host.ioService)
+	: m_socket(host.m_ioService)
 {
 	m_open = false;
 }
@@ -16,24 +16,24 @@ Socket::~Socket() {
 }
 
 bool Socket::open(const uint16_t port) {
-	socket.open(udp::v4());	
-	socket.bind(udp::endpoint(udp::v4(), port));
+	m_socket.open(udp::v4());	
+	m_socket.bind(udp::endpoint(udp::v4(), port));
 	m_open = true;
 	return true;
 }
 
 void Socket::close() {
-	socket.close();
+	m_socket.close();
 	m_open = false;
 }
 
 bool Socket::send(const Endpoint &dest, const char *data, const size_t size) {
-	socket.send_to(buffer(data, size), dest.endpoint);
+	m_socket.send_to(buffer(data, size), dest.m_endpoint);
 	return true;
 }
 
 size_t Socket::receive(Endpoint &sender, char *data, const size_t size) {
-	if (socket.available() == 0)
+	if (m_socket.available() == 0)
 		return 0;
-	return socket.receive_from(buffer(data, size), sender.endpoint);
+	return m_socket.receive_from(buffer(data, size), sender.m_endpoint);
 }
