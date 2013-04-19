@@ -5,7 +5,7 @@ using namespace Arsenal;
 Plane::Plane(Ogre::SceneManager* mSceneMgr,btDiscreteDynamicsWorld* dynamicsWorld, std::string name, Ogre::Camera* mCamera) {
 	// OGRE
 	mRender = mSceneMgr->createEntity(name,"RZR-002.mesh");
-	float boundingRadius = mRender->getMesh()-getBoundingSphereRadius();
+	float boundingRadius = mRender->getMesh()->getBoundingSphereRadius();
 	mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	mNode->attachObject(mRender);
 	//mNode->attachObject(mCamera);

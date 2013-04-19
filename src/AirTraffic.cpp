@@ -77,6 +77,10 @@ bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 	else if (arg.key == OIS::KC_A) {
 		mPlane->moveLeft();
 	}
+	else if (arg.key == OIS::KC_SPACE) {
+		//Arsenal::Plasma* p = new Arsenal::Plasma(mSceneMgr, mWorld, "p", 0, 0, -1);
+		//entities.push_back(p);
+	}
 	return true;
 }
 
