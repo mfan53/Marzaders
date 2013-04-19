@@ -18,9 +18,6 @@
 #include <SdkTrays.h>
 #include <SdkCameraMan.h>
 
-//#include <CEGUI/CEGUI.h>
-//#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
-
 class BaseApplication
 	: public Ogre::FrameListener, public Ogre::WindowEventListener,
 	  public OIS::KeyListener, public OIS::MouseListener,

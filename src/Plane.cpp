@@ -2,17 +2,14 @@
 
 using namespace Arsenal;
 
-Plane::Plane(Ogre::SceneManager* mSceneMgr,
-				btDiscreteDynamicsWorld* dynamicsWorld, std::string name) {
-	//get the boudning box for the rzr-002 mesh
-	
-	mShape = new btBoxShape(btVector3(0,0,0));
+Plane::Plane(Ogre::SceneManager* mSceneMgr,btDiscreteDynamicsWorld* dynamicsWorld, std::string name) {
+	mShape = new btBoxShape(btVector3(5,5,5));
 	mMass = 10;
 	isDynamic = true;
 	mLocalInertia = btVector3(btScalar(0),btScalar(0),btScalar(0));
 	btTransform transform;
 	transform.setIdentity();
-	//transform.setOrigin(btVector3(xcoord,ycoord,zcoord));
+	transform.setOrigin(btVector3(xcoord,ycoord,zcoord));
 	mMotionState = new btDefaultMotionState(transform);
 	btRigidBody::btRigidBodyConstructionInfo rbInfo
 		= btRigidBody::btRigidBodyConstructionInfo
@@ -44,16 +41,16 @@ void Plane::update(float delta) {
 		stop();
 	}
 	else if (mMoveUp) {
-		mBody->setLinearVelocity(btVector3(0.0f, 50.0f, 0.0f);
+		mBody->setLinearVelocity(btVector3(0.0f, 50.0f, 0.0f));
 	}
 	else if (mMoveDown) {
-		mBody->setLinearVelocity(btVector3(0.0f, -50.0f, 0.0f);
+		mBody->setLinearVelocity(btVector3(0.0f, -50.0f, 0.0f));
 	}
 	else if (mMoveLeft) {
-		mBody->setLinearVelocity(btVector3(-50.0f, 0.0f, 0.0f);
+		mBody->setLinearVelocity(btVector3(-50.0f, 0.0f, 0.0f));
 	}
 	else if (mMoveRight) {
-		mBody->setLinearVelocity(btVector3(50.0f, 50.0f, 0.0f);
+		mBody->setLinearVelocity(btVector3(50.0f, 0.0f, 0.0f));
 	}
 
 	Entity::update(delta);

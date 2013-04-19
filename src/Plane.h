@@ -6,6 +6,7 @@
 namespace Arsenal {
 	class Plane : public Entity {
 	public:
+		Plane() {}
 		Plane(Ogre::SceneManager* mSceneMgr,btDiscreteDynamicsWorld* dynamicsWorld,std::string name);
 		virtual ~Plane();
 		void update(float delta);
