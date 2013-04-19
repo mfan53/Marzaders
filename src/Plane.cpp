@@ -10,8 +10,10 @@ Plane::Plane(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* world,
 	mBody->setRestitution(1);
 	mBody->setLinearFactor(btVector3(1,1,0)); // only allow movement on x,y axis
 	//mBody->setAngularFactor(btVector3(0,0,0)); // Allow no rotations
-
+	// OGRE
 	mRender = mSceneMgr->createEntity(name,"RZR-002.mesh");
+	float boundingRadius = mRender->getMesh()->getBoundingSphereRadius();
+	//TODO: Change bullet bounding box to be bounding radius
 	mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	mNode->attachObject(mRender);
 	//mNode->attachObject(mCamera);

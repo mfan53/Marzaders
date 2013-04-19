@@ -18,6 +18,7 @@
 #include "net/Socket.h"
 #include "Wall.h"
 #include "Plane.h"
+#include "Plasma.h"
 #include "Box.h"
 #include <math.h>
 
