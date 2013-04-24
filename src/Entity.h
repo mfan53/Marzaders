@@ -13,7 +13,7 @@ namespace Arsenal {
 	public:
 		Entity();
 		Entity(btDiscreteDynamicsWorld* dynamics, btVector3 hitbox,
-			btScalar mass = 10);
+				btScalar mass = 10);
 		virtual ~Entity();
 
 		virtual void update(float delta);
@@ -46,7 +46,13 @@ namespace Arsenal {
 		btCollisionShape* mShape;
 		btDefaultMotionState* mMotion;
 
+		void initPhysics(btDiscreteDynamicsWorld* world, btVector3 hitbox,
+				btScalar mass = 10);
+
 	private:
+		// True if physics has been initialized
+		bool mPhysics;
+
 		void initID();
 	};
 }

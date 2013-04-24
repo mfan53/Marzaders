@@ -4,32 +4,23 @@ using namespace Arsenal;
 
 Entity::Entity() {
 	initID();
+	mPhysics = false;
 }
 
-Entity::Entity(btDiscreteDynamicsWorld* dynamics, btVector3 hitbox, btScalar mass) {
+Entity::Entity(btDiscreteDynamicsWorld* dynamics, btVector3 hitbox,
+		btScalar mass) {
 	initID();
-
-	// Create the physics components of the entity
-	btVector3 localInertia = btVector3(btScalar(0),btScalar(0),btScalar(0));
-	btTransform transform;
-	transform.setIdentity();
-	transform.setOrigin(btVector3(0,0,0));
-	mMotion = new btDefaultMotionState(transform);
-	mShape = new btBoxShape(hitbox);
-	btRigidBody::btRigidBodyConstructionInfo rbInfo
-		= btRigidBody::btRigidBodyConstructionInfo
-			(mass,mMotion,mShape,localInertia);
-	mBody = new btRigidBody(rbInfo);
-
-	mDynamics = dynamics;
-	mDynamics->addRigidBody(mBody);
+	mPhysics = false;
+	initPhysics(dynamics, hitbox, mass);
 }
 
 Entity::~Entity() {
-	if(mBody != NULL) mDynamics->removeCollisionObject(mBody);
-	if(mMotion != NULL) delete mMotion;
-	if(mShape != NULL) delete mShape;
-	if(mBody != NULL) delete mBody;
+	if(mPhysics) {
+		if(mBody!=NULL) mDynamics->removeCollisionObject(mBody);
+		if(mMotion!=NULL) delete mMotion;
+		if(mShape!=NULL) delete mShape;
+		if(mBody!=NULL) delete mBody;
+	}
 }
 
 void Entity::update(float delta) {
@@ -43,6 +34,29 @@ void Entity::update(float delta) {
 			trans.getOrigin().getX(),
 			trans.getOrigin().getY(),
 			trans.getOrigin().getZ());
+	}
+}
+
+void Entity::initPhysics(btDiscreteDynamicsWorld* dynamics, btVector3 hitbox,
+		btScalar mass) {
+	if(!mPhysics) {
+		mPhysics = true;
+
+		btVector3 localInertia = btVector3(btScalar(0),btScalar(0),btScalar(0));
+		btTransform transform;
+		transform.setIdentity();
+		transform.setOrigin(btVector3(0,0,0));
+		mMotion = new btDefaultMotionState(transform);
+		mShape = new btBoxShape(hitbox);
+		btRigidBody::btRigidBodyConstructionInfo rbInfo
+			= btRigidBody::btRigidBodyConstructionInfo
+				(mass,mMotion,mShape,localInertia);
+		mBody = new btRigidBody(rbInfo);
+
+		mDynamics = dynamics;
+		mDynamics->addRigidBody(mBody);
+	} else {
+		printf("Warning: Attempted to re-initialize physics for entity.\n");
 	}
 }
 
