@@ -20,8 +20,12 @@
 #include "Plane.h"
 #include "Plasma.h"
 #include "Box.h"
+#include "Enemy.h"
+#include "behaviour/ForwardMoveBehaviour.h"
 #include <math.h>
 #include "MainGUI.h"
+
+#define WORLD_END -1000
 
 class AirTraffic : public BaseApplication
 {
@@ -40,10 +44,12 @@ public:
 protected:
    	virtual void createScene(void);
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+	bool outOfBounds(const Arsenal::Entity* value);
 
 	std::list<Arsenal::Entity*> entities;
 	std::list<Arsenal::Box*> boxes;
 	Arsenal::Plane *mPlane;
+	int bulletNumber;
 	
 	btDefaultCollisionConfiguration* mCollisionConfig;
 	btCollisionDispatcher* mDispatcher;

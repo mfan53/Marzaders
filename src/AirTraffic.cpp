@@ -1,5 +1,6 @@
 #include "AirTraffic.h"
 
+#include "stdlib.h"
 
 //-------------------------------------------------------------------------------------
 AirTraffic::AirTraffic(void)
@@ -17,6 +18,7 @@ AirTraffic::AirTraffic(void)
 	mEventQueue = EventManager::EventQueue::getEventQueue();
 
 	soundOn = true;
+	bulletNumber = 1;
 }
 //-------------------------------------------------------------------------------------
 AirTraffic::~AirTraffic(void)
@@ -53,9 +55,10 @@ void AirTraffic::createScene(void)
 	back->setMaterialName("Examples/Cloud");
 	back->setCastShadows(false);
 	node->attachObject(back);
-	node->setPosition(Ogre::Vector3(0,0,-200));
+	node->setPosition(Ogre::Vector3(0,0,50));
 	node->scale(100,100,0);
 
+	// Spawn Boxes
 	for(float x = -100; x <= 100; x += 25) {
 		for(float y = -100; y <= 100; y+= 25) {
 			Arsenal::Box* mBox = new Arsenal::Box(mSceneMgr,mWorld,x,y);
@@ -63,6 +66,10 @@ void AirTraffic::createScene(void)
 			entities.push_back(mBox);
 		}
 	}
+
+	// Spawn Enemies
+	Arsenal::Enemy* enemy = new Arsenal::Enemy(mSceneMgr, mWorld, new Arsenal::ForwardMoveBehaviour(300));
+	entities.push_back(enemy);
 	
 	//mSceneMgr->setSkyBox(true,"Examples/EveningSkyBox");
 
@@ -79,11 +86,17 @@ void AirTraffic::createScene(void)
 	maingui->launch();
 }
 
+bool AirTraffic::outOfBounds (const Arsenal::Entity* value) {
+	return value->getZ() <= WORLD_END;
+}
+
 bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 	bool b = BaseApplication::frameRenderingQueued(evt);
 	if (!b) {
 		return false;
 	}
+
+	//entities.remove_if (outOfBounds);
 
 	float delta = evt.timeSinceLastFrame;
 	
@@ -116,8 +129,15 @@ bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 		mPlane->move(Arsenal::LEFT);
 	}
 	else if (arg.key == OIS::KC_SPACE) {
-		//Arsenal::Plasma* p = new Arsenal::Plasma(mSceneMgr, mWorld, "p", 0, 0, -1);
-		//entities.push_back(p);
+		stringstream ss; 
+		ss << bulletNumber;
+		string name = ss.str();
+		bulletNumber += 1;
+		if (bulletNumber >= 9999)
+			bulletNumber = 0;
+		Arsenal::Plasma* p = new Arsenal::Plasma(mSceneMgr, mWorld, name,
+				mPlane->getX(), mPlane->getY(), mPlane->getZ()-20);
+		entities.push_back(p);
 	}
 	return true;
 }
