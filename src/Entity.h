@@ -19,6 +19,7 @@ namespace Arsenal {
 		virtual void update(float delta);
 
 		int getId() { return mID; }
+		std::string getIDStr();
 		float getX();
 		float getY();
 		float getZ();

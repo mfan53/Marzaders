@@ -11,10 +11,7 @@ Box::Box(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 	mBody->setAngularFactor(btVector3(0,0,0)); // Allow no rotations
 
 	// Convert the ID into a string
-	std::string idString;
-	std::ostringstream convert;
-	convert << mID;
-	idString = "BOX-"+convert.str();
+	std::string idString = "BOX-"+getIDStr();
 
 	mRender = scene->createEntity(idString,Ogre::SceneManager::PT_CUBE);
 	mNode = scene->getRootSceneNode()->createChildSceneNode();

@@ -1,6 +1,5 @@
 #include "AirTraffic.h"
 
-
 //-------------------------------------------------------------------------------------
 AirTraffic::AirTraffic(void)
 {
@@ -51,8 +50,10 @@ void AirTraffic::createScene(void)
 	back->setMaterialName("Examples/Cloud");
 	back->setCastShadows(false);
 	node->attachObject(back);
-	node->setPosition(Ogre::Vector3(0,0,-200));
+	node->setPosition(Ogre::Vector3(0,0,50));
 	node->scale(100,100,0);
+
+	// Spawn Boxes
 	for(float x = -100; x <= 100; x += 25) {
 		for(float y = -100; y <= 100; y+= 25) {
 			Arsenal::Box* mBox = new Arsenal::Box(mSceneMgr,mWorld,x,y);
@@ -60,6 +61,10 @@ void AirTraffic::createScene(void)
 			entities.push_back(mBox);
 		}
 	}
+
+	// Spawn Enemies
+	Arsenal::Enemy* enemy = new Arsenal::Enemy(mSceneMgr, mWorld, new Arsenal::ForwardMoveBehaviour(300));
+	entities.push_back(enemy);
 	
 	//mSceneMgr->setSkyBox(true,"Examples/EveningSkyBox");
 }

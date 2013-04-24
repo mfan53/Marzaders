@@ -20,6 +20,8 @@
 #include "Plane.h"
 #include "Plasma.h"
 #include "Box.h"
+#include "Enemy.h"
+#include "behaviour/ForwardMoveBehaviour.h"
 #include <math.h>
 
 class AirTraffic : public BaseApplication

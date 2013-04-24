@@ -67,6 +67,13 @@ void Entity::initID() {
 	next_id++;
 }
 
+std::string Entity::getIDStr() {
+	// Convert the ID into a string
+	std::ostringstream oss;
+	oss << mID;
+	return oss.str();
+}
+
 float Entity::getX() {
 	return mBody->getCenterOfMassTransform().getOrigin().getX();
 }
