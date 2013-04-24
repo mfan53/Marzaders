@@ -41,6 +41,7 @@ AirTraffic::~AirTraffic(void)
 void AirTraffic::createScene(void)
 {
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0f,1.0f,1.0f));
+	mSceneMgr->setSkyBox(true,"Examples/EveningSkyBox");
 
 	//plane entity
 	mPlane = new Arsenal::Plane(mSceneMgr,mWorld,"plane",mCamera);
@@ -48,15 +49,6 @@ void AirTraffic::createScene(void)
 
 	//space sky plane
 	entities.push_back(new Arsenal::Wall(mSceneMgr,mWorld,0,-100,0,"Examples/Ground","back wall"));
-
-	//back cloud screen
-	Ogre::Entity* back = mSceneMgr->createEntity("back",Ogre::SceneManager::PT_CUBE);
-	Ogre::SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-	back->setMaterialName("Examples/Cloud");
-	back->setCastShadows(false);
-	node->attachObject(back);
-	node->setPosition(Ogre::Vector3(0,0,50));
-	node->scale(100,100,0);
 
 	// Spawn Boxes
 	for(float x = -100; x <= 100; x += 25) {
@@ -70,8 +62,6 @@ void AirTraffic::createScene(void)
 	// Spawn Enemies
 	Arsenal::Enemy* enemy = new Arsenal::Enemy(mSceneMgr, mWorld, new Arsenal::ForwardMoveBehaviour(300));
 	entities.push_back(enemy);
-	
-	//mSceneMgr->setSkyBox(true,"Examples/EveningSkyBox");
 
 	//load cegui stuff
 	mRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
