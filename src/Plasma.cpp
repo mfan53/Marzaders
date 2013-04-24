@@ -3,11 +3,9 @@
 using namespace Arsenal;
 
 Plasma::Plasma(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* dynamicsWorld,
-				std::string name, const float x, const float y, const float z) {
+				std::string name, const coord3f startPos, const coord3f startVelocity) {
 	// OGRE
 	mRender = mSceneMgr->createEntity(name,"geosphere8000.mesh");
-	// float boundingRadius = mRender->getMesh()->getBoundingSphereRadius();
-	// setBoundingRadius(boundingRadius);
 	mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	mNode->attachObject(mRender);
 	mRender->setCastShadows(true);
@@ -16,7 +14,6 @@ Plasma::Plasma(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* dynamicsW
 	mNode->scale(scaleFactor, scaleFactor, scaleFactor * 10);
 	float boundingRadius = scaleFactor * mRender->getMesh()->getBoundingSphereRadius();
 	setBoundingRadius(boundingRadius);
-	// mNode->setPosition(Ogre::Vector3(x, y,z));
 
 	// Bullet
 	initPhysics(dynamicsWorld, btVector3(boundingRadius, boundingRadius, boundingRadius));
@@ -25,7 +22,9 @@ Plasma::Plasma(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* dynamicsW
 	mBody->setActivationState(DISABLE_DEACTIVATION);
 	mBody->setLinearFactor(btVector3(0, 0, 1)); // only allow movement on z axis
 	//mBody->setAngularFactor(btVector3(0,0,0)); // Allow no rotations
-	setPos(x,y,z);
+	setPos(startPos.x, startPos.y, startPos.z);
+
+	velocity = coord3f(startVelocity);
 }
 
 Plasma::~Plasma() {
@@ -37,6 +36,6 @@ void Plasma::update(float delta) {
 	// 	mBody->setLinearVelocity(btVector3(0, 0, -400.0f));
 	// 	hit = true;
 	// }
-	mBody->setLinearVelocity(btVector3(0, 0, -400.0f));
+	mBody->setLinearVelocity(btVector3(velocity.x, velocity.y, velocity.z));
 	Entity::update(delta);
 }

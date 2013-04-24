@@ -90,24 +90,49 @@ void Plane::stop(direction_t dir) {
 	}
 }
 
+string Plane::intToString(int x) {
+
+	stringstream ss;
+	ss << x;
+	return ss.str();
+}
+
 void Plane::shoot(int& bulletNumber, std::list<Arsenal::Entity*> * entities) {
 	std::stringstream ss;
 	string name;
-	Arsenal::Plasma* p;
-	switch (shot_type) {
-		case SINGLE:
-			ss << bulletNumber;
-			name = ss.str();
-			bulletNumber += 1;
-			if (bulletNumber >= 9999)
-				bulletNumber = 0;
-			p = new Arsenal::Plasma(sceneManager, dynWorld, name,
-				getX(),getY(),getZ()-20);
-			entities->push_back(p);
-			break;
-		case CROSS:
 
+	if (bulletNumber >= 9999) bulletNumber = 0;
+
+	switch (shot_type) {
+
+		case SINGLE: {
+			Arsenal::Plasma* p = new Arsenal::Plasma(sceneManager, dynWorld, intToString(bulletNumber),
+							Arsenal::coord3f(getX(),getY(),getZ()-20),
+							Arsenal::coord3f(0.0f, 0.0f, -400.0f));
+			entities->push_back(p);
+			bulletNumber += 1;
 			break;
+		}
+		case SPRAY3: {
+			// Idea: Have the option to control angle of spray
+
+			Arsenal::Plasma* left = new Arsenal::Plasma(sceneManager, dynWorld, intToString(bulletNumber),
+							Arsenal::coord3f(getX()-5.0f, getY(), getZ()-20),
+							Arsenal::coord3f(-50.0f, 0.0f, -400.0f));
+			entities->push_back(left);
+			bulletNumber += 1;
+			Arsenal::Plasma* middle = new Arsenal::Plasma(sceneManager, dynWorld, intToString(bulletNumber),
+							Arsenal::coord3f(getX(),getY(),getZ()-20),
+							Arsenal::coord3f(0.0f, 0.0f, -400.0f));
+			entities->push_back(middle);
+			bulletNumber += 1;
+			Arsenal::Plasma* right = new Arsenal::Plasma(sceneManager, dynWorld, intToString(bulletNumber),
+							Arsenal::coord3f(getX()+5.0f, getY(), getZ()-20),
+							Arsenal::coord3f(50.0f, 0.0f, -400.0f));
+			entities->push_back(right);
+			bulletNumber += 1;
+			break;
+		}
 	}
 	
 }

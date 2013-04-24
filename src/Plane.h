@@ -14,7 +14,7 @@ namespace Arsenal {
 	};
 	enum shot_t {
 		SINGLE = 0,
-		CROSS = 1
+		SPRAY3 = 1
 	};
 
 	class Plane : public Entity {
@@ -40,8 +40,9 @@ namespace Arsenal {
 		btDiscreteDynamicsWorld* dynWorld;
 
 		shot_t shot_type;
-
 		bool mMoveUp, mMoveDown, mMoveLeft, mMoveRight;
+
+		std::string intToString(int x);
 	};
 }
 

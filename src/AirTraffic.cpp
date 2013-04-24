@@ -122,7 +122,7 @@ bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 		mPlane->setShot(Arsenal::SINGLE);
 	}
 	else if (arg.key == OIS::KC_2) {
-		mPlane->setShot(Arsenal::CROSS);
+		mPlane->setShot(Arsenal::SPRAY3);
 	}
 	else if (arg.key == OIS::KC_SPACE) {
 		mPlane->shoot(bulletNumber, &entities);
