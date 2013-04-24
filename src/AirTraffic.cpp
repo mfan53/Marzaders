@@ -15,6 +15,8 @@ AirTraffic::AirTraffic(void)
 	//mWorld->setGravity(btVector3(0,-9.8,0));
 	mWorld->setGravity(btVector3(0,0,0));
 	mEventQueue = EventManager::EventQueue::getEventQueue();
+
+	soundOn = true;
 }
 //-------------------------------------------------------------------------------------
 AirTraffic::~AirTraffic(void)
@@ -43,7 +45,7 @@ void AirTraffic::createScene(void)
 	entities.push_back(mPlane);
 
 	//space sky plane
-	entities.push_back(new Arsenal::Wall(mSceneMgr,mWorld,0,-50,0,"Examples/Ground","back wall"));
+	entities.push_back(new Arsenal::Wall(mSceneMgr,mWorld,0,-100,0,"Examples/Ground","back wall"));
 
 	//back cloud screen
 	Ogre::Entity* back = mSceneMgr->createEntity("back",Ogre::SceneManager::PT_CUBE);
@@ -53,6 +55,7 @@ void AirTraffic::createScene(void)
 	node->attachObject(back);
 	node->setPosition(Ogre::Vector3(0,0,-200));
 	node->scale(100,100,0);
+
 	for(float x = -100; x <= 100; x += 25) {
 		for(float y = -100; y <= 100; y+= 25) {
 			Arsenal::Box* mBox = new Arsenal::Box(mSceneMgr,mWorld,x,y);
@@ -62,6 +65,18 @@ void AirTraffic::createScene(void)
 	}
 	
 	//mSceneMgr->setSkyBox(true,"Examples/EveningSkyBox");
+
+	//load cegui stuff
+	mRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
+	CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
+	CEGUI::Font::setDefaultResourceGroup("Fonts");
+	CEGUI::Scheme::setDefaultResourceGroup("Schemes");
+	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
+	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
+
+	//main menu gui
+	Arsenal::MainGUI* maingui = new Arsenal::MainGUI();
+	maingui->launch();
 }
 
 bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
@@ -123,5 +138,55 @@ bool AirTraffic::keyReleased(const OIS::KeyEvent &arg) {
 			mPlane->stop(Arsenal::RIGHT);
 			break;
 	} 
+	return true;
+}
+
+void AirTraffic::quitGame() {
+	mShutDown = true;
+}
+
+void AirTraffic::soundToggle() {
+	if (soundOn) {
+		//mSoundManager.pauseMusic();
+		soundOn = false;
+	}
+	else {
+		//mSoundManager.resumeMusic();
+		soundOn = true;
+	}
+}
+
+CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID) {
+	switch(buttonID) {
+		case OIS::MB_Left:
+       			return CEGUI::LeftButton;
+ 		case OIS::MB_Right:
+        		return CEGUI::RightButton;
+ 		case OIS::MB_Middle:
+        		return CEGUI::MiddleButton;
+ 		default:
+        		return CEGUI::LeftButton;
+	}
+}
+
+bool AirTraffic::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+{
+	CEGUI::System::getSingleton().injectMouseButtonDown(convertButton(id));
+	return true;
+}
+
+bool AirTraffic::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+{
+	CEGUI::System::getSingleton().injectMouseButtonUp(convertButton(id));
+	return true;
+}
+
+bool AirTraffic::mouseMoved( const OIS::MouseEvent &arg )
+{
+	CEGUI::System &sys = CEGUI::System::getSingleton();
+	sys.injectMouseMove(arg.state.X.rel, arg.state.Y.rel);
+	// Scroll wheel.
+	if (arg.state.Z.rel)
+    		sys.injectMouseWheelChange(arg.state.Z.rel / 120.0f);
 	return true;
 }

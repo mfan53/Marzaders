@@ -246,7 +246,7 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	mMouse->capture();
 
 	//need to inject the timestamps to CEGUI system
-	//CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
+	CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
 
 	mTrayMgr->frameRenderingQueued(evt);
 

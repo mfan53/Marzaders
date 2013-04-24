@@ -21,6 +21,7 @@
 #include "Plasma.h"
 #include "Box.h"
 #include <math.h>
+#include "MainGUI.h"
 
 class AirTraffic : public BaseApplication
 {
@@ -30,7 +31,12 @@ public:
 
 	bool keyPressed(const OIS::KeyEvent &arg);
    	bool keyReleased(const OIS::KeyEvent &arg);
- 
+	void quitGame();
+	void soundToggle();
+	bool mouseMoved( const OIS::MouseEvent &arg);
+	bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+	bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+
 protected:
    	virtual void createScene(void);
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
@@ -45,6 +51,8 @@ protected:
 	btSequentialImpulseConstraintSolver* mSolver;
 	btDiscreteDynamicsWorld* mWorld;
 	EventManager::EventQueue * mEventQueue;
+
+	bool soundOn;
 };
 
 #endif // #ifndef _AIRTRAFFIC_h

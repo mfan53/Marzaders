@@ -6,11 +6,13 @@
 #include "event/EventQueue.h"
 #include "sound/SoundManager.h"
 #include "ScoreManager.h"
+#include "AirTraffic.h"
 
 namespace Arsenal {
 	class Globals {
 		public:
 			static EventManager::EventQueue * gEventQueue;
+			static AirTraffic* airInst;
 	};
 }
 
