@@ -1,5 +1,5 @@
 #include "AirTraffic.h"
-
+#include "stdlib.h"
 
 //-------------------------------------------------------------------------------------
 AirTraffic::AirTraffic(void)
@@ -15,6 +15,7 @@ AirTraffic::AirTraffic(void)
 	//mWorld->setGravity(btVector3(0,-9.8,0));
 	mWorld->setGravity(btVector3(0,0,0));
 	mEventQueue = EventManager::EventQueue::getEventQueue();
+	bulletNumber = 1;
 }
 //-------------------------------------------------------------------------------------
 AirTraffic::~AirTraffic(void)
@@ -53,15 +54,19 @@ void AirTraffic::createScene(void)
 	node->attachObject(back);
 	node->setPosition(Ogre::Vector3(0,0,-200));
 	node->scale(100,100,0);
-	for(float x = -100; x <= 100; x += 25) {
-		for(float y = -100; y <= 100; y+= 25) {
-			Arsenal::Box* mBox = new Arsenal::Box(mSceneMgr,mWorld,x,y);
-			boxes.push_back(mBox);
-			entities.push_back(mBox);
-		}
-	}
+	// for(float x = -100; x <= 100; x += 25) {
+	// 	for(float y = -100; y <= 100; y+= 25) {
+	// 		Arsenal::Box* mBox = new Arsenal::Box(mSceneMgr,mWorld,x,y);
+	// 		boxes.push_back(mBox);
+	// 		entities.push_back(mBox);
+	// 	}
+	// }
 	
 	//mSceneMgr->setSkyBox(true,"Examples/EveningSkyBox");
+}
+
+bool AirTraffic::outOfBounds (const Arsenal::Entity* value) {
+	return value->getZ() <= WORLD_END;
 }
 
 bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
@@ -69,6 +74,8 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 	if (!b) {
 		return false;
 	}
+
+	//entities.remove_if (outOfBounds);
 
 	float delta = evt.timeSinceLastFrame;
 	
@@ -101,8 +108,15 @@ bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 		mPlane->move(Arsenal::LEFT);
 	}
 	else if (arg.key == OIS::KC_SPACE) {
-		//Arsenal::Plasma* p = new Arsenal::Plasma(mSceneMgr, mWorld, "p", 0, 0, -1);
-		//entities.push_back(p);
+		stringstream ss; 
+		ss << bulletNumber;
+		string name = ss.str();
+		bulletNumber += 1;
+		if (bulletNumber >= 9999)
+			bulletNumber = 0;
+		Arsenal::Plasma* p = new Arsenal::Plasma(mSceneMgr, mWorld, name,
+				mPlane->getX(), mPlane->getY(), mPlane->getZ()-20);
+		entities.push_back(p);
 	}
 	return true;
 }

@@ -67,27 +67,27 @@ void Entity::initID() {
 	next_id++;
 }
 
-float Entity::getX() {
+float Entity::getX() const {
 	return mBody->getCenterOfMassTransform().getOrigin().getX();
 }
 
-float Entity::getY() {
+float Entity::getY() const {
 	return mBody->getCenterOfMassTransform().getOrigin().getY();
 }
 
-float Entity::getZ() {
+float Entity::getZ() const {
 	return mBody->getCenterOfMassTransform().getOrigin().getZ();
 }
 
-float Entity::getXV() {
+float Entity::getXV() const {
 	return mBody->getLinearVelocity().getX();
 }
 
-float Entity::getYV() {
+float Entity::getYV() const {
 	return mBody->getLinearVelocity().getY();
 }
 
-float Entity::getZV() {
+float Entity::getZV() const {
 	return mBody->getLinearVelocity().getZ();
 }
 
