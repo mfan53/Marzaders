@@ -1,6 +1,6 @@
 #include "AirTraffic.h"
 
-#include "stdlib.h"
+//#include "stdlib.h"
 
 //-------------------------------------------------------------------------------------
 AirTraffic::AirTraffic(void)
@@ -128,16 +128,23 @@ bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 	else if (arg.key == OIS::KC_A) {
 		mPlane->move(Arsenal::LEFT);
 	}
+	else if (arg.key == OIS::KC_1) {
+		mPlane->setShot(Arsenal::SINGLE);
+	}
+	else if (arg.key == OIS::KC_2) {
+		mPlane->setShot(Arsenal::CROSS);
+	}
 	else if (arg.key == OIS::KC_SPACE) {
-		stringstream ss; 
-		ss << bulletNumber;
-		string name = ss.str();
-		bulletNumber += 1;
-		if (bulletNumber >= 9999)
-			bulletNumber = 0;
-		Arsenal::Plasma* p = new Arsenal::Plasma(mSceneMgr, mWorld, name,
-				mPlane->getX(), mPlane->getY(), mPlane->getZ()-20);
-		entities.push_back(p);
+		mPlane->shoot(bulletNumber, &entities);
+		// stringstream ss; 
+		// ss << bulletNumber;
+		// string name = ss.str();
+		// bulletNumber += 1;
+		// if (bulletNumber >= 9999)
+		// 	bulletNumber = 0;
+		// Arsenal::Plasma* p = new Arsenal::Plasma(mSceneMgr, mWorld, name,
+		// 		mPlane->getX(), mPlane->getY(), mPlane->getZ()-20);
+		// entities.push_back(p);
 	}
 	return true;
 }

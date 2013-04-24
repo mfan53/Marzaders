@@ -33,6 +33,10 @@ Plasma::~Plasma() {
 }
 
 void Plasma::update(float delta) {
+	// if (!hit) {
+	// 	mBody->setLinearVelocity(btVector3(0, 0, -400.0f));
+	// 	hit = true;
+	// }
 	mBody->setLinearVelocity(btVector3(0, 0, -400.0f));
 	Entity::update(delta);
 }

@@ -12,19 +12,10 @@ namespace Arsenal {
 					std::string name, const float x, const float y, const float z);
 			virtual ~Plasma();
 			void update(float delta);
-			// void moveUp();
-			// void moveDown();
-			// void moveLeft();
-			// void moveRight();
-			// void stop(direction_t dir);
 			//~Plasma() {} // We need to delete plasmas when they get out of range.
 
 		private:
-			//const static float xcoord = 0.0;
-			//const static float ycoord = 0.0;
-			//const static float zcoord = 0.0;
-
-			//bool mMoveUp, mMoveDown, mMoveLeft, mMoveRight;
+			bool hit;
 	};
 }
 

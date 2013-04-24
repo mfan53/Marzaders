@@ -1,9 +1,14 @@
 #include "Plane.h"
 
 using namespace Arsenal;
+using namespace std;
 
 Plane::Plane(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* world,
 			std::string name, Ogre::Camera* mCamera) {
+	sceneManager = mSceneMgr;
+	dynWorld = world;
+	shot_type = SINGLE;
+
 	// OGRE
 	mRender = mSceneMgr->createEntity(name,"RZR-002.mesh");
 	float bounds = mRender->getMesh()->getBoundingSphereRadius();
@@ -83,4 +88,26 @@ void Plane::stop(direction_t dir) {
 			mMoveRight = false;
 		break;
 	}
+}
+
+void Plane::shoot(int& bulletNumber, std::list<Arsenal::Entity*> * entities) {
+	std::stringstream ss;
+	string name;
+	Arsenal::Plasma* p;
+	switch (shot_type) {
+		case SINGLE:
+			ss << bulletNumber;
+			name = ss.str();
+			bulletNumber += 1;
+			if (bulletNumber >= 9999)
+				bulletNumber = 0;
+			p = new Arsenal::Plasma(sceneManager, dynWorld, name,
+				getX(),getY(),getZ()-20);
+			entities->push_back(p);
+			break;
+		case CROSS:
+
+			break;
+	}
+	
 }

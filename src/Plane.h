@@ -2,6 +2,8 @@
 #define INC_ARSENAL_PLANE_H
 
 #include "Entity.h"
+#include "Plasma.h"
+#include <string.h>
 
 namespace Arsenal {
 	enum direction_t {
@@ -10,15 +12,22 @@ namespace Arsenal {
 		LEFT = 2,
 		RIGHT = 4
 	};
+	enum shot_t {
+		SINGLE = 0,
+		CROSS = 1
+	};
+
 	class Plane : public Entity {
 	public:
 
 		Plane() {}
 		Plane(Ogre::SceneManager* mSceneMgr,btDiscreteDynamicsWorld* dynamicsWorld,std::string name, Ogre::Camera* mCamera);
 		virtual ~Plane();
+		void shoot(int& bulletNumber, std::list<Arsenal::Entity*> * entities);
 		void update(float delta);
 		void move(direction_t dir);
 		void stop(direction_t dir);
+		void setShot(shot_t shot) {shot_type = shot;}
 
 
 	private:
@@ -26,6 +35,11 @@ namespace Arsenal {
 		const static float xcoord = 0.0;
 		const static float ycoord = 0.0;
 		const static float zcoord = 0.0;
+
+		Ogre::SceneManager* sceneManager;
+		btDiscreteDynamicsWorld* dynWorld;
+
+		shot_t shot_type;
 
 		bool mMoveUp, mMoveDown, mMoveLeft, mMoveRight;
 	};
