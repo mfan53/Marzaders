@@ -59,7 +59,7 @@ material Examples/SphereMappedDroplet
 		{
 			texture_unit
 			{
-				texture RustySteel.jpg
+				texture Chrome.jpg
 			}
 
 			texture_unit

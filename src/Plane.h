@@ -14,7 +14,8 @@ namespace Arsenal {
 	};
 	enum shot_t {
 		SINGLE = 0,
-		SPRAY3 = 1
+		SPRAY3 = 1,
+		SPRAY5 = 2
 	};
 
 	class Plane : public Entity {
