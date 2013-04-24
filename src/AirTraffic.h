@@ -24,6 +24,8 @@
 #include "behaviour/ForwardMoveBehaviour.h"
 #include <math.h>
 
+#define WORLD_END -1000
+
 class AirTraffic : public BaseApplication
 {
 public:
@@ -36,10 +38,12 @@ public:
 protected:
    	virtual void createScene(void);
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+	bool outOfBounds(const Arsenal::Entity* value);
 
 	std::list<Arsenal::Entity*> entities;
 	std::list<Arsenal::Box*> boxes;
 	Arsenal::Plane *mPlane;
+	int bulletNumber;
 	
 	btDefaultCollisionConfiguration* mCollisionConfig;
 	btCollisionDispatcher* mDispatcher;

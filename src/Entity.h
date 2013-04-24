@@ -18,22 +18,25 @@ namespace Arsenal {
 
 		virtual void update(float delta);
 
-		int getId() { return mID; }
-		std::string getIDStr();
-		float getX();
-		float getY();
-		float getZ();
-		float getXV();
-		float getYV();
-		float getZV();
+		int getId() const { return mID; }
+		std::string getIDStr() const;
+		float getX() const;
+		float getY() const;
+		float getZ() const;
+		float getXV() const;
+		float getYV() const;
+		float getZV() const;
+		float getBoundingRadius() const {return mBoundingRadius;}
 		Ogre::SceneNode* getNode() { return mNode; };
 
 		void setPos(float x, float y, float z);
 		void setVel(float vx, float vy, float vz);
+		void setBoundingRadius(float r) {mBoundingRadius = r;}
 
 	protected:
 		// The id of the Entity
 		int mID;
+		float mBoundingRadius;
 
 		// A reference to the scene node that this Entity belongs to
 		Ogre::SceneNode* mNode;

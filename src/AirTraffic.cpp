@@ -1,5 +1,7 @@
 #include "AirTraffic.h"
 
+#include "stdlib.h"
+
 //-------------------------------------------------------------------------------------
 AirTraffic::AirTraffic(void)
 {
@@ -14,6 +16,7 @@ AirTraffic::AirTraffic(void)
 	//mWorld->setGravity(btVector3(0,-9.8,0));
 	mWorld->setGravity(btVector3(0,0,0));
 	mEventQueue = EventManager::EventQueue::getEventQueue();
+	bulletNumber = 1;
 }
 //-------------------------------------------------------------------------------------
 AirTraffic::~AirTraffic(void)
@@ -69,11 +72,17 @@ void AirTraffic::createScene(void)
 	//mSceneMgr->setSkyBox(true,"Examples/EveningSkyBox");
 }
 
+bool AirTraffic::outOfBounds (const Arsenal::Entity* value) {
+	return value->getZ() <= WORLD_END;
+}
+
 bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 	bool b = BaseApplication::frameRenderingQueued(evt);
 	if (!b) {
 		return false;
 	}
+
+	//entities.remove_if (outOfBounds);
 
 	float delta = evt.timeSinceLastFrame;
 	
@@ -106,8 +115,15 @@ bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 		mPlane->move(Arsenal::LEFT);
 	}
 	else if (arg.key == OIS::KC_SPACE) {
-		//Arsenal::Plasma* p = new Arsenal::Plasma(mSceneMgr, mWorld, "p", 0, 0, -1);
-		//entities.push_back(p);
+		stringstream ss; 
+		ss << bulletNumber;
+		string name = ss.str();
+		bulletNumber += 1;
+		if (bulletNumber >= 9999)
+			bulletNumber = 0;
+		Arsenal::Plasma* p = new Arsenal::Plasma(mSceneMgr, mWorld, name,
+				mPlane->getX(), mPlane->getY(), mPlane->getZ()-20);
+		entities.push_back(p);
 	}
 	return true;
 }
