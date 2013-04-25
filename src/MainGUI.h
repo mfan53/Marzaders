@@ -1,11 +1,9 @@
 #ifndef INC_ARSENAL_MAINGUI_H
 #define INC_ARSENAL_MAINGUI_H
 
-//#include "Entity.h"
 
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
-#include "BaseApplication.h"
 
 namespace Arsenal {
 	class MainGUI {

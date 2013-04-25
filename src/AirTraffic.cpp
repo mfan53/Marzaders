@@ -2,6 +2,8 @@
 
 //#include "stdlib.h"
 
+bool insideGUI; //toggle gui menu
+
 //-------------------------------------------------------------------------------------
 AirTraffic::AirTraffic(void)
 {
@@ -18,6 +20,7 @@ AirTraffic::AirTraffic(void)
 	mEventQueue = EventManager::EventQueue::getEventQueue();
 
 	soundOn = true;
+	insideGUI = false;
 	bulletNumber = 1;
 }
 //-------------------------------------------------------------------------------------
@@ -74,6 +77,10 @@ void AirTraffic::createScene(void)
 	//main menu gui
 	Arsenal::MainGUI* maingui = new Arsenal::MainGUI();
 	maingui->launch();
+
+	//create the in game gui
+	ingui = new Arsenal::InGUI();
+	ingui->create();
 }
 
 bool AirTraffic::outOfBounds (const Arsenal::Entity* value) {
@@ -139,6 +146,16 @@ bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 		// 		mPlane->getX(), mPlane->getY(), mPlane->getZ()-20);
 		// entities.push_back(p);
 	}
+	else if (arg.key == OIS::KC_P) {
+		if (!insideGUI) {
+			ingui->launch();
+			insideGUI = true;
+		}
+		else {
+			ingui->hide();
+			insideGUI = false;
+		}
+	}
 	return true;
 }
 
@@ -174,6 +191,10 @@ void AirTraffic::soundToggle() {
 		//mSoundManager.resumeMusic();
 		soundOn = true;
 	}
+}
+
+void AirTraffic::hideIngame() {
+	insideGUI = false;
 }
 
 CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID) {

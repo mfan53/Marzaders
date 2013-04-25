@@ -24,6 +24,7 @@
 #include "behaviour/ForwardMoveBehaviour.h"
 #include <math.h>
 #include "MainGUI.h"
+#include "InGUI.h"
 
 #define WORLD_END -1000
 
@@ -37,6 +38,7 @@ public:
    	bool keyReleased(const OIS::KeyEvent &arg);
 	void quitGame();
 	void soundToggle();
+	void hideIngame();
 	bool mouseMoved( const OIS::MouseEvent &arg);
 	bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 	bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
@@ -59,6 +61,7 @@ protected:
 	EventManager::EventQueue * mEventQueue;
 
 	bool soundOn;
+	Arsenal::InGUI* ingui;
 };
 
 #endif // #ifndef _AIRTRAFFIC_h
