@@ -1,6 +1,7 @@
 #include "Plasma.h"
 
 using namespace Arsenal;
+using namespace std;
 
 Plasma::Plasma(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* dynamicsWorld,
 				std::string name, const coord3f startPos, const coord3f startVelocity) {
@@ -12,11 +13,13 @@ Plasma::Plasma(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* dynamicsW
 	mRender->setMaterialName("Examples/SphereMappedDroplet");
 	float scaleFactor = 0.008f;
 	mNode->scale(scaleFactor, scaleFactor, scaleFactor * 10);
-	float boundingRadius = scaleFactor * mRender->getMesh()->getBoundingSphereRadius();
-	setBoundingRadius(boundingRadius);
+	Ogre::Vector3 boundingBoxMaxCorner = scaleFactor * mRender->getBoundingBox().getMaximum();
+
+	// float boundingRadius = scaleFactor * mRender->getMesh()->getBoundingSphereRadius();
+	// setBoundingRadius(boundingRadius);
 
 	// Bullet
-	initPhysics(dynamicsWorld, btVector3(boundingRadius, boundingRadius, boundingRadius));
+	initPhysics(dynamicsWorld, btVector3(boundingBoxMaxCorner.x, boundingBoxMaxCorner.y, boundingBoxMaxCorner.z));
 
 	mBody->setRestitution(1);
 	mBody->setActivationState(DISABLE_DEACTIVATION);
@@ -25,10 +28,13 @@ Plasma::Plasma(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* dynamicsW
 	setPos(startPos.x, startPos.y, startPos.z);
 
 	velocity = coord3f(startVelocity);
+	sceneMgr = mSceneMgr;
 }
 
 Plasma::~Plasma() {
-	
+	mNode->detachObject(mRender);
+	sceneMgr->destroyEntity(mRender);
+	sceneMgr->destroySceneNode(mNode);
 }
 
 void Plasma::update(float delta) {

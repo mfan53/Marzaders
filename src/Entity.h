@@ -31,7 +31,7 @@ namespace Arsenal {
 
 		void setPos(float x, float y, float z);
 		void setVel(float vx, float vy, float vz);
-		void setBoundingRadius(float r) {mBoundingRadius = r;}
+		// void setBoundingRadius(float r) {mBoundingRadius = r;}
 
 	protected:
 		// The id of the Entity

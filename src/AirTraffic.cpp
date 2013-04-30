@@ -32,12 +32,23 @@ AirTraffic::~AirTraffic(void)
 		delete *iter;
 	}
 	entities.clear();
-	delete mWorld;
-	delete mSolver;
-	delete mOverlappingPairCache;
-	delete mDispatcher;
-	delete mCollisionConfig;
+	delete mWorld; 
+	delete mSolver; 
+	delete mOverlappingPairCache; 
+	delete mDispatcher; 
+	delete mCollisionConfig; 
 	//delete &mSoundManager;
+}
+
+void AirTraffic::removeOutOfBoundsBullets() {
+	list<Arsenal::Entity*>::iterator it = entities.begin();
+	while (it != entities.end()) {
+		if (((Arsenal::Plasma *)*it)->getZ() <= WORLD_END) {
+			delete *it;
+			entities.erase(it++);
+		}
+		++it;
+	}
 }
 
 //-------------------------------------------------------------------------------------
@@ -45,6 +56,7 @@ void AirTraffic::createScene(void)
 {
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0f,1.0f,1.0f));
 	mSceneMgr->setSkyBox(true,"Examples/EveningSkyBox");
+	mSceneMgr->showBoundingBoxes(true);
 
 	//plane entity
 	mPlane = new Arsenal::Plane(mSceneMgr,mWorld,"plane",mCamera);
@@ -83,17 +95,17 @@ void AirTraffic::createScene(void)
 	ingui->create();
 }
 
-bool AirTraffic::outOfBounds (const Arsenal::Entity* value) {
-	return value->getZ() <= WORLD_END;
-}
-
 bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 	bool b = BaseApplication::frameRenderingQueued(evt);
 	if (!b) {
 		return false;
 	}
 
-	//entities.remove_if (outOfBounds);
+	int before = entities.size();
+	removeOutOfBoundsBullets();
+	if (entities.size() < before) {
+		cout << "reduced size" << endl;
+	}
 
 	float delta = evt.timeSinceLastFrame;
 	
@@ -136,15 +148,6 @@ bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 	}
 	else if (arg.key == OIS::KC_SPACE) {
 		mPlane->shoot(bulletNumber, &entities);
-		// stringstream ss; 
-		// ss << bulletNumber;
-		// string name = ss.str();
-		// bulletNumber += 1;
-		// if (bulletNumber >= 9999)
-		// 	bulletNumber = 0;
-		// Arsenal::Plasma* p = new Arsenal::Plasma(mSceneMgr, mWorld, name,
-		// 		mPlane->getX(), mPlane->getY(), mPlane->getZ()-20);
-		// entities.push_back(p);
 	}
 	else if (arg.key == OIS::KC_P) {
 		if (!insideGUI) {

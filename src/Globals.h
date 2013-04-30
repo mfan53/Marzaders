@@ -13,6 +13,7 @@ namespace Arsenal {
 		public:
 			static EventManager::EventQueue * gEventQueue;
 			static AirTraffic* airInst;
+			static const float floorY = -100.0f;
 	};
 }
 

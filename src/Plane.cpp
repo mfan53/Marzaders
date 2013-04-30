@@ -1,4 +1,5 @@
 #include "Plane.h"
+#include "Globals.h"
 
 using namespace Arsenal;
 using namespace std;
@@ -40,17 +41,18 @@ Plane::~Plane() {
 void Plane::update(float delta) {
 	float y = 0;
 	float x = 0;
+	float yLowerBound = mRender->getBoundingBox().getMinimum().y;
 	if (mMoveUp) {
-		y += 50;
+		y += 50.0f;
 	}
-	if (mMoveDown) {
-		y -= 50;
+	if (mMoveDown && this->getY() + yLowerBound > Globals::floorY) {
+		y -= 50.0f;
 	}
 	if (mMoveLeft) {
-		x -= 50;
+		x -= 50.0f;
 	}
 	if (mMoveRight) {
-		x += 50;
+		x += 50.0f;
 	}
 	mBody->setLinearVelocity(btVector3(x, y, 0.0f));
 	Entity::update(delta);
