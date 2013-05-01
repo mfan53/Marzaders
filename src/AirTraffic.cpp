@@ -4,6 +4,9 @@
 
 bool insideGUI; //toggle gui menu
 
+// Forward declarations
+static void physicsTickCallback(btDynamicsWorld *world, btScalar timeStep);
+
 //-------------------------------------------------------------------------------------
 AirTraffic::AirTraffic(void)
 {
@@ -14,6 +17,7 @@ AirTraffic::AirTraffic(void)
 	mSolver = new btSequentialImpulseConstraintSolver;
 	mWorld = new btDiscreteDynamicsWorld
 		(mDispatcher,mOverlappingPairCache,mSolver,mCollisionConfig);
+	mWorld->setInternalTickCallback(&physicsTickCallback);
 
 	//mWorld->setGravity(btVector3(0,-9.8,0));
 	mWorld->setGravity(btVector3(0,0,0));
@@ -121,6 +125,28 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 	mCamera->lookAt(Ogre::Vector3(mPlane->getX(), mPlane->getY(),-500));
 
 	return true;
+}
+
+static void physicsTickCallback(btDynamicsWorld *world, btScalar timeStep) {
+    int numManifolds = world->getDispatcher()->getNumManifolds();
+	for (int i=0;i<numManifolds;i++)
+	{
+		btPersistentManifold* contactManifold =  world->getDispatcher()->getManifoldByIndexInternal(i);
+		btCollisionObject* obA = static_cast<btCollisionObject*>(contactManifold->getBody0());
+		btCollisionObject* obB = static_cast<btCollisionObject*>(contactManifold->getBody1());
+	
+		int numContacts = contactManifold->getNumContacts();
+		for (int j=0;j<numContacts;j++)
+		{
+			btManifoldPoint& pt = contactManifold->getContactPoint(j);
+			if (pt.getDistance()<0.f)
+			{
+				const btVector3& ptA = pt.getPositionWorldOnA();
+				const btVector3& ptB = pt.getPositionWorldOnB();
+				const btVector3& normalOnB = pt.m_normalWorldOnB;
+			}
+		}
+	}
 }
 
 bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
