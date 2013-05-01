@@ -66,8 +66,8 @@ void AirTraffic::createScene(void)
 	entities.push_back(new Arsenal::Wall(mSceneMgr,mWorld,0,-100,0,"Examples/Ground","back wall"));
 
 	// Spawn Boxes
-	for(float x = -100; x <= 100; x += 25) {
-		for(float y = -100; y <= 100; y+= 25) {
+	for(float x = -100; x <= 100; x += 50) {
+		for(float y = -100; y <= 100; y+= 50) {
 			Arsenal::Box* mBox = new Arsenal::Box(mSceneMgr,mWorld,x,y);
 			boxes.push_back(mBox);
 			entities.push_back(mBox);
