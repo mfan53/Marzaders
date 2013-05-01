@@ -6,12 +6,12 @@ using namespace std;
 Plasma::Plasma(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* dynamicsWorld,
 				std::string name, const coord3f startPos, const coord3f startVelocity) {
 	// OGRE
-	mRender = mSceneMgr->createEntity(name,"geosphere8000.mesh");
+	mRender = mSceneMgr->createEntity(name,Ogre::SceneManager::PT_SPHERE);
 	mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	mNode->attachObject(mRender);
 	mRender->setCastShadows(true);
 	mRender->setMaterialName("Examples/SphereMappedDroplet");
-	float scaleFactor = 0.008f;
+	float scaleFactor = 0.04f;
 	mNode->scale(scaleFactor, scaleFactor, scaleFactor * 10);
 	Ogre::Vector3 boundingBoxMaxCorner = scaleFactor * mRender->getBoundingBox().getMaximum();
 
