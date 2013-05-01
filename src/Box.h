@@ -11,7 +11,7 @@ namespace Arsenal {
 		void update(float delta);
 
 		static const float Z_POS = -100; // Default z position for a box
-		static const float SIZE = 20; // Default size of a box
+		static const float SIZE = 25; // Default size of a box
 		static const int MAX_HP = 3; // Maximum HP of a box
 
 		int getHP() { return hp; }
