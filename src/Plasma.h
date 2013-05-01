@@ -26,6 +26,7 @@ namespace Arsenal {
 		private:
 			bool hit;
 			coord3f velocity;
+			Ogre::SceneManager* sceneMgr;
 	};
 }
 

@@ -26,7 +26,7 @@
 #include "MainGUI.h"
 #include "InGUI.h"
 
-#define WORLD_END -1000
+#define WORLD_END -2000
 
 class AirTraffic : public BaseApplication
 {
@@ -46,7 +46,7 @@ public:
 protected:
    	virtual void createScene(void);
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
-	bool outOfBounds(const Arsenal::Entity* value);
+	void removeOutOfBoundsBullets();
 
 	std::list<Arsenal::Entity*> entities;
 	std::list<Arsenal::Box*> boxes;
