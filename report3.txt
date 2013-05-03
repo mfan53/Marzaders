@@ -1,0 +1,14 @@
+Progress report #3:
+
+We still not have decided on a team name.
+
+Michael implemented the pause menu and various UI enhancements such as having
+the game dim when the game is paused. Yanek implemented better bullet handling,
+removing them from the game if they get too far away. Darwin attempted to
+implement collisions but ran into a few problems. While the collisions do
+technically work, that code has not been provided with this progress report as
+it renders the game unplayable after 15 seconds.
+
+Less work got done this week due to exams being administered in the last week
+of school. We expect to get a lot more work done next week as there will be no
+more class.
