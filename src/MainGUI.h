@@ -24,7 +24,7 @@ namespace Arsenal {
 		static const float button_xsize_main = 0.2;
 		static const float button_ysize_main = 0.07;
 		static const float button_xpos_main = 0.4;
-		static const float button_ypos_main = 0.4;
+		static const float button_ypos_main = 0.35;
 		static const float yspread = 0.1;
 		static const float ip_xsize = 0.35;
 		static const float ip_ysize = 0.1;

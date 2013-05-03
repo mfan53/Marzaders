@@ -53,6 +53,8 @@ protected:
    	virtual void createScene(void);
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 	void removeOutOfBoundsBullets();
+	void deletePlasmas();
+	void spawnBoxes();
 
 	std::list<Arsenal::Entity*> entities;
 	std::list<Arsenal::Box*> boxes;

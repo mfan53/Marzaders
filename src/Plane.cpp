@@ -15,7 +15,6 @@ Plane::Plane(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* world,
 	float bounds = mRender->getMesh()->getBoundingSphereRadius();
 	mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	mNode->attachObject(mRender);
-	//mNode->attachObject(mCamera);
 	mRender->setCastShadows(true);
 	mNode->setPosition(Ogre::Vector3(xcoord,ycoord,zcoord));
 	//rotate the plane
@@ -35,7 +34,9 @@ Plane::Plane(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* world,
 }
 
 Plane::~Plane() {
-	
+	mNode->detachObject(mRender);
+	sceneManager->destroyEntity(mRender);
+	sceneManager->destroySceneNode(mNode);
 }
 
 void Plane::update(float delta) {
@@ -97,6 +98,12 @@ string Plane::intToString(int x) {
 	stringstream ss;
 	ss << x;
 	return ss.str();
+}
+
+void Plane::reset() {
+	btTransform transform = mBody->getCenterOfMassTransform();
+	transform.setOrigin(btVector3(xcoord,ycoord,zcoord));
+	mBody->setCenterOfMassTransform(transform);
 }
 
 void Plane::shoot(int& bulletNumber, std::list<Arsenal::Entity*> * entities) {

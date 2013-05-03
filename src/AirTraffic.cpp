@@ -60,7 +60,6 @@ void AirTraffic::removeOutOfBoundsBullets() {
 //-------------------------------------------------------------------------------------
 void AirTraffic::createScene(void)
 {
-	mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0f,1.0f,1.0f));
 	mSceneMgr->setSkyBox(true,"Examples/EveningSkyBox");
 	mSceneMgr->showBoundingBoxes(true);
 
@@ -72,13 +71,7 @@ void AirTraffic::createScene(void)
 	entities.push_back(new Arsenal::Wall(mSceneMgr,mWorld,0,-100,0,"Examples/Ground","back wall"));
 
 	// Spawn Boxes
-	for(float x = -100; x <= 100; x += 50) {
-		for(float y = -100; y <= 100; y+= 50) {
-			Arsenal::Box* mBox = new Arsenal::Box(mSceneMgr,mWorld,x,y);
-			boxes.push_back(mBox);
-			entities.push_back(mBox);
-		}
-	}
+	spawnBoxes();
 
 	// Spawn Enemies
 	Arsenal::Enemy* enemy = new Arsenal::Enemy(mSceneMgr, mWorld, new Arsenal::ForwardMoveBehaviour(300));
@@ -225,7 +218,19 @@ bool AirTraffic::keyReleased(const OIS::KeyEvent &arg) {
 	return true;
 }
 
+void AirTraffic::spawnBoxes() {
+	// Spawn Boxes
+	for(float x = -100; x <= 100; x += 50) {
+		for(float y = -100; y <= 100; y+= 50) {
+			Arsenal::Box* mBox = new Arsenal::Box(mSceneMgr,mWorld,x,y);
+			boxes.push_back(mBox);
+			entities.push_back(mBox);
+		}
+	}
+}
+
 void AirTraffic::startGame() {
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0f,1.0f,1.0f));
 	gamePaused = false;
 }
 
@@ -245,27 +250,46 @@ void AirTraffic::soundToggle() {
 }
 
 void AirTraffic::hideIngame() {
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0f,1.0f,1.0f));
 	insideGUI = false;
 	gamePaused = false;
 }
 
 void AirTraffic::reset() {
 	//reset plane
+	mPlane->reset();
 	//clean up all plasmas
+	deletePlasmas();
 	//respawn boxes
+	spawnBoxes();
+
 	maingui->show();
 	insideGUI = false;
 	pauseGame();
 }
 
+void AirTraffic::deletePlasmas() {
+	/*list<Arsenal::Entity*>::iterator it = entities.begin();
+	while (it != entities.end()) {
+		if (((Arsenal::Plasma *)*it)->getID().compare("plasma")) {
+			delete *it;
+			entities.erase(it++);
+		}
+		++it;
+	}*/
+	printf("implement deleting plasmas \n");
+}
+
 void AirTraffic::pauseGame() {
 	gamePaused = true;
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5f,0.5f,0.5f));
 	//pause plasma 
 	
 }
 
 void AirTraffic::unpauseGame() {
 	gamePaused = false;
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0f,1.0f,1.0f));
 	//unpause plasma 
 }
 
