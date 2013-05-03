@@ -25,7 +25,7 @@ Box::Box(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 }
 
 Box::~Box() {
-	
+
 }
 
 void Box::update(float delta) {

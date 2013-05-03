@@ -29,7 +29,7 @@ namespace Arsenal {
 		void move(direction_t dir);
 		void stop(direction_t dir);
 		void setShot(shot_t shot) {shot_type = shot;}
-
+		void reset();
 
 	private:
 		//player 1 starting pos

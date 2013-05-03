@@ -26,6 +26,8 @@ AirTraffic::AirTraffic(void)
 	soundOn = true;
 	insideGUI = false;
 	bulletNumber = 1;
+	gamePaused = true;
+	insideIPMenu = false;
 }
 //-------------------------------------------------------------------------------------
 AirTraffic::~AirTraffic(void)
@@ -58,7 +60,6 @@ void AirTraffic::removeOutOfBoundsBullets() {
 //-------------------------------------------------------------------------------------
 void AirTraffic::createScene(void)
 {
-	mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0f,1.0f,1.0f));
 	mSceneMgr->setSkyBox(true,"Examples/EveningSkyBox");
 	mSceneMgr->showBoundingBoxes(true);
 
@@ -70,13 +71,7 @@ void AirTraffic::createScene(void)
 	entities.push_back(new Arsenal::Wall(mSceneMgr,mWorld,0,-100,0,"Examples/Ground","back wall"));
 
 	// Spawn Boxes
-	for(float x = -100; x <= 100; x += 50) {
-		for(float y = -100; y <= 100; y+= 50) {
-			Arsenal::Box* mBox = new Arsenal::Box(mSceneMgr,mWorld,x,y);
-			boxes.push_back(mBox);
-			entities.push_back(mBox);
-		}
-	}
+	spawnBoxes();
 
 	// Spawn Enemies
 	Arsenal::Enemy* enemy = new Arsenal::Enemy(mSceneMgr, mWorld, new Arsenal::ForwardMoveBehaviour(300));
@@ -91,7 +86,7 @@ void AirTraffic::createScene(void)
 	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
 
 	//main menu gui
-	Arsenal::MainGUI* maingui = new Arsenal::MainGUI();
+	maingui = new Arsenal::MainGUI();
 	maingui->launch();
 
 	//create the in game gui
@@ -151,6 +146,16 @@ static void physicsTickCallback(btDynamicsWorld *world, btScalar timeStep) {
 
 bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 	BaseApplication::keyPressed(arg);
+
+	//CEGUI input handling
+	CEGUI::System &sys = CEGUI::System::getSingleton();
+	sys.injectKeyDown(arg.key);
+	sys.injectChar(arg.text);
+
+	if (gamePaused && arg.key != OIS::KC_P)
+		return true;
+	if (insideIPMenu && arg.key != OIS::KC_RETURN)
+		return true;
 	if (arg.key == OIS::KC_W) {
 		mPlane->move(Arsenal::UP);
 	} 
@@ -179,10 +184,12 @@ bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 		if (!insideGUI) {
 			ingui->launch();
 			insideGUI = true;
+			pauseGame();
 		}
 		else {
 			ingui->hide();
 			insideGUI = false;
+			unpauseGame();
 		}
 	}
 	return true;
@@ -190,6 +197,10 @@ bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 
 bool AirTraffic::keyReleased(const OIS::KeyEvent &arg) {
 	BaseApplication::keyReleased(arg);
+
+	//CEGUI input handling
+	CEGUI::System::getSingleton().injectKeyUp(arg.key);	
+
 	switch (arg.key) {
 		case OIS::KC_W :
 			mPlane->stop(Arsenal::UP);
@@ -205,6 +216,22 @@ bool AirTraffic::keyReleased(const OIS::KeyEvent &arg) {
 			break;
 	} 
 	return true;
+}
+
+void AirTraffic::spawnBoxes() {
+	// Spawn Boxes
+	for(float x = -100; x <= 100; x += 50) {
+		for(float y = -100; y <= 100; y+= 50) {
+			Arsenal::Box* mBox = new Arsenal::Box(mSceneMgr,mWorld,x,y);
+			boxes.push_back(mBox);
+			entities.push_back(mBox);
+		}
+	}
+}
+
+void AirTraffic::startGame() {
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0f,1.0f,1.0f));
+	gamePaused = false;
 }
 
 void AirTraffic::quitGame() {
@@ -223,7 +250,55 @@ void AirTraffic::soundToggle() {
 }
 
 void AirTraffic::hideIngame() {
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0f,1.0f,1.0f));
 	insideGUI = false;
+	gamePaused = false;
+}
+
+void AirTraffic::reset() {
+	//reset plane
+	mPlane->reset();
+	//clean up all plasmas
+	deletePlasmas();
+	//respawn boxes
+	spawnBoxes();
+
+	maingui->show();
+	insideGUI = false;
+	pauseGame();
+}
+
+void AirTraffic::deletePlasmas() {
+	/*list<Arsenal::Entity*>::iterator it = entities.begin();
+	while (it != entities.end()) {
+		if (((Arsenal::Plasma *)*it)->getID().compare("plasma")) {
+			delete *it;
+			entities.erase(it++);
+		}
+		++it;
+	}*/
+	printf("implement deleting plasmas \n");
+}
+
+void AirTraffic::pauseGame() {
+	gamePaused = true;
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5f,0.5f,0.5f));
+	//pause plasma 
+	
+}
+
+void AirTraffic::unpauseGame() {
+	gamePaused = false;
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0f,1.0f,1.0f));
+	//unpause plasma 
+}
+
+void AirTraffic::inIP() {
+	insideIPMenu = true;
+}
+
+void AirTraffic::outIP() {
+	insideIPMenu = false;
 }
 
 CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID) {

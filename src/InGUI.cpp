@@ -27,11 +27,19 @@ void InGUI::create() {
 	window->addChildWindow(resume);
 	resume->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&InGUI::resume, this));
 
+	//return to main menu button
+	CEGUI::Window *rtmain = wmgr.createWindow("TaharezLook/Button","CEGUI/MainMenuButton");
+	rtmain->setText("Main Menu");
+	rtmain->setSize(CEGUI::UVector2(CEGUI::UDim(button_xsize_ingame, 0), CEGUI::UDim(button_ysize_ingame, 0)));
+	rtmain->setPosition(CEGUI::UVector2(CEGUI::UDim(button_xpos_ingame,0),CEGUI::UDim(button_ypos_ingame + (1 * yspread),0)));
+	window->addChildWindow(rtmain);
+	rtmain->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&InGUI::returnMain, this));
+
 	//sound toggle button
 	CEGUI::Window *sound = wmgr.createWindow("TaharezLook/Button","CEGUI/SoundToggleButton");
 	sound->setText("Sound Toggle");
 	sound->setSize(CEGUI::UVector2(CEGUI::UDim(button_xsize_ingame, 0), CEGUI::UDim(button_ysize_ingame, 0)));
-	sound->setPosition(CEGUI::UVector2(CEGUI::UDim(button_xpos_ingame ,0),CEGUI::UDim(button_ypos_ingame + (1 * yspread),0)));
+	sound->setPosition(CEGUI::UVector2(CEGUI::UDim(button_xpos_ingame ,0),CEGUI::UDim(button_ypos_ingame + (2 * yspread),0)));
 	window->addChildWindow(sound);
 	sound->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&InGUI::soundToggle, this));
 
@@ -39,7 +47,7 @@ void InGUI::create() {
 	CEGUI::Window *quit = wmgr.createWindow("TaharezLook/Button","CEGUI/QuitButton");
 	quit->setText("Quit Game");
 	quit->setSize(CEGUI::UVector2(CEGUI::UDim(button_xsize_ingame,0),CEGUI::UDim(button_ysize_ingame,0)));
-	quit->setPosition(CEGUI::UVector2(CEGUI::UDim(button_xpos_ingame,0),CEGUI::UDim(button_ypos_ingame + (2 * yspread),0)));
+	quit->setPosition(CEGUI::UVector2(CEGUI::UDim(button_xpos_ingame,0),CEGUI::UDim(button_ypos_ingame + (3 * yspread),0)));
 	window->addChildWindow(quit);
 	quit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&InGUI::quit, this));
 }
@@ -63,6 +71,12 @@ bool InGUI::resume(const CEGUI::EventArgs &e) {
 	window->disable();
 	CEGUI::MouseCursor::getSingleton().hide();
 	Globals::airInst->hideIngame();
+	return true;
+}
+
+bool InGUI::returnMain(const CEGUI::EventArgs &e) {
+	hide();
+	Globals::airInst->reset();
 	return true;
 }
 
