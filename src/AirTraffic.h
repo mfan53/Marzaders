@@ -37,8 +37,14 @@ public:
 	bool keyPressed(const OIS::KeyEvent &arg);
    	bool keyReleased(const OIS::KeyEvent &arg);
 	void quitGame();
+	void startGame();
+	void pauseGame();
+	void unpauseGame();
+	void reset();
 	void soundToggle();
 	void hideIngame();
+	void inIP();
+	void outIP();
 	bool mouseMoved( const OIS::MouseEvent &arg);
 	bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 	bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
@@ -62,6 +68,9 @@ protected:
 
 	bool soundOn;
 	Arsenal::InGUI* ingui;
+	Arsenal::MainGUI* maingui;
+	bool gamePaused;
+	bool insideIPMenu;
 };
 
 #endif // #ifndef _AIRTRAFFIC_h

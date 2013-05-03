@@ -16,6 +16,7 @@ namespace Arsenal {
 		bool resume(const CEGUI::EventArgs &e);
 		bool quit(const CEGUI::EventArgs &e);
 		bool soundToggle(const CEGUI::EventArgs &e);
+		bool returnMain(const CEGUI::EventArgs &e);
 	private:
 		CEGUI::Window *window;
 		static const float button_xsize_ingame = 0.15;

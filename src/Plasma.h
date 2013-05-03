@@ -21,12 +21,20 @@ namespace Arsenal {
 					std::string name, const coord3f, const coord3f startVelocity);
 			virtual ~Plasma();
 			void update(float delta);
+			void pause();
+			void unpause();
 			//~Plasma() {} // We need to delete plasmas when they get out of range.
 
 		private:
 			bool hit;
 			coord3f velocity;
 			Ogre::SceneManager* sceneMgr;
+
+			float velX;
+			float velY;
+			float velZ;
+
+			bool paused;
 	};
 }
 

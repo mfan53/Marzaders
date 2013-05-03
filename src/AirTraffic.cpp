@@ -26,6 +26,8 @@ AirTraffic::AirTraffic(void)
 	soundOn = true;
 	insideGUI = false;
 	bulletNumber = 1;
+	gamePaused = true;
+	insideIPMenu = false;
 }
 //-------------------------------------------------------------------------------------
 AirTraffic::~AirTraffic(void)
@@ -91,7 +93,7 @@ void AirTraffic::createScene(void)
 	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
 
 	//main menu gui
-	Arsenal::MainGUI* maingui = new Arsenal::MainGUI();
+	maingui = new Arsenal::MainGUI();
 	maingui->launch();
 
 	//create the in game gui
@@ -151,6 +153,16 @@ static void physicsTickCallback(btDynamicsWorld *world, btScalar timeStep) {
 
 bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 	BaseApplication::keyPressed(arg);
+
+	//CEGUI input handling
+	CEGUI::System &sys = CEGUI::System::getSingleton();
+	sys.injectKeyDown(arg.key);
+	sys.injectChar(arg.text);
+
+	if (gamePaused && arg.key != OIS::KC_P)
+		return true;
+	if (insideIPMenu && arg.key != OIS::KC_RETURN)
+		return true;
 	if (arg.key == OIS::KC_W) {
 		mPlane->move(Arsenal::UP);
 	} 
@@ -179,10 +191,12 @@ bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 		if (!insideGUI) {
 			ingui->launch();
 			insideGUI = true;
+			pauseGame();
 		}
 		else {
 			ingui->hide();
 			insideGUI = false;
+			unpauseGame();
 		}
 	}
 	return true;
@@ -190,6 +204,10 @@ bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 
 bool AirTraffic::keyReleased(const OIS::KeyEvent &arg) {
 	BaseApplication::keyReleased(arg);
+
+	//CEGUI input handling
+	CEGUI::System::getSingleton().injectKeyUp(arg.key);	
+
 	switch (arg.key) {
 		case OIS::KC_W :
 			mPlane->stop(Arsenal::UP);
@@ -205,6 +223,10 @@ bool AirTraffic::keyReleased(const OIS::KeyEvent &arg) {
 			break;
 	} 
 	return true;
+}
+
+void AirTraffic::startGame() {
+	gamePaused = false;
 }
 
 void AirTraffic::quitGame() {
@@ -224,6 +246,35 @@ void AirTraffic::soundToggle() {
 
 void AirTraffic::hideIngame() {
 	insideGUI = false;
+	gamePaused = false;
+}
+
+void AirTraffic::reset() {
+	//reset plane
+	//clean up all plasmas
+	//respawn boxes
+	maingui->show();
+	insideGUI = false;
+	pauseGame();
+}
+
+void AirTraffic::pauseGame() {
+	gamePaused = true;
+	//pause plasma 
+	
+}
+
+void AirTraffic::unpauseGame() {
+	gamePaused = false;
+	//unpause plasma 
+}
+
+void AirTraffic::inIP() {
+	insideIPMenu = true;
+}
+
+void AirTraffic::outIP() {
+	insideIPMenu = false;
 }
 
 CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID) {

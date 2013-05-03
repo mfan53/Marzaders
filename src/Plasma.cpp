@@ -29,6 +29,7 @@ Plasma::Plasma(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* dynamicsW
 
 	velocity = coord3f(startVelocity);
 	sceneMgr = mSceneMgr;
+	paused = false;
 }
 
 Plasma::~Plasma() {
@@ -42,6 +43,21 @@ void Plasma::update(float delta) {
 	// 	mBody->setLinearVelocity(btVector3(0, 0, -400.0f));
 	// 	hit = true;
 	// }
+	if (paused) 		
+		return;
 	mBody->setLinearVelocity(btVector3(velocity.x, velocity.y, velocity.z));
 	Entity::update(delta);
+}
+
+void Plasma::pause() {
+	paused = true;
+	velX = mBody->getLinearVelocity().getX();
+	velY = mBody->getLinearVelocity().getY();
+	velZ = mBody->getLinearVelocity().getZ();
+	mBody->setLinearVelocity(btVector3(0.0f,0.0f,0.0f));
+}
+
+void Plasma::unpause() {
+	paused = false;
+	mBody->setLinearVelocity(btVector3(velX,velY,velZ));
 }

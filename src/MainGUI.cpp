@@ -22,19 +22,27 @@ void MainGUI::launch() {
 	window->setSize(CEGUI::UVector2(CEGUI::UDim(1,0),CEGUI::UDim(1,0)));
 	window->setProperty("Image","set:Background image:full_image");
 
-	//start game
-	CEGUI::Window *start = wmgr.createWindow("TaharezLook/Button","CEGUI/StartGameBt");
-	start->setText("Start Game");
-	start->setSize(CEGUI::UVector2(CEGUI::UDim(button_xsize_main, 0), CEGUI::UDim(button_ysize_main, 0)));
-	start->setPosition(CEGUI::UVector2(CEGUI::UDim(button_xpos_main,0),CEGUI::UDim(button_ypos_main + (0 * yspread),0)));
-	window->addChildWindow(start);
-	start->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainGUI::start, this));
+	//single player button
+	CEGUI::Window *single = wmgr.createWindow("TaharezLook/Button","CEGUI/SinglePlayer");
+	single->setText("Single Player");
+	single->setSize(CEGUI::UVector2(CEGUI::UDim(button_xsize_main,0),CEGUI::UDim(button_ysize_main,0)));
+	single->setPosition(CEGUI::UVector2(CEGUI::UDim(button_xpos_main,0),CEGUI::UDim(button_ypos_main + (0 * yspread),0)));
+	window->addChildWindow(single);
+	single->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainGUI::start, this));
+
+	//multi player button
+	CEGUI::Window *multi = wmgr.createWindow("TaharezLook/Button","CEGUI/MultiPlayer");
+	multi->setText("Multi Player");
+	multi->setSize(CEGUI::UVector2(CEGUI::UDim(button_xsize_main,0),CEGUI::UDim(button_ysize_main,0)));
+	multi->setPosition(CEGUI::UVector2(CEGUI::UDim(button_xpos_main,0),CEGUI::UDim(button_ypos_main + (1 * yspread),0)));
+	window->addChildWindow(multi);
+	multi->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainGUI::multi, this));
 
 	//sound toggle button
 	CEGUI::Window *sound= wmgr.createWindow("TaharezLook/Button","CEGUI/SoundToggleBtMain");
 	sound->setText("Sound Toggle");
 	sound->setSize(CEGUI::UVector2(CEGUI::UDim(button_xsize_main, 0), CEGUI::UDim(button_ysize_main, 0)));
-	sound->setPosition(CEGUI::UVector2(CEGUI::UDim(button_xpos_main,0),CEGUI::UDim(button_ypos_main + (1 * yspread),0)));
+	sound->setPosition(CEGUI::UVector2(CEGUI::UDim(button_xpos_main,0),CEGUI::UDim(button_ypos_main + (2 * yspread),0)));
 	window->addChildWindow(sound);
 	sound->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainGUI::soundToggle, this));
 
@@ -42,7 +50,7 @@ void MainGUI::launch() {
 	CEGUI::Window *quitMain = wmgr.createWindow("TaharezLook/Button","CEGUI/QuitButtonMain");
 	quitMain->setText("Quit Game");
 	quitMain->setSize(CEGUI::UVector2(CEGUI::UDim(button_xsize_main,0),CEGUI::UDim(button_ysize_main,0)));
-	quitMain->setPosition(CEGUI::UVector2(CEGUI::UDim(button_xpos_main,0),CEGUI::UDim(button_ypos_main + (2 * yspread),0)));
+	quitMain->setPosition(CEGUI::UVector2(CEGUI::UDim(button_xpos_main,0),CEGUI::UDim(button_ypos_main + (3 * yspread),0)));
 	window->addChildWindow(quitMain);
 	quitMain->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainGUI::quit, this));
 
@@ -50,10 +58,50 @@ void MainGUI::launch() {
 }
 
 bool MainGUI::start(const CEGUI::EventArgs &e) {
+	hide();
+	return true;
+}
+
+bool MainGUI::multi(const CEGUI::EventArgs &e) {
+	Globals::airInst->inIP();
+	//pop up edit box for ip
+	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
+	ipbox = (CEGUI::Editbox*)wmgr.createWindow("TaharezLook/Editbox","CEGUI/Editbox");
+	ipbox->enable();
+	ipbox->setPosition(CEGUI::UVector2(CEGUI::UDim(ip_x,0),CEGUI::UDim(ip_y,0)));
+	ipbox->setSize(CEGUI::UVector2(CEGUI::UDim(ip_xsize,0),CEGUI::UDim(ip_ysize,0)));
+	ipbox->setMaxTextLength(15);
+	ipbox->setReadOnly(false);
+	ipbox->setText("127.0.0.1");
+	window->addChildWindow(ipbox);
+	ipbox->subscribeEvent(CEGUI::Editbox::EventTextAccepted, CEGUI::Event::Subscriber(&MainGUI::handleIP, this));
+	return true;
+}
+
+bool MainGUI::handleIP(const CEGUI::EventArgs &e) {	
+	CEGUI::String str = ipbox->getText();
+	std::string ip = str.c_str();
+	Globals::mHostIP = ip;
+	ipbox->hide();
+	ipbox->disable();
+	Globals::airInst->outIP();
+	ipbox->destroy();
+	hide();
+	return true;
+}
+
+void MainGUI::hide() {
 	window->hide();
 	window->disable();
 	CEGUI::MouseCursor::getSingleton().hide();
-	return true;
+	Globals::airInst->startGame();
+}
+
+void MainGUI::show() {
+	window->show();
+	window->enable();
+	CEGUI::MouseCursor::getSingleton().show();
+	CEGUI::System::getSingleton().setGUISheet(window);
 }
 
 bool MainGUI::quit(const CEGUI::EventArgs &e) {
