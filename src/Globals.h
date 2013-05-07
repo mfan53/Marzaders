@@ -15,6 +15,7 @@ namespace Arsenal {
 			static AirTraffic* airInst;
 			static const float floorY = -100.0f;
 			static std::string mHostIP;
+			static SoundManager* gSoundManager;
 	};
 }
 

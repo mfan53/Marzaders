@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 #include "Plasma.h"
+#include "sound/SoundManager.h"
 #include <string.h>
 
 namespace Arsenal {
@@ -36,6 +37,8 @@ namespace Arsenal {
 		const static float xcoord = 0.0;
 		const static float ycoord = 0.0;
 		const static float zcoord = 0.0;
+
+		Sound * shootSound;
 
 		Ogre::SceneManager* sceneManager;
 		btDiscreteDynamicsWorld* dynWorld;
