@@ -6,6 +6,7 @@ using namespace std;
 Plasma::Plasma(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* dynamicsWorld,
 				std::string name, const coord3f startPos, const coord3f startVelocity) {
 	// OGRE
+	mScene = mSceneMgr;
 	mRender = mSceneMgr->createEntity(name,Ogre::SceneManager::PT_SPHERE);
 	mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	mNode->attachObject(mRender);
@@ -31,12 +32,13 @@ Plasma::Plasma(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* dynamicsW
 	sceneMgr = mSceneMgr;
 	paused = false;
 	id = "plasma";
+
+	mHP = HP;
+	mAttack = ATK;
 }
 
 Plasma::~Plasma() {
-	mNode->detachObject(mRender);
-	sceneMgr->destroyEntity(mRender);
-	sceneMgr->destroySceneNode(mNode);
+	
 }
 
 void Plasma::update(float delta) {
@@ -47,6 +49,9 @@ void Plasma::update(float delta) {
 	if (paused) { 	
 		Entity::update(0);	
 		return;
+	}
+	if(getZ() <= WORLD_END) {
+		damage(HP);
 	}
 	mBody->setLinearVelocity(btVector3(velocity.x, velocity.y, velocity.z));
 	Entity::update(delta);

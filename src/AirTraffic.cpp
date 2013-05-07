@@ -46,17 +46,6 @@ AirTraffic::~AirTraffic(void)
 	//delete &mSoundManager;
 }
 
-void AirTraffic::removeOutOfBoundsBullets() {
-	list<Arsenal::Entity*>::iterator it = entities.begin();
-	while (it != entities.end()) {
-		if (((Arsenal::Plasma *)*it)->getZ() <= WORLD_END) {
-			delete *it;
-			entities.erase(it++);
-		}
-		++it;
-	}
-}
-
 //-------------------------------------------------------------------------------------
 void AirTraffic::createScene(void)
 {
@@ -94,25 +83,29 @@ void AirTraffic::createScene(void)
 	ingui->create();
 }
 
+bool isDead (const Arsenal::Entity* value) { return value->isDead(); }
+
 bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 	bool b = BaseApplication::frameRenderingQueued(evt);
 	if (!b) {
 		return false;
 	}
 
-	int before = entities.size();
-	removeOutOfBoundsBullets();
-	if (entities.size() < before) {
-		cout << "reduced size" << endl;
-	}
-
 	float delta = evt.timeSinceLastFrame;
 	
 	mWorld->stepSimulation(delta,10);
-	
-	for(std::list<Arsenal::Entity*>::iterator iter = entities.begin();
-		iter != entities.end(); ++iter) {
+
+	list<Arsenal::Entity*>::iterator iter = entities.begin();
+	while (iter != entities.end()) {
    		(*iter)->update(delta);
+		if ((*iter)->isDead()) {
+			// printf("deleting %s; %d dmg / %d hp\n",
+			// 		(*iter)->getRender()->getName().c_str(),
+			// 		(*iter)->getDamage(), (*iter)->getHP());
+			delete *iter;
+			entities.erase(iter++);
+		}
+		++iter;
 	}
 
 	// Update camera position
@@ -126,7 +119,7 @@ static void physicsTickCallback(btDynamicsWorld *world, btScalar timeStep) {
     int numManifolds = world->getDispatcher()->getNumManifolds();
 	for (int i=0;i<numManifolds;i++)
 	{
-		btPersistentManifold* contactManifold =  world->getDispatcher()->getManifoldByIndexInternal(i);
+		btPersistentManifold* contactManifold = world->getDispatcher()->getManifoldByIndexInternal(i);
 		btCollisionObject* obA = static_cast<btCollisionObject*>(contactManifold->getBody0());
 		btCollisionObject* obB = static_cast<btCollisionObject*>(contactManifold->getBody1());
 	
@@ -138,7 +131,13 @@ static void physicsTickCallback(btDynamicsWorld *world, btScalar timeStep) {
 			{
 				const btVector3& ptA = pt.getPositionWorldOnA();
 				const btVector3& ptB = pt.getPositionWorldOnB();
-				const btVector3& normalOnB = pt.m_normalWorldOnB;
+				Arsenal::Entity* objA = (Arsenal::Entity*) (obA->getUserPointer());
+				Arsenal::Entity* objB = (Arsenal::Entity*) (obB->getUserPointer());
+				if(objA != NULL && objB != NULL)
+				{
+					objA->damage(objB->getAttack());
+					objB->damage(objA->getAttack());
+				}
 			}
 		}
 	}

@@ -26,8 +26,6 @@
 #include "MainGUI.h"
 #include "InGUI.h"
 
-#define WORLD_END -2000
-
 class AirTraffic : public BaseApplication
 {
 public:
