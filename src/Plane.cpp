@@ -31,6 +31,8 @@ Plane::Plane(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* world,
 	mMoveDown = false;
 	mMoveLeft = false;
 	mMoveRight = false;
+
+	shootSound = SoundManager::getSoundManager()->createSound(SND_BULLET);
 }
 
 Plane::~Plane() {
@@ -109,6 +111,7 @@ void Plane::reset() {
 void Plane::shoot(int& bulletNumber, std::list<Arsenal::Entity*> * entities) {
 	std::stringstream ss;
 	string name;
+	shootSound->play(0);
 
 	if (bulletNumber >= 9999) bulletNumber = 0;
 

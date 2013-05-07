@@ -18,11 +18,20 @@
 #define SND_EXPLOSION "../res/sounds/explosion.wav"
 #define SND_METAL_PLATE "../res/sounds/metalplate.wav"
 #define SND_POP "../res/sounds/pop.wav"
+#define SND_WELCOME "../res/sounds/welcome.wav"
+#define SND_BULLET "../res/sounds/bullet.wav"
 
 using namespace std;
 namespace Arsenal {
     class SoundManager {
+        private:
+            static bool created;
+            static SoundManager * sm;
         protected:
+            SoundManager();
+            SoundManager(int numChannels);
+            ~SoundManager();
+
             static vector<Sound *> mSounds;
             static int audio_rate;
             static Uint16 audio_format;
@@ -34,9 +43,8 @@ namespace Arsenal {
             static void musicDone();
             static void channelFinished(int channel);
         public:
-            //static SoundManager();
-            //static SoundManager(int numChannels);
-            //virtual ~SoundManager();
+
+            static SoundManager* getSoundManager(int numChannels = 10);
 
             static void init(int channels);
             static Sound *createSound(const char *file);

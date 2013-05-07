@@ -2,6 +2,8 @@
 
 //#include "stdlib.h"
 
+using namespace Arsenal;
+
 bool insideGUI; //toggle gui menu
 
 // Forward declarations
@@ -22,6 +24,8 @@ AirTraffic::AirTraffic(void)
 	//mWorld->setGravity(btVector3(0,-9.8,0));
 	mWorld->setGravity(btVector3(0,0,0));
 	mEventQueue = EventManager::EventQueue::getEventQueue();
+	mSoundManager = SoundManager::getSoundManager(10);  // 10 different sounds.
+	//shootSound = mSoundManager->createSound(SND_HI_HAT);
 
 	soundOn = true;
 	insideGUI = false;
@@ -43,7 +47,6 @@ AirTraffic::~AirTraffic(void)
 	delete mOverlappingPairCache; 
 	delete mDispatcher; 
 	delete mCollisionConfig; 
-	//delete &mSoundManager;
 }
 
 void AirTraffic::removeOutOfBoundsBullets() {
@@ -60,6 +63,10 @@ void AirTraffic::removeOutOfBoundsBullets() {
 //-------------------------------------------------------------------------------------
 void AirTraffic::createScene(void)
 {
+	const char * file = (MUS_PLASMA);
+	mSoundManager->loadMusic(file);
+	mSoundManager->playMusic(-1);
+	mSoundManager->createSound(SND_WELCOME)->play(0);
 	mSceneMgr->setSkyBox(true,"Examples/EveningSkyBox");
 	mSceneMgr->showBoundingBoxes(true);
 
@@ -100,11 +107,7 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 		return false;
 	}
 
-	int before = entities.size();
 	removeOutOfBoundsBullets();
-	if (entities.size() < before) {
-		cout << "reduced size" << endl;
-	}
 
 	float delta = evt.timeSinceLastFrame;
 	
@@ -178,6 +181,7 @@ bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 		mPlane->setShot(Arsenal::SPRAY5);
 	}
 	else if (arg.key == OIS::KC_SPACE) {
+		//shootSound->play(0);
 		mPlane->shoot(bulletNumber, &entities);
 	}
 	else if (arg.key == OIS::KC_P) {
@@ -240,11 +244,11 @@ void AirTraffic::quitGame() {
 
 void AirTraffic::soundToggle() {
 	if (soundOn) {
-		//mSoundManager.pauseMusic();
+		mSoundManager->pauseMusic();
 		soundOn = false;
 	}
 	else {
-		//mSoundManager.resumeMusic();
+		mSoundManager->resumeMusic();
 		soundOn = true;
 	}
 }

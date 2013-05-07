@@ -67,6 +67,8 @@ protected:
 	btSequentialImpulseConstraintSolver* mSolver;
 	btDiscreteDynamicsWorld* mWorld;
 	EventManager::EventQueue * mEventQueue;
+	Arsenal::SoundManager * mSoundManager;
+	Sound * shootSound;
 
 	bool soundOn;
 	Arsenal::InGUI* ingui;

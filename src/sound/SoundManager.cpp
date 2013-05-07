@@ -11,22 +11,27 @@ int SoundManager::audio_channels = 2;
 int SoundManager::audio_buffers = 4096;
 int SoundManager::mNumChannels = 0;
 int SoundManager::mCurrentChannel = 0;
-/*
+bool SoundManager::created = false;
+SoundManager * SoundManager::sm;
+
 SoundManager::SoundManager() {
-    //init(1);
 }
 
 SoundManager::SoundManager(int numChannels) {
     init(numChannels);
-    //cout << "I did it bro" << endl;
 }
 
-SoundManager::~SoundManager() {
-//    for (int i = 0; i < mSounds.size; i++)
-//        delete mSounds[i];
+
+SoundManager * SoundManager::getSoundManager(int numChannels) {
+        if (!created) {
+            sm = new SoundManager(numChannels);
+            created = true;
+        }
+        return sm;
 }
-*/
+
 void SoundManager::init(int channels) {
+    cout << "SoundManager.init() has been called " << endl;
     audio_rate = 22050;
     audio_format = AUDIO_S16;
     audio_channels = 2;
