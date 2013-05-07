@@ -4,16 +4,16 @@
 using namespace Arsenal;
 using namespace std;
 
-Plane::Plane(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* world,
+Plane::Plane(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* world,
 			std::string name, Ogre::Camera* mCamera) {
-	sceneManager = mSceneMgr;
 	dynWorld = world;
 	shot_type = SINGLE;
 
 	// OGRE
-	mRender = mSceneMgr->createEntity(name,"RZR-002.mesh");
+	mScene = scene;
+	mRender = scene->createEntity(name,"RZR-002.mesh");
 	float bounds = mRender->getMesh()->getBoundingSphereRadius();
-	mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+	mNode = scene->getRootSceneNode()->createChildSceneNode();
 	mNode->attachObject(mRender);
 	mRender->setCastShadows(true);
 	mNode->setPosition(Ogre::Vector3(xcoord,ycoord,zcoord));
@@ -32,13 +32,15 @@ Plane::Plane(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* world,
 	mMoveLeft = false;
 	mMoveRight = false;
 
+	mHP = 0;
+	mAttack = 0;
+	mDamage = 0;
+
 	shootSound = SoundManager::getSoundManager()->createSound(SND_BULLET);
 }
 
 Plane::~Plane() {
-	mNode->detachObject(mRender);
-	sceneManager->destroyEntity(mRender);
-	sceneManager->destroySceneNode(mNode);
+
 }
 
 void Plane::update(float delta) {
@@ -118,7 +120,7 @@ void Plane::shoot(int& bulletNumber, std::list<Arsenal::Entity*> * entities) {
 	switch (shot_type) {
 
 		case SINGLE: {
-			Arsenal::Plasma* p = new Arsenal::Plasma(sceneManager, dynWorld, intToString(bulletNumber),
+			Arsenal::Plasma* p = new Arsenal::Plasma(mScene, dynWorld, intToString(bulletNumber),
 							Arsenal::coord3f(getX(),getY(),getZ()-20),
 							Arsenal::coord3f(0.0f, 0.0f, -400.0f));
 			entities->push_back(p);
@@ -129,17 +131,17 @@ void Plane::shoot(int& bulletNumber, std::list<Arsenal::Entity*> * entities) {
 		case SPRAY3: {
 			// Idea: Have the option to control angle of spray
 
-			Arsenal::Plasma* left = new Arsenal::Plasma(sceneManager, dynWorld, intToString(bulletNumber),
+			Arsenal::Plasma* left = new Arsenal::Plasma(mScene, dynWorld, intToString(bulletNumber),
 							Arsenal::coord3f(getX()-5.0f, getY(), getZ()-20),
 							Arsenal::coord3f(-50.0f, 0.0f, -400.0f));
 			entities->push_back(left);
 			bulletNumber += 1;
-			Arsenal::Plasma* middle = new Arsenal::Plasma(sceneManager, dynWorld, intToString(bulletNumber),
+			Arsenal::Plasma* middle = new Arsenal::Plasma(mScene, dynWorld, intToString(bulletNumber),
 							Arsenal::coord3f(getX(),getY(),getZ()-20),
 							Arsenal::coord3f(0.0f, 0.0f, -400.0f));
 			entities->push_back(middle);
 			bulletNumber += 1;
-			Arsenal::Plasma* right = new Arsenal::Plasma(sceneManager, dynWorld, intToString(bulletNumber),
+			Arsenal::Plasma* right = new Arsenal::Plasma(mScene, dynWorld, intToString(bulletNumber),
 							Arsenal::coord3f(getX()+5.0f, getY(), getZ()-20),
 							Arsenal::coord3f(50.0f, 0.0f, -400.0f));
 			entities->push_back(right);
@@ -150,31 +152,31 @@ void Plane::shoot(int& bulletNumber, std::list<Arsenal::Entity*> * entities) {
 		case SPRAY5: {
 			// Idea: Have the option to control angle of spray
 
-			Arsenal::Plasma* left = new Arsenal::Plasma(sceneManager, dynWorld, intToString(bulletNumber),
+			Arsenal::Plasma* left = new Arsenal::Plasma(mScene, dynWorld, intToString(bulletNumber),
 							Arsenal::coord3f(getX()-5.0f, getY(), getZ()-20),
 							Arsenal::coord3f(-25.0f, 0.0f, -400.0f));
 			entities->push_back(left);
 			bulletNumber += 1;
 
-			Arsenal::Plasma* middle = new Arsenal::Plasma(sceneManager, dynWorld, intToString(bulletNumber),
+			Arsenal::Plasma* middle = new Arsenal::Plasma(mScene, dynWorld, intToString(bulletNumber),
 							Arsenal::coord3f(getX(),getY(),getZ()-20),
 							Arsenal::coord3f(0.0f, 0.0f, -400.0f));
 			entities->push_back(middle);
 			bulletNumber += 1;
 
-			Arsenal::Plasma* right = new Arsenal::Plasma(sceneManager, dynWorld, intToString(bulletNumber),
+			Arsenal::Plasma* right = new Arsenal::Plasma(mScene, dynWorld, intToString(bulletNumber),
 							Arsenal::coord3f(getX()+5.0f, getY(), getZ()-20),
 							Arsenal::coord3f(25.0f, 0.0f, -400.0f));
 			entities->push_back(right);
 			bulletNumber += 1;
 
-			Arsenal::Plasma* top = new Arsenal::Plasma(sceneManager, dynWorld, intToString(bulletNumber),
+			Arsenal::Plasma* top = new Arsenal::Plasma(mScene, dynWorld, intToString(bulletNumber),
 							Arsenal::coord3f(getX(), getY()+5.0f, getZ()-20),
 							Arsenal::coord3f(0.0f, 25.0f, -400.0f));
 			entities->push_back(top);
 			bulletNumber += 1;
 			
-			Arsenal::Plasma* bottom = new Arsenal::Plasma(sceneManager, dynWorld, intToString(bulletNumber),
+			Arsenal::Plasma* bottom = new Arsenal::Plasma(mScene, dynWorld, intToString(bulletNumber),
 							Arsenal::coord3f(getX(), getY()-5.0f, getZ()-20),
 							Arsenal::coord3f(0.0f, -25.0f, -400.0f));
 			entities->push_back(bottom);

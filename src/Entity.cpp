@@ -6,16 +6,30 @@ using namespace Arsenal;
 Entity::Entity() {
 	initID();
 	mPhysics = false;
+	mHP = 0;
+	mDamage = 0;
+	mAttack = 0;
 }
 
-Entity::Entity(btDiscreteDynamicsWorld* dynamics, btVector3 hitbox,
-		btScalar mass) {
+Entity::Entity(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
+		btVector3 hitbox, unsigned int hp, unsigned int attack, btScalar mass) {
 	initID();
 	mPhysics = false;
+	mScene = scene;
+	mHP = hp;
+	mDamage = 0;
+	mAttack = attack;
 	initPhysics(dynamics, hitbox, mass);
 }
 
 Entity::~Entity() {
+	if(mScene) {
+		if(mNode) {
+			mNode->detachObject(mRender);
+			mScene->destroyEntity(mRender);
+			mScene->destroySceneNode(mNode);
+		}
+	}
 	if(mPhysics) {
 		if(mBody!=NULL) mDynamics->removeCollisionObject(mBody);
 		if(mMotion!=NULL) delete mMotion;
@@ -53,6 +67,7 @@ void Entity::initPhysics(btDiscreteDynamicsWorld* dynamics, btVector3 hitbox,
 			= btRigidBody::btRigidBodyConstructionInfo
 				(mass,mMotion,mShape,localInertia);
 		mBody = new btRigidBody(rbInfo);
+		mBody->setUserPointer(this);
 
 		mDynamics = dynamics;
 		mDynamics->addRigidBody(mBody);

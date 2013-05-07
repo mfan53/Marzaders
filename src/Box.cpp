@@ -4,7 +4,7 @@ using namespace Arsenal;
 
 Box::Box(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 			float xPos, float yPos)
-		: Entity(dynamics, btVector3(SIZE/2,SIZE/2,SIZE/4)) {
+		: Entity(scene, dynamics, btVector3(SIZE/2,SIZE/2,SIZE/4), HP, ATK) {
 	// Modify bullet behaviour
 	mBody->setActivationState(DISABLE_DEACTIVATION);
 	mBody->setLinearFactor(btVector3(0,0,0)); // Allow no movement
@@ -20,8 +20,6 @@ Box::Box(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 	mRender->setCastShadows(true);
 
 	setPos(xPos,yPos,Z_POS);
-
-	hp = MAX_HP;
 }
 
 Box::~Box() {

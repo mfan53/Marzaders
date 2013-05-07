@@ -26,6 +26,11 @@ namespace Arsenal {
 			std::string getID();
 			//~Plasma() {} // We need to delete plasmas when they get out of range.
 
+			static const unsigned int HP = 1;
+			static const unsigned int ATK = 1;
+
+			static const int WORLD_END = -2000;
+
 		private:
 			bool hit;
 			coord3f velocity;

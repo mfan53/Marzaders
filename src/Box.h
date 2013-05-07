@@ -12,12 +12,9 @@ namespace Arsenal {
 
 		static const float Z_POS = -100; // Default z position for a box
 		static const float SIZE = 25; // Default size of a box
-		static const int MAX_HP = 3; // Maximum HP of a box
 
-		int getHP() { return hp; }
-
-	private:
-		int hp; // The current hp of the box
+		static const unsigned int HP = 3;
+		static const unsigned int ATK = 1;
 	};
 }
 

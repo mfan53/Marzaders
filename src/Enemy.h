@@ -8,13 +8,11 @@ namespace Arsenal {
 	class Enemy : public Entity {
 	public:
 		Enemy(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
-				MoveBehaviour* behaviour, int maxHP = 1);
+				MoveBehaviour* behaviour, int HP = 1, int ATK = 0);
 		virtual ~Enemy();
 		void update(float delta);
 
 	private:
-		// Enemy max HP
-		const int mMaxHP;
 		// Enemy spawn location on the z axis
 		const static float zSpawn = -300;
 
