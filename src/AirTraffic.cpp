@@ -66,7 +66,7 @@ void AirTraffic::createScene(void)
 	const char * file = (MUS_PLASMA);
 	mSoundManager->loadMusic(file);
 	mSoundManager->playMusic(-1);
-	mSoundManager->createSound(SND_WELCOME)->play(0);
+	//mSoundManager->createSound(SND_WELCOME)->play(0);
 	mSceneMgr->setSkyBox(true,"Examples/EveningSkyBox");
 	mSceneMgr->showBoundingBoxes(true);
 
@@ -236,6 +236,7 @@ void AirTraffic::spawnBoxes() {
 void AirTraffic::startGame() {
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0f,1.0f,1.0f));
 	gamePaused = false;
+	mSoundManager->createSound(SND_WELCOME)->play(0);
 }
 
 void AirTraffic::quitGame() {

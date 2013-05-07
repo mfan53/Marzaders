@@ -10,16 +10,10 @@
 
 #define MUS_PLASMA "../res/music/plasma.ogg"
 #define MUS_SWINGIN_FERRET "../res/music/cable-swingin-ferret.ogg"
-#define SND_BASS_DRUM "../res/sounds/808-bassdrum.wav"
-#define SND_CLAP "../res/sounds/808-clap.wav"
-#define SND_HI_HAT "../res/sounds/808-hihat.wav"
-#define SND_PIANO_HIT "../res/sounds/pianohit.wav"
-#define SND_BEEP "../res/sounds/beep.wav"
+#define SND_DAMNIT "../res/sounds/goddamnit.wav"
 #define SND_EXPLOSION "../res/sounds/explosion.wav"
-#define SND_METAL_PLATE "../res/sounds/metalplate.wav"
-#define SND_POP "../res/sounds/pop.wav"
 #define SND_WELCOME "../res/sounds/welcome.wav"
-#define SND_BULLET "../res/sounds/bullet.wav"
+#define SND_BULLET "../res/sounds/pew.wav"
 
 using namespace std;
 namespace Arsenal {
