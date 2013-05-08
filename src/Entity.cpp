@@ -11,6 +11,15 @@ Entity::Entity() {
 	mAttack = 0;
 }
 
+Entity::Entity(Ogre::SceneManager* scene, unsigned int hp, unsigned int attack) {
+	initID();
+	mPhysics = false;
+	mScene = scene;
+	mHP = hp;
+	mDamage = 0;
+	mAttack = attack;
+}
+
 Entity::Entity(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 		btVector3 hitbox, unsigned int hp, unsigned int attack, btScalar mass) {
 	initID();

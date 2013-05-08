@@ -8,7 +8,8 @@ namespace Arsenal {
 	class Enemy : public Entity {
 	public:
 		Enemy(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
-				MoveBehaviour* behaviour, int HP = 1, int ATK = 0);
+				MoveBehaviour* behaviour, unsigned int hp = 1,
+				unsigned int atk = 1);
 		virtual ~Enemy();
 		void update(float delta);
 

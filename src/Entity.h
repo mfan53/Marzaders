@@ -12,6 +12,7 @@ namespace Arsenal {
 	class Entity {
 	public:
 		Entity();
+		Entity(Ogre::SceneManager* scene, unsigned int hp, unsigned int attack);
 		Entity(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 				btVector3 hitbox, unsigned int hp, unsigned int attack,
 				btScalar mass = 10);
