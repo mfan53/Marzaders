@@ -91,15 +91,21 @@ std::string Entity::getIDStr() const {
 }
 
 float Entity::getX() const {
-	return mBody->getCenterOfMassTransform().getOrigin().getX();
+	btTransform trans;
+	mBody->getMotionState()->getWorldTransform(trans);
+	return trans.getOrigin().getX();
 }
 
 float Entity::getY() const {
-	return mBody->getCenterOfMassTransform().getOrigin().getY();
+	btTransform trans;
+	mBody->getMotionState()->getWorldTransform(trans);
+	return trans.getOrigin().getY();
 }
 
 float Entity::getZ() const {
-	return mBody->getCenterOfMassTransform().getOrigin().getZ();
+	btTransform trans;
+	mBody->getMotionState()->getWorldTransform(trans);
+	return trans.getOrigin().getZ();
 }
 
 float Entity::getXV() const {
