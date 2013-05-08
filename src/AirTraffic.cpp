@@ -98,6 +98,10 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 		return false;
 	}
 
+	if(gamePaused) {
+		return true;
+	}
+
 	float delta = evt.timeSinceLastFrame;
 	
 	mWorld->stepSimulation(delta,10);
@@ -142,8 +146,11 @@ static void physicsTickCallback(btDynamicsWorld *world, btScalar timeStep) {
 				Arsenal::Entity* objB = (Arsenal::Entity*) (obB->getUserPointer());
 				if(objA != NULL && objB != NULL)
 				{
-					objA->damage(objB->getAttack());
-					objB->damage(objA->getAttack());
+					if(!objA->isDead() && !objB->isDead())
+					{
+						objA->damage(objB->getAttack());
+						objB->damage(objA->getAttack());
+					}
 				}
 			}
 		}

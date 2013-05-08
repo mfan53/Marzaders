@@ -30,3 +30,22 @@ void Box::update(float delta) {
 	Entity::update(delta);
 	getHP();
 }
+
+void Box::damage(unsigned int damage) {
+	Entity::damage(damage);
+	float xPos = getX();
+	float yPos = getY();
+	float ratio = (((float)mHP - (float)mDamage) / (float)mHP);
+
+	destroyScene();
+	std::string idString = "BOX-"+getIDStr();
+	mRender = mScene->createEntity(idString,Ogre::SceneManager::PT_CUBE);
+	mNode = mScene->getRootSceneNode()->createChildSceneNode();
+	mNode->attachObject(mRender);
+	mNode->setScale(SIZE*ratio/100.0f,SIZE*ratio/100.0f,0.1f);
+	mRender->setCastShadows(true);
+	
+	destroyPhysics();
+	initPhysics(mDynamics, btVector3(SIZE*ratio/2,SIZE*ratio/2,SIZE*ratio/4));
+	setPos(xPos,yPos,Z_POS);
+}

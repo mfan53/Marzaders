@@ -32,6 +32,11 @@ Entity::Entity(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 }
 
 Entity::~Entity() {
+	destroyScene();
+	destroyPhysics();
+}
+
+void Entity::destroyScene() {
 	if(mScene) {
 		if(mNode) {
 			mNode->detachObject(mRender);
@@ -39,11 +44,15 @@ Entity::~Entity() {
 			mScene->destroySceneNode(mNode);
 		}
 	}
+}
+
+void Entity::destroyPhysics() {
 	if(mPhysics) {
 		if(mBody!=NULL) mDynamics->removeCollisionObject(mBody);
 		if(mMotion!=NULL) delete mMotion;
 		if(mShape!=NULL) delete mShape;
 		if(mBody!=NULL) delete mBody;
+		mPhysics = false;
 	}
 }
 

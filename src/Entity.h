@@ -18,9 +18,12 @@ namespace Arsenal {
 				btScalar mass = 10);
 		virtual ~Entity();
 
+		void destroyScene();
+		void destroyPhysics();
+
 		virtual void update(float delta);
 
-		void damage(unsigned int damage) { mDamage += damage; };
+		virtual void damage(unsigned int damage) { mDamage += damage; };
 
 		int getId() const { return mID; }
 		std::string getIDStr() const;
