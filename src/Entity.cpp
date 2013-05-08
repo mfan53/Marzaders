@@ -140,9 +140,9 @@ float Entity::getZV() const {
 
 void Entity::setPos(float x, float y, float z) {
 	// Update the bullet position
-	btTransform trans = mBody->getCenterOfMassTransform();
+	btTransform trans = mBody->getWorldTransform();
 	trans.setOrigin(btVector3(x,y,z));
-	mBody->setCenterOfMassTransform(trans);
+	mBody->setWorldTransform(trans);
 
 	// Update the Ogre scene node position
 	mNode->setPosition(
