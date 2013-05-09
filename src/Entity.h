@@ -9,6 +9,14 @@
 #include "sound/Sound.h"
 
 namespace Arsenal {
+	struct coord3f {
+		float x;
+		float y;
+		float z;
+		coord3f() {};
+		coord3f(float xpos, float ypos, float zpos) : x(xpos), y(ypos), z(zpos) {}
+	};
+
 	class Entity {
 	public:
 		Entity();
@@ -39,13 +47,16 @@ namespace Arsenal {
 		unsigned int getHP() const { return mHP; };
 		unsigned int getDamage() const { return mDamage; };
 		unsigned int getAttack() const { return mAttack; };
+		float getStartX() {return mStartX;}
 		bool isDead() const { return mHP == 0 ? false : mDamage >= mHP; };
 
 		void setPos(float x, float y, float z);
 		void setVel(float vx, float vy, float vz);
-		// void setBoundingRadius(float r) {mBoundingRadius = r;}
 
 	protected:
+		// The starting position of the Entity
+		float mStartX;
+
 		// The id of the Entity
 		int mID;
 		// The bounding radius of the Entity

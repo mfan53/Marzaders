@@ -3,19 +3,21 @@
 
 #include "Entity.h"
 #include "behaviour/MoveBehaviour.h"
+#include "Plasma.h" // For access to coord3f. Should clean this up.
 
 namespace Arsenal {
 	class Enemy : public Entity {
 	public:
 		Enemy(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
-				MoveBehaviour* behaviour, unsigned int hp = 1,
+				MoveBehaviour* behaviour, float xPos, float yPos, float zPos, unsigned int hp = 1,
 				unsigned int atk = 1);
 		virtual ~Enemy();
 		void update(float delta);
+		float getWidth();
 
 	private:
 		// Enemy spawn location on the z axis
-		const static float zSpawn = -300;
+		//const static float zSpawn = -2000;
 
 		MoveBehaviour* mBehaviour;
 	};

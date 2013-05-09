@@ -22,6 +22,7 @@
 #include "Box.h"
 #include "Enemy.h"
 #include "behaviour/ForwardMoveBehaviour.h"
+#include "behaviour/SideToSideMoveBehaviour.h"
 #include <math.h>
 #include "MainGUI.h"
 #include "InGUI.h"

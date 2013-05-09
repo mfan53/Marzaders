@@ -5,13 +5,13 @@
 #include <vector>
 
 namespace Arsenal {
-	struct coord3f {
-		float x;
-		float y;
-		float z;
-		coord3f() {};
-		coord3f(float xpos, float ypos, float zpos) : x(xpos), y(ypos), z(zpos) {}
-	};
+	// struct coord3f {
+	// 	float x;
+	// 	float y;
+	// 	float z;
+	// 	coord3f() {};
+	// 	coord3f(float xpos, float ypos, float zpos) : x(xpos), y(ypos), z(zpos) {}
+	// };
 
 	class Plasma : public Entity {
 		public:

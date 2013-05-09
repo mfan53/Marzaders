@@ -16,9 +16,6 @@ Plasma::Plasma(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* dynamicsW
 	mNode->scale(scaleFactor, scaleFactor, scaleFactor * 10);
 	Ogre::Vector3 boundingBoxMaxCorner = scaleFactor * mRender->getBoundingBox().getMaximum();
 
-	// float boundingRadius = scaleFactor * mRender->getMesh()->getBoundingSphereRadius();
-	// setBoundingRadius(boundingRadius);
-
 	// Bullet
 	initPhysics(dynamicsWorld, btVector3(boundingBoxMaxCorner.x, boundingBoxMaxCorner.y, boundingBoxMaxCorner.z));
 
