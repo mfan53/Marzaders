@@ -1,31 +1,32 @@
 #ifndef INC_AIRTRAFFIC_h
 #define INC_AIRTRAFFIC_h
 
-#include <vector>
 #include <iostream>
-#include <OgreManualObject.h>
-#include <stdlib.h> 
+#include <math.h>
+#include <stdlib.h>
 #include <string.h>
+#include <vector>
+#include <OgreManualObject.h>
 #include "BaseApplication.h"
-#include "btBulletDynamicsCommon.h"
+#include "Box.h"
+#include "Enemy.h"
 #include "Entity.h"
-#include "sound/SoundManager.h"
+#include "InGUI.h"
+#include "MainGUI.h"
+#include "Plane.h"
+#include "Plasma.h"
 #include "ScoreManager.h"
+#include "Spawner.h"
+#include "Wall.h"
+#include "behaviour/ForwardMoveBehaviour.h"
+#include "behaviour/SideToSideMoveBehaviour.h"
+#include "btBulletDynamicsCommon.h"
 #include "event/Event.h"
 #include "event/EventManager.h"
 #include "net/Endpoint.h"
 #include "net/Host.h"
 #include "net/Socket.h"
-#include "Wall.h"
-#include "Plane.h"
-#include "Plasma.h"
-#include "Box.h"
-#include "Enemy.h"
-#include "behaviour/ForwardMoveBehaviour.h"
-#include "behaviour/SideToSideMoveBehaviour.h"
-#include <math.h>
-#include "MainGUI.h"
-#include "InGUI.h"
+#include "sound/SoundManager.h"
 
 class AirTraffic : public BaseApplication
 {
@@ -55,6 +56,7 @@ protected:
 	void deletePlasmas();
 	void spawnBoxes();
 
+	Arsenal::Spawner mSpawner;
 	std::list<Arsenal::Entity*> entities;
 	std::list<Arsenal::Box*> boxes;
 	Arsenal::Plane *mPlane;
