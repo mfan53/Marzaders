@@ -1,3 +1,4 @@
+#include "Globals.h"
 #include "Plasma.h"
 
 using namespace Arsenal;
@@ -45,7 +46,7 @@ void Plasma::update(float delta) {
 	Entity::update(delta);
 
 	// Remove the bullet if it is out of range
-	if(getZ() < WORLD_END || getZ() > WORLD_START) {
+	if(getZ() > Globals::WORLD_END || getZ() < Globals::WORLD_START) {
 		damage(mHP);
 	}
 }

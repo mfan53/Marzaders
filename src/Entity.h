@@ -1,11 +1,11 @@
 #ifndef INC_ARSENAL_ENTITY_H
 #define INC_ARSENAL_ENTITY_H
 
-#include "btBulletDynamicsCommon.h"
 #include <OgreSceneManager.h>
 #include <OgreEntity.h>
 #include <OgreMesh.h>
 #include <OgreSceneNode.h>
+#include "btBulletDynamicsCommon.h"
 #include "sound/Sound.h"
 
 namespace Arsenal {

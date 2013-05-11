@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "Globals.h"
 #include <iostream>
 
 using namespace Arsenal;
@@ -30,6 +31,9 @@ Enemy::~Enemy() {
 void Enemy::update(float delta) {
 	mBehaviour->update(delta, this);
 	Entity::update(delta);
+	if(getZ() < Globals::WORLD_START) {
+		damage(mHP);
+	}
 }
 
 float Enemy::getWidth() {

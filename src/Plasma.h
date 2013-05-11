@@ -15,8 +15,6 @@ namespace Arsenal {
 
 			static const unsigned int HP = 1;
 			static const unsigned int ATK = 1;
-			static const int WORLD_END = -2000;
-			static const int WORLD_START = 100;
 	};
 }
 

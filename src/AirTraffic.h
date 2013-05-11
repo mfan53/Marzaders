@@ -1,5 +1,5 @@
-#ifndef INC_AIRTRAFFIC_h
-#define INC_AIRTRAFFIC_h
+#ifndef INC_AIRTRAFFIC_H
+#define INC_AIRTRAFFIC_H
 
 #include <iostream>
 #include <math.h>
@@ -95,4 +95,4 @@ private:
 
 };
 
-#endif // #ifndef _AIRTRAFFIC_h
+#endif // #ifndef INC_AIRTRAFFIC_H
