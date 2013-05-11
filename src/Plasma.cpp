@@ -3,12 +3,16 @@
 using namespace Arsenal;
 using namespace std;
 
-Plasma::Plasma(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* dynamicsWorld,
-				std::string name, const coord3f startPos, const coord3f startVelocity, bool isEnemyShot) {
+Plasma::Plasma(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
+				const coord3f startPos, const coord3f startVelocity, bool isEnemyShot) {
 	// OGRE
-	mScene = mSceneMgr;
-	mRender = mSceneMgr->createEntity(name,Ogre::SceneManager::PT_SPHERE);
-	mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+	mScene = scene;
+	if (isEnemyShot) {
+		mRender = scene->createEntity("bullet-"+getIDStr(), Ogre::SceneManager::PT_SPHERE);
+	} else {
+		mRender = scene->createEntity("plasma-"+getIDStr(), Ogre::SceneManager::PT_SPHERE);
+	}
+	mNode = scene->getRootSceneNode()->createChildSceneNode();
 	mNode->attachObject(mRender);
 	mRender->setCastShadows(true);
 	if (isEnemyShot) {
@@ -20,21 +24,19 @@ Plasma::Plasma(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* dynamicsW
 	}
 	
 	mNode->scale(scaleFactor, scaleFactor, scaleFactor * 10);
-	Ogre::Vector3 boundingBoxMaxCorner = scaleFactor * mRender->getBoundingBox().getMaximum();
+	Ogre::Vector3 hitbox = scaleFactor * mRender->getBoundingBox().getMaximum();
 	// Bullet
 
 	int coll = isEnemyShot ? COL_BULLET : COL_PLASMA;
 	int collW = isEnemyShot ? COL_PLASMA | COL_SHIP | COL_BOX : COL_BULLET | COL_ENEMY;
-	initPhysics(dynamicsWorld,
-		btVector3(boundingBoxMaxCorner.x, boundingBoxMaxCorner.y, boundingBoxMaxCorner.z),
-		coll, collW,10, startPos.x, startPos.y, startPos.z);
+	initPhysics(dynamics, btVector3(hitbox.x, hitbox.y, hitbox.z), coll, collW,
+		10, startPos.x, startPos.y, startPos.z);
 
 	mBody->setRestitution(1);
 	mBody->setActivationState(DISABLE_DEACTIVATION);
 	mBody->setLinearFactor(btVector3(0, 0, 1)); // only allow movement on z axis
 	//mBody->setAngularFactor(btVector3(0,0,0)); // Allow no rotations
 	velocity = coord3f(startVelocity);
-	sceneMgr = mSceneMgr;
 	paused = false;
 
 	mHP = HP;

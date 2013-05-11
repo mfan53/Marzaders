@@ -17,7 +17,7 @@ namespace Arsenal {
 		void update(float delta);
 		float getWidth();
 
-		void shoot(int& bulletNumber, std::list<Arsenal::Entity*> * entities, float planeX, float planeY, float planeZ);
+		void shoot(std::list<Arsenal::Entity*>* entities, float planeX, float planeY, float planeZ);
 
 	private:
 		// Enemy spawn location on the z axis

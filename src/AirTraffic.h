@@ -72,7 +72,6 @@ protected:
 	std::list<Arsenal::Box*> boxes;
 	Arsenal::Plane *mPlane;
 	Arsenal::Wall *ground;
-	int bulletNumber;
 	Arsenal::Timer mTimer;
 	Arsenal::Timer mScoreTimer;
 	

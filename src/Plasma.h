@@ -18,7 +18,7 @@ namespace Arsenal {
 
 			Plasma() {}
 			Plasma(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* dynamicsWorld,
-					std::string name, const coord3f, const coord3f startVelocity, bool isEnemyShot = false);
+					const coord3f, const coord3f startVelocity, bool isEnemyShot = false);
 			virtual ~Plasma();
 			void update(float delta);
 			void pause();
@@ -33,7 +33,6 @@ namespace Arsenal {
 		private:
 			bool hit;
 			coord3f velocity;
-			Ogre::SceneManager* sceneMgr;
 
 			float velX;
 			float velY;

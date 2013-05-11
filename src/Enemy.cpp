@@ -54,23 +54,21 @@ string intToString(int x) {
 	return ss.str();
 }
 
-void Enemy::shoot(int& bulletNumber, std::list<Arsenal::Entity*> * entities, float planeX, float planeY, float planeZ) {
+void Enemy::shoot(std::list<Arsenal::Entity*>* entities, float planeX, float planeY, float planeZ) {
+	float z = planeZ - getZ();
+	// Do not shoot if the plane is behind the enemy
+	if(z < 0) { return; }
 	float x = planeX - getX();
 	float y = planeY - getY();
-	float z = planeZ - getZ();
+
 	float mag = sqrt(x*x + y*y + z*z);
 	x = x/mag * 400.0f;
 	y = y/mag * 400.0f;
 	z = z/mag * 400.0f;
 	if ((rand() % (15 - 1 + 1) + 1) == 1) {
-		if (bulletNumber >= 999) bulletNumber = 1;
-		cout << "about to create a Plasma" << endl;
-		Arsenal::Plasma* p = new Arsenal::Plasma(mScene, mDynamics, intToString(bulletNumber),
-						Arsenal::coord3f(getX(),getY(),getZ()+getWidth() + 5.0f),
-						Arsenal::coord3f(x, y, z), true);
-		cout << "Created plasma" << endl;
+		Arsenal::Plasma* p = new Arsenal::Plasma(mScene, mDynamics,
+					Arsenal::coord3f(getX(),getY(),getZ()+getWidth() + 5.0f),
+					Arsenal::coord3f(x, y, z), true);
 		entities->push_back(p);
-		cout << "Created and pushed back" << endl;
-		bulletNumber += 1;
 	}
 }

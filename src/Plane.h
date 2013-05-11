@@ -25,7 +25,7 @@ namespace Arsenal {
 		Plane() {}
 		Plane(Ogre::SceneManager* mSceneMgr,btDiscreteDynamicsWorld* dynamicsWorld,std::string name);
 		virtual ~Plane();
-		void shoot(int& bulletNumber, std::list<Arsenal::Entity*> * entities);
+		void shoot(std::list<Arsenal::Entity*>* entities);
 		void update(float delta);
 		void move(direction_t dir);
 		void stop(direction_t dir);

@@ -29,7 +29,6 @@ AirTraffic::AirTraffic(void)
 
 	soundOn = true;
 	insideGUI = false;
-	bulletNumber = 1;
 	gamePaused = true;
 	insideIPMenu = false;
 	mTimer = Arsenal::Timer(4);
@@ -157,6 +156,11 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 	if(mPlane!=NULL && mScoreTimer.check(delta)) {
 		mScore++;
 	}
+	
+	// Shoot Bullets
+	if(mTimer.check(delta)) {
+		enemiesShoot();
+	}
 
 	// Spawn enemies
 	mSpawner.update(delta);
@@ -167,10 +171,6 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 	while (iter != entities.end()) {
    		(*iter)->update(delta);
 		if ((*iter)->isDead()) {
-			//cout << "\ndeleting shit\n" << endl;
-			// printf("deleting %s; %d dmg / %d hp\n",
-			// 		(*iter)->getRender()->getName().c_str(),
-			// 		(*iter)->getDamage(), (*iter)->getHP());
 			if(strcmp((*iter)->getRender()->getName().c_str(),"plane")==0) {
 				mPlane = NULL;
 			}
@@ -179,13 +179,8 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 		}
 		++iter;
 	}
-
-	if(mTimer.check(delta)) {
-		enemiesShoot();
-	}
 	
 	// Update camera position
-
 	if(mPlane != NULL) {
 		mCamera->setPosition(Ogre::Vector3(mPlane->getX(), mPlane->getY()+20, 95));
 		mCamera->lookAt(Ogre::Vector3(mPlane->getX(), mPlane->getY(),-500));
@@ -200,7 +195,7 @@ void AirTraffic::enemiesShoot() {
 	list<Arsenal::Entity*>::iterator iter = entities.begin();
 	while (iter != entities.end()) {
 		if ((*iter)->isEnemy()) {
-			((Enemy*)(*iter))->shoot(bulletNumber, &entities, mPlane->getX(), mPlane->getY(), mPlane->getZ());
+			((Enemy*)(*iter))->shoot(&entities, mPlane->getX(), mPlane->getY(), mPlane->getZ());
 		}
 		++iter;
 	}
@@ -274,7 +269,7 @@ bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 		else if (arg.key == OIS::KC_SPACE) {
 			//shootSound->play(0);
 			if (mPlane != NULL)
-				mPlane->shoot(bulletNumber, &entities);
+				mPlane->shoot(&entities);
 		}
 	}
 	if (arg.key == OIS::KC_ESCAPE) {
