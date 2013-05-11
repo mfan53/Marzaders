@@ -34,7 +34,6 @@ namespace Arsenal {
 
 		virtual void damage(unsigned int damage) { mDamage += damage; };
 
-
 		int getId() const { return mID; }
 		std::string getIDStr() const;
 		float getX() const;
