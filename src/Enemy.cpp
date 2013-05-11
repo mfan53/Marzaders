@@ -69,10 +69,10 @@ void Enemy::shoot(std::list<Arsenal::Entity*>* entities, float planeX, float pla
 	x = x/mag * 400.0f;
 	y = y/mag * 400.0f;
 	z = z/mag * 400.0f;
-	if ((rand() % (15 - 1 + 1) + 1) == 1) {
+	// if ((rand() % (15 - 1 + 1) + 1) == 1) {
 		Arsenal::Plasma* p = new Arsenal::Plasma(mScene, mDynamics,
 					Arsenal::coord3f(getX(),getY(),getZ()+getWidth() + 5.0f),
 					Arsenal::coord3f(x, y, z), true);
 		entities->push_back(p);
-	}
+	// }
 }
