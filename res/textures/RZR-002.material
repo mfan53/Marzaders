@@ -5,7 +5,6 @@ material RZR-002
 	{
 		pass
 		{
-
 			texture_unit
 			{
 				texture RZR-002.png

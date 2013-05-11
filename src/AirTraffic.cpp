@@ -31,6 +31,7 @@ AirTraffic::AirTraffic(void)
 	bulletNumber = 1;
 	gamePaused = true;
 	insideIPMenu = false;
+
 }
 //-------------------------------------------------------------------------------------
 AirTraffic::~AirTraffic(void)
@@ -73,11 +74,12 @@ void AirTraffic::createScene(void)
 	//create the in game gui
 	ingui = new Arsenal::InGUI();
 	ingui->create();
+
 }
 
 void AirTraffic::createEntities() {
 	//plane entity
-	mPlane = new Arsenal::Plane(mSceneMgr,mWorld,"plane",mCamera);
+	mPlane = new Arsenal::Plane(mSceneMgr,mWorld,"plane");
 	entities.push_back(mPlane);
 
 	//land entity
@@ -103,6 +105,8 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 	if(gamePaused) {
 		return true;
 	}
+	
+	//OgreBites::Label* health = mTrayMgr->createLabel(OgreBites::TL_TOP,"hp","hp remaining: 0",300);
 
 	float delta = evt.timeSinceLastFrame;
 	
@@ -125,7 +129,7 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 	}
 
 	// Update camera position
-	mCamera->setPosition(Ogre::Vector3(mPlane->getX(), mPlane->getY()+20, 95));
+	mCamera->setPosition(Ogre::Vector3(mPlane->getX(), mPlane->getY() + 20, 95));
 	mCamera->lookAt(Ogre::Vector3(mPlane->getX(), mPlane->getY(),-500));
 
 	return true;
@@ -299,8 +303,7 @@ void AirTraffic::deleteEntities() {
 
 void AirTraffic::pauseGame() {
 	gamePaused = true;
-	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5f,0.5f,0.5f));
-	//pause plasma 
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5f,0.5f,0.5f)); 
 	ground->setmat("Examples/GroundStill");
 	
 }
@@ -308,7 +311,6 @@ void AirTraffic::pauseGame() {
 void AirTraffic::unpauseGame() {
 	gamePaused = false;
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0f,1.0f,1.0f));
-	//unpause plasma 
 	ground->setmat("Examples/GroundScroll");
 }
 

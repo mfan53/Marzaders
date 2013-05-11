@@ -23,7 +23,7 @@ namespace Arsenal {
 	public:
 
 		Plane() {}
-		Plane(Ogre::SceneManager* mSceneMgr,btDiscreteDynamicsWorld* dynamicsWorld,std::string name, Ogre::Camera* mCamera);
+		Plane(Ogre::SceneManager* mSceneMgr,btDiscreteDynamicsWorld* dynamicsWorld,std::string name);
 		virtual ~Plane();
 		void shoot(int& bulletNumber, std::list<Arsenal::Entity*> * entities);
 		void update(float delta);

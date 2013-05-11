@@ -5,7 +5,7 @@ using namespace Arsenal;
 using namespace std;
 
 Plane::Plane(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* world,
-			std::string name, Ogre::Camera* mCamera) {
+			std::string name) {
 	dynWorld = world;
 	shot_type = SINGLE;
 
@@ -37,6 +37,15 @@ Plane::Plane(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* world,
 	mDamage = 0;
 
 	shootSound = SoundManager::getSoundManager()->createSound(SND_BULLET);
+
+	//create shield
+	/*Ogre::Entity* shield = scene->createEntity("shield",Ogre::SceneManager::PT_SPHERE);
+	Ogre::SceneNode* snode = scene->getRootSceneNode()->createChildSceneNode();
+	shield->setMaterialName("TransGold");
+	snode->attachObject(shield);
+	shield->setCastShadows(false);
+	snode->scale(0.3f,0.3f,0.3f);
+	mNode->addChild(snode);*/
 }
 
 Plane::~Plane() {
