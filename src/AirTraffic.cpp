@@ -71,14 +71,14 @@ void AirTraffic::createScene(void)
 
 	// Spawn Enemies
 	Arsenal::Enemy* sideEnemy = new Arsenal::Enemy(mSceneMgr, mWorld, 
-	 			new Arsenal::SideToSideMoveBehaviour(100.0f, 50.0f, 50.0f), -50.0f, 0, -2000.0f);
+	 			new Arsenal::SideToSideMoveBehaviour(100.0f, 50.0f, 50.0f), -60.0f, 0, -2000.0f);
 	entities.push_back(sideEnemy);
 	//cout << "sideEnemy: " << sideEnemy->getIDStr() << endl;
 
 	Arsenal::Enemy* sideEnemy2 = new Arsenal::Enemy(mSceneMgr, mWorld, 
-	 			new Arsenal::SideToSideMoveBehaviour(100.0f, 50.0f, 50.0f), 50, 0, -2000.0f);
+	 			new Arsenal::SideToSideMoveBehaviour(100.0f, -50.0f, 50.0f), 60.0f, 0, -2000.0f);
 	entities.push_back(sideEnemy2);
-	//cout << "sideEnemy2: " << sideEnemy2->getIDStr() << endl;
+	cout << "sideEnemy2: " << sideEnemy2->getIDStr() << endl;
 
 	Arsenal::Enemy* forwardEnemy = new Arsenal::Enemy(mSceneMgr, mWorld, 
 	 			new Arsenal::ForwardMoveBehaviour(100.0f), 0, 0, -1900.0f);

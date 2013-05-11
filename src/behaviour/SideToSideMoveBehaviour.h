@@ -18,6 +18,9 @@ namespace Arsenal {
 		float mBound;
 		float mStartX;
 		bool mCalibrated;
+
+		// 0:left, 1:right
+		int direction;
 	};
 }
 
