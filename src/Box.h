@@ -8,16 +8,14 @@ namespace Arsenal {
 	public:
 		Box(Ogre::SceneManager*, btDiscreteDynamicsWorld*, float, float);
 		virtual ~Box();
-		void update(float delta);
 
 		void damage(unsigned int damage);
 
 		static const float Z_POS = -100; // Default z position for a box
-		static const float SIZE = 25; // Default size of a box
+		static const float SIZE = 40; // Default size of a box
 
 		static const unsigned int HP = 3;
 		static const unsigned int ATK = 1;
-
 	};
 }
 

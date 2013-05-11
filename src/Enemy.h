@@ -14,18 +14,16 @@ namespace Arsenal {
 				MoveBehaviour* behaviour, float xPos, float yPos, float zPos, unsigned int hp = 1,
 				unsigned int atk = 1);
 		virtual ~Enemy();
+
 		void update(float delta);
-		float getWidth();
 
 		void shoot(std::list<Arsenal::Entity*>* entities, float planeX, float planeY, float planeZ);
 
-	private:
-		// Enemy spawn location on the z axis
-		//const static float zSpawn = -2000;
+		float getWidth();
 
+	private:
 		MoveBehaviour* mBehaviour;
 		void setColor();
-		//std::string Enemy::intToString(int x);
 		const static int maxColors = 5;
 		const static int minColors = 1;
 		int color;

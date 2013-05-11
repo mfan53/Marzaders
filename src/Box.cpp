@@ -20,18 +20,10 @@ Box::Box(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 	mNode->setScale(SIZE/100.0f,SIZE/100.0f,0.1f);
 	mRender->setCastShadows(true);
 	mRender->setMaterialName("TransWhite");
-
-	enemy = false;
-
 }
 
 Box::~Box() {
 
-}
-
-void Box::update(float delta) {
-	Entity::update(delta);
-	getHP();
 }
 
 void Box::damage(unsigned int damage) {

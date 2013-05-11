@@ -32,6 +32,7 @@ Entity::Entity(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 	mHP = hp;
 	mDamage = 0;
 	mAttack = attack;
+	enemy = false;
 	initPhysics(dynamics, hitbox, collide, collidesWith, mass, xPos, yPos, zPos);
 }
 
