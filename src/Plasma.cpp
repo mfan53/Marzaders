@@ -4,7 +4,8 @@
 using namespace Arsenal;
 using namespace std;
 
-Ogre::ParticleSystem* particle1;
+Ogre::ParticleSystem* particle;
+bool Plasma::fireOn = false;
 
 Plasma::Plasma(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 				const coord3f pos, const coord3f vel, bool isEnemyShot)
@@ -26,11 +27,14 @@ Plasma::Plasma(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 	} else {
 		mRender->setMaterialName("Examples/SphereMappedDroplet");
 		scaleFactor = 0.04f;
-		//particle trail for plasma
-		//std::string plasmaID = "plasma-" + getIDStr();
-		//particle1 = scene->createParticleSystem(plasmaID,"Examples/ParticleTrail");
-		//particle1->setVisible(true);
-		//mNode->attachObject(particle1);
+		std::string pID = "Particle-" + getIDStr();
+		particle = scene->createParticleSystem(pID ,"Examples/ParticleTrail");
+		mNode->attachObject(particle);
+		if (fireOn) {
+			particle->setVisible(true);
+		}
+		else 
+			particle->setVisible(false);
 	}
 	
 	mNode->scale(scaleFactor, scaleFactor, scaleFactor * 10);
@@ -46,7 +50,6 @@ Plasma::Plasma(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 	mBody->setLinearVelocity(btVector3(vel.x, vel.y, vel.z));
 
 	m_isEnemyShot = isEnemyShot;
-
 	
 }
 

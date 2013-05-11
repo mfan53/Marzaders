@@ -13,11 +13,14 @@ namespace Arsenal {
 
 			void update(float delta);
 
+			static void toggleFire() {fireOn = !fireOn;}
+
 			static const unsigned int HP = 1;
 			static const unsigned int ATK = 1;
 
 		private:
 			bool m_isEnemyShot;
+			static bool fireOn;
 	};
 }
 

@@ -20,6 +20,7 @@ namespace Arsenal {
 			static std::string mHostIP;
 			static SoundManager* gSoundManager;
 			static int bulletNumber;
+			static Ogre::ParticleSystem* particle;
 	};
 }
 

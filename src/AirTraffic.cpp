@@ -1,9 +1,11 @@
 #include "AirTraffic.h"
+#include "Globals.h"
 
 using namespace Arsenal;
 
 bool insideGUI; //toggle gui menu
 CEGUI::Window* window;
+Ogre::ParticleSystem* particleSys;
 
 // Forward declarations
 static void physicsTickCallback(btDynamicsWorld *world, btScalar timeStep);
@@ -98,6 +100,11 @@ void AirTraffic::createScene(void)
 	quit->setPosition(CEGUI::UVector2(CEGUI::UDim(0,0),CEGUI::UDim(.12,0)));
 	window->addChildWindow(quit);
 	quit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&AirTraffic::exitGame, this));
+
+	//initialize particle system
+	//particleSys = mSceneMgr->createParticleSystem("Particle","Examples/ParticleTrail");
+	//Globals::particle = particleSys;
+	
 }
 
 void AirTraffic::createEntities() {
@@ -269,6 +276,9 @@ bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 			//shootSound->play(0);
 			if (mPlane != NULL)
 				mPlane->shoot(&entities);
+		}
+		else if (arg.key == OIS::KC_F) {
+			Plasma::toggleFire();
 		}
 	}
 	if (arg.key == OIS::KC_ESCAPE) {
