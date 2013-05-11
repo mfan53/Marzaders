@@ -72,6 +72,7 @@ protected:
 	Arsenal::Wall *ground;
 	int bulletNumber;
 	Arsenal::Timer mTimer;
+	Arsenal::Timer mScoreTimer;
 	
 	btDefaultCollisionConfiguration* mCollisionConfig;
 	btCollisionDispatcher* mDispatcher;

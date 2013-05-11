@@ -32,6 +32,7 @@ AirTraffic::AirTraffic(void)
 	gamePaused = true;
 	insideIPMenu = false;
 	mTimer = Arsenal::Timer(4);
+	mScoreTimer = Arsenal::Timer(5);
 
 	mScore = 0;
 	mPlane = NULL;
@@ -113,6 +114,10 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 
 	float delta = evt.timeSinceLastFrame;
 	
+	if(mPlane!=NULL && mScoreTimer.check(delta)) {
+		mScore++;
+	}
+
 	// Spawn enemies
 	mSpawner.update(delta);
 
@@ -320,6 +325,8 @@ void AirTraffic::reset() {
 	insideGUI = false;
 	pauseGame();
 	mScore = 0;
+	mTimer = Arsenal::Timer(4);
+	mScoreTimer = Arsenal::Timer(5);
 }
 
 void AirTraffic::deleteEntities() {
