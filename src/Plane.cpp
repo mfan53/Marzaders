@@ -61,9 +61,6 @@ void Plane::update(float delta) {
 	}
 	mBody->setLinearVelocity(btVector3(x, y, 0.0f));
 	Entity::update(delta);
-	if(isDead()) {
-		printf("\nPLAYER IS DEAD ###################\n");
-	}
 }
 
 void Plane::move(direction_t dir) {

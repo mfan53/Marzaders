@@ -15,7 +15,7 @@ Spawner::Spawner(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 	m_scene = scene;
 	m_dynamics = dynamics;
 	m_list = entities;
-	m_timer = Arsenal::Timer(1,1);
+	m_timer = Arsenal::Timer(2);
 }
 
 Spawner::~Spawner()
