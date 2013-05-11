@@ -31,6 +31,7 @@ AirTraffic::AirTraffic(void)
 	bulletNumber = 1;
 	gamePaused = true;
 	insideIPMenu = false;
+	mScore = 0;
 }
 //-------------------------------------------------------------------------------------
 AirTraffic::~AirTraffic(void)
@@ -296,6 +297,7 @@ void AirTraffic::reset() {
 	maingui->show();
 	insideGUI = false;
 	pauseGame();
+	mScore = 0;
 }
 
 void AirTraffic::deleteEntities() {
