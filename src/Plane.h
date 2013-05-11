@@ -4,15 +4,16 @@
 #include "Entity.h"
 #include "Plasma.h"
 #include "sound/SoundManager.h"
-#include <string.h>
 
 namespace Arsenal {
+
 	enum direction_t {
 		UP = 0,
 		DOWN = 1,
 		LEFT = 2,
 		RIGHT = 4
 	};
+
 	enum shot_t {
 		SINGLE = 0,
 		SPRAY3 = 1,
@@ -21,16 +22,19 @@ namespace Arsenal {
 
 	class Plane : public Entity {
 	public:
-
 		Plane() {}
-		Plane(Ogre::SceneManager* mSceneMgr,btDiscreteDynamicsWorld* dynamicsWorld,std::string name);
+		Plane(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics);
 		virtual ~Plane();
+
 		void shoot(std::list<Arsenal::Entity*>* entities);
 		void update(float delta);
 		void move(direction_t dir);
 		void stop(direction_t dir);
 		void setShot(shot_t shot) {shot_type = shot;}
 		void reset();
+
+		const static unsigned int HP = 10;
+		const static unsigned int ATK = 1;
 
 	private:
 		//player 1 starting pos
@@ -41,13 +45,8 @@ namespace Arsenal {
 
 		Sound * shootSound;
 
-		Ogre::SceneManager* sceneManager;
-		btDiscreteDynamicsWorld* dynWorld;
-
 		shot_t shot_type;
 		bool mMoveUp, mMoveDown, mMoveLeft, mMoveRight;
-
-		std::string intToString(int x);
 	};
 }
 

@@ -107,7 +107,7 @@ void AirTraffic::createScene(void)
 
 void AirTraffic::createEntities() {
 	//plane entity
-	mPlane = new Arsenal::Plane(mSceneMgr,mWorld,"plane");
+	mPlane = new Arsenal::Plane(mSceneMgr,mWorld);
 	entities.push_back(mPlane);
 
 	//land entity

@@ -4,24 +4,19 @@
 using namespace Arsenal;
 using namespace std;
 
-Plane::Plane(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* world,
-			std::string name) {
-	dynWorld = world;
-	shot_type = SINGLE;
-
+Plane::Plane(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics)
+		: Entity(scene, HP, ATK) {
 	// OGRE
-	mScene = scene;
-	mRender = scene->createEntity(name,"RZR-002.mesh");
-	float bounds = mRender->getMesh()->getBoundingSphereRadius();
-	mNode = scene->getRootSceneNode()->createChildSceneNode();
-	mNode->attachObject(mRender);
+	mRender = mScene->createEntity("plane","RZR-002.mesh");
 	mRender->setCastShadows(true);
+	mNode = mScene->getRootSceneNode()->createChildSceneNode();
+	mNode->attachObject(mRender);
 	mNode->setPosition(Ogre::Vector3(xcoord,ycoord,zcoord));
-	//rotate the plane
-	mNode->yaw(Ogre::Radian(M_PI));
+	mNode->yaw(Ogre::Radian(M_PI)); //rotate the plane
 
 	// Setup bullet
-	initPhysics(world, btVector3(bounds,bounds,bounds), COL_SHIP, COL_ENEMY | COL_BULLET);
+	float bounds = mRender->getMesh()->getBoundingSphereRadius();
+	initPhysics(dynamics, btVector3(bounds,bounds,bounds), COL_SHIP, COL_ENEMY | COL_BULLET);
 	mBody->setActivationState(DISABLE_DEACTIVATION);
 	mBody->setRestitution(1);
 	mBody->setLinearFactor(btVector3(1,1,0)); // only allow movement on x,y axis
@@ -32,11 +27,8 @@ Plane::Plane(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* world,
 	mMoveLeft = false;
 	mMoveRight = false;
 
-	mHP = 10;
-	mAttack = 1;
-	mDamage = 0;
-
 	shootSound = SoundManager::getSoundManager()->createSound(SND_BULLET);
+	shot_type = SINGLE;
 
 	//create shield
 	/*Ogre::Entity* shield = scene->createEntity("shield",Ogre::SceneManager::PT_SPHERE);
@@ -68,8 +60,10 @@ void Plane::update(float delta) {
 	if (mMoveRight) {
 		x += mSpeed;
 	}
+
+	// Prevent the player from moving further out of bounds
 	x = (getX() < -100 && x < 0) || (getX() > 100 && x > 0) ? 0 : x;
-	y = (getY() < -100 && y < 0) || (getY() > 100 && y > 0) ? 0 : y;
+	y = (getY() < -50 && y < 0) || (getY() > 150 && y > 0) ? 0 : y;
 
 	mBody->setLinearVelocity(btVector3(x, y, 0.0f));
 	Entity::update(delta);
@@ -109,13 +103,6 @@ void Plane::stop(direction_t dir) {
 	}
 }
 
-string Plane::intToString(int x) {
-
-	stringstream ss;
-	ss << x;
-	return ss.str();
-}
-
 void Plane::reset() {
 	btTransform transform = mBody->getCenterOfMassTransform();
 	transform.setOrigin(btVector3(xcoord,ycoord,zcoord));
@@ -130,7 +117,7 @@ void Plane::shoot(std::list<Arsenal::Entity*>* entities) {
 	switch (shot_type) {
 
 		case SINGLE: {
-			Arsenal::Plasma* p = new Arsenal::Plasma(mScene, dynWorld,
+			Arsenal::Plasma* p = new Arsenal::Plasma(mScene, mDynamics,
 							Arsenal::coord3f(getX(),getY(),getZ()-20),
 							Arsenal::coord3f(0.0f, 0.0f, -400.0f));
 			entities->push_back(p);
@@ -140,17 +127,17 @@ void Plane::shoot(std::list<Arsenal::Entity*>* entities) {
 		case SPRAY3: {
 			// Idea: Have the option to control angle of spray
 
-			Arsenal::Plasma* left = new Arsenal::Plasma(mScene, dynWorld,
+			Arsenal::Plasma* left = new Arsenal::Plasma(mScene, mDynamics,
 							Arsenal::coord3f(getX()-5.0f, getY(), getZ()-20),
 							Arsenal::coord3f(-50.0f, 0.0f, -400.0f));
 			entities->push_back(left);
 			
-			Arsenal::Plasma* middle = new Arsenal::Plasma(mScene, dynWorld,
+			Arsenal::Plasma* middle = new Arsenal::Plasma(mScene, mDynamics,
 							Arsenal::coord3f(getX(),getY(),getZ()-20),
 							Arsenal::coord3f(0.0f, 0.0f, -400.0f));
 			entities->push_back(middle);
 			
-			Arsenal::Plasma* right = new Arsenal::Plasma(mScene, dynWorld,
+			Arsenal::Plasma* right = new Arsenal::Plasma(mScene, mDynamics,
 							Arsenal::coord3f(getX()+5.0f, getY(), getZ()-20),
 							Arsenal::coord3f(50.0f, 0.0f, -400.0f));
 			entities->push_back(right);
@@ -161,27 +148,27 @@ void Plane::shoot(std::list<Arsenal::Entity*>* entities) {
 		case SPRAY5: {
 			// Idea: Have the option to control angle of spray
 
-			Arsenal::Plasma* left = new Arsenal::Plasma(mScene, dynWorld,
+			Arsenal::Plasma* left = new Arsenal::Plasma(mScene, mDynamics,
 							Arsenal::coord3f(getX()-5.0f, getY(), getZ()-20),
 							Arsenal::coord3f(-25.0f, 0.0f, -400.0f));
 			entities->push_back(left);
 
-			Arsenal::Plasma* middle = new Arsenal::Plasma(mScene, dynWorld,
+			Arsenal::Plasma* middle = new Arsenal::Plasma(mScene, mDynamics,
 							Arsenal::coord3f(getX(),getY(),getZ()-20),
 							Arsenal::coord3f(0.0f, 0.0f, -400.0f));
 			entities->push_back(middle);
 
-			Arsenal::Plasma* right = new Arsenal::Plasma(mScene, dynWorld,
+			Arsenal::Plasma* right = new Arsenal::Plasma(mScene, mDynamics,
 							Arsenal::coord3f(getX()+5.0f, getY(), getZ()-20),
 							Arsenal::coord3f(25.0f, 0.0f, -400.0f));
 			entities->push_back(right);
 
-			Arsenal::Plasma* top = new Arsenal::Plasma(mScene, dynWorld,
+			Arsenal::Plasma* top = new Arsenal::Plasma(mScene, mDynamics,
 							Arsenal::coord3f(getX(), getY()+5.0f, getZ()-20),
 							Arsenal::coord3f(0.0f, 25.0f, -400.0f));
 			entities->push_back(top);
 			
-			Arsenal::Plasma* bottom = new Arsenal::Plasma(mScene, dynWorld,
+			Arsenal::Plasma* bottom = new Arsenal::Plasma(mScene, mDynamics,
 							Arsenal::coord3f(getX(), getY()-5.0f, getZ()-20),
 							Arsenal::coord3f(0.0f, -25.0f, -400.0f));
 			entities->push_back(bottom);
