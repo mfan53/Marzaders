@@ -32,7 +32,7 @@ Plane::Plane(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* world,
 	mMoveLeft = false;
 	mMoveRight = false;
 
-	mHP = 1;
+	mHP = 10;
 	mAttack = 1;
 	mDamage = 0;
 
