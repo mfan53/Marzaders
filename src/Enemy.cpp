@@ -6,7 +6,7 @@ using namespace std;
 
 Enemy::Enemy(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 			MoveBehaviour* behaviour, float xPos, float yPos, float zPos, unsigned int hp, unsigned int atk)
-		: Entity(scene, dynamics, btVector3(2,2,2), hp, atk),
+		: Entity(scene, dynamics, btVector3(2,2,2), hp, atk, 10, xPos, yPos, zPos),
 		  mBehaviour(behaviour) {
 	// Convert the ID into a string
 	std::string idString = "ENEMY-"+getIDStr();
@@ -16,8 +16,6 @@ Enemy::Enemy(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 	mNode = scene->getRootSceneNode()->createChildSceneNode();
 	mNode->attachObject(mRender);
 	mNode->setScale(0.1f,0.1f,0.1f);
-
-	setPos(xPos, yPos, zPos);
 	//cout << "\n" << getIDStr() << " starting xpos: " << xPos << "\n" << endl;
 	mStartX = xPos;
 }

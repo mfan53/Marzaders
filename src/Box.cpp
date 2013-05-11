@@ -46,6 +46,5 @@ void Box::damage(unsigned int damage) {
 	mRender->setCastShadows(true);
 	
 	destroyPhysics();
-	initPhysics(mDynamics, btVector3(SIZE*ratio/2,SIZE*ratio/2,SIZE*ratio/4));
-	setPos(xPos,yPos,Z_POS);
+	initPhysics(mDynamics, btVector3(SIZE*ratio/2,SIZE*ratio/2,SIZE*ratio/4),10,xPos,yPos,Z_POS);
 }

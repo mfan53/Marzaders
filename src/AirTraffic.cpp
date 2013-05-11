@@ -19,10 +19,9 @@ AirTraffic::AirTraffic(void)
 	mSolver = new btSequentialImpulseConstraintSolver;
 	mWorld = new btDiscreteDynamicsWorld
 		(mDispatcher,mOverlappingPairCache,mSolver,mCollisionConfig);
+	mWorld->setGravity(btVector3(0,0,0));
 	mWorld->setInternalTickCallback(&physicsTickCallback);
 
-	//mWorld->setGravity(btVector3(0,-9.8,0));
-	mWorld->setGravity(btVector3(0,0,0));
 	mEventQueue = EventManager::EventQueue::getEventQueue();
 	mSoundManager = SoundManager::getSoundManager(10);  // 10 different sounds.
 	//shootSound = mSoundManager->createSound(SND_HI_HAT);
@@ -84,7 +83,6 @@ void AirTraffic::createScene(void)
 	 			new Arsenal::ForwardMoveBehaviour(100.0f), 0, 0, -1900.0f);
 	entities.push_back(forwardEnemy);
 
-
 	//load cegui stuff
 	mRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
 	CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
@@ -100,6 +98,9 @@ void AirTraffic::createScene(void)
 	//create the in game gui
 	ingui = new Arsenal::InGUI();
 	ingui->create();
+
+	// Create the spawner
+	mSpawner = Spawner(mSceneMgr, mWorld, &entities);
 }
 
 bool isDead (const Arsenal::Entity* value) { return value->isDead(); }
@@ -116,6 +117,9 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 
 	float delta = evt.timeSinceLastFrame;
 	
+	// Spawn enemies
+	mSpawner.update(delta);
+
 	mWorld->stepSimulation(delta,10);
 
 	list<Arsenal::Entity*>::iterator iter = entities.begin();
