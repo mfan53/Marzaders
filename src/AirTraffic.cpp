@@ -82,6 +82,7 @@ void AirTraffic::createEntities() {
 
 	//land entity
 	ground = new Arsenal::Wall(mSceneMgr,mWorld,0,-100,0,"Examples/GroundScroll","ground");
+	ground->setmat("Examples/GroundScroll");
 	entities.push_back(ground);
 
 	// Spawn Boxes
@@ -254,7 +255,6 @@ void AirTraffic::startGame() {
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0f,1.0f,1.0f));
 	gamePaused = false;
 	mSoundManager->createSound(SND_WELCOME)->play(0);
-	ground->setmat("Examples/GroundScroll");
 	//create the entities
 	createEntities();
 }
