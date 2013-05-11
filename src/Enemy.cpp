@@ -20,7 +20,6 @@ Enemy::Enemy(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,MoveBe
 	mStartX = xPos;
 	// color = (rand() % (maxColors - minColors + 1)) + minColors;
 	setColor();
-	//mRender->setMaterialName("Enemy/Water");
 	enemy = true;
 }
 
@@ -55,17 +54,23 @@ string intToString(int x) {
 	return ss.str();
 }
 
-void Enemy::shoot(int& bulletNumber, std::list<Arsenal::Entity*> * entities) {
-	std::stringstream ss;
-	string name;
-
-	if (bulletNumber >= 999) bulletNumber = 1;
-	cout << "about to create a Plasma" << endl;
-	Arsenal::Plasma* p = new Arsenal::Plasma(mScene, mDynamics, intToString(bulletNumber),
-					Arsenal::coord3f(getX(),getY(),getZ()+getWidth() + 5.0f),
-					Arsenal::coord3f(0.0f, 0.0f, 100.0f), true);
-	cout << "Created plasma" << endl;
-	entities->push_back(p);
-	cout << "Created and pushed back" << endl;
-	bulletNumber += 1;
+void Enemy::shoot(int& bulletNumber, std::list<Arsenal::Entity*> * entities, float planeX, float planeY, float planeZ) {
+	float x = planeX - getX();
+	float y = planeY - getY();
+	float z = planeZ - getZ();
+	float mag = sqrt(x*x + y*y + z*z);
+	x = x/mag * 400.0f;
+	y = y/mag * 400.0f;
+	z = z/mag * 400.0f;
+	if ((rand() % (15 - 1 + 1) + 1) == 1) {
+		if (bulletNumber >= 999) bulletNumber = 1;
+		cout << "about to create a Plasma" << endl;
+		Arsenal::Plasma* p = new Arsenal::Plasma(mScene, mDynamics, intToString(bulletNumber),
+						Arsenal::coord3f(getX(),getY(),getZ()+getWidth() + 5.0f),
+						Arsenal::coord3f(x, y, z), true);
+		cout << "Created plasma" << endl;
+		entities->push_back(p);
+		cout << "Created and pushed back" << endl;
+		bulletNumber += 1;
+	}
 }

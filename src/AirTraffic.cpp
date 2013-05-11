@@ -31,7 +31,7 @@ AirTraffic::AirTraffic(void)
 	bulletNumber = 1;
 	gamePaused = true;
 	insideIPMenu = false;
-	mTimer = Arsenal::Timer(4);
+	mTimer = Arsenal::Timer(4.);
 
 	mScore = 0;
 	mPlane = NULL;
@@ -150,10 +150,12 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 }
 
 void AirTraffic::enemiesShoot() {
+	if (mPlane == NULL)
+		return;
 	list<Arsenal::Entity*>::iterator iter = entities.begin();
 	while (iter != entities.end()) {
 		if ((*iter)->isEnemy()) {
-			((Enemy*)(*iter))->shoot(bulletNumber, &entities);
+			((Enemy*)(*iter))->shoot(bulletNumber, &entities, mPlane->getX(), mPlane->getY(), mPlane->getZ());
 		}
 		++iter;
 	}
@@ -226,7 +228,8 @@ bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 		}
 		else if (arg.key == OIS::KC_SPACE) {
 			//shootSound->play(0);
-			mPlane->shoot(bulletNumber, &entities);
+			if (mPlane != NULL)
+				mPlane->shoot(bulletNumber, &entities);
 		}
 	}
 	if (arg.key == OIS::KC_ESCAPE) {
