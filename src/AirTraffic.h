@@ -52,12 +52,14 @@ protected:
    	virtual void createScene(void);
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 	void removeOutOfBoundsBullets();
-	void deletePlasmas();
 	void spawnBoxes();
+	void createEntities();
+	void deleteEntities();
 
 	std::list<Arsenal::Entity*> entities;
 	std::list<Arsenal::Box*> boxes;
 	Arsenal::Plane *mPlane;
+	Arsenal::Wall *ground;
 	int bulletNumber;
 	
 	btDefaultCollisionConfiguration* mCollisionConfig;

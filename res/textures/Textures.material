@@ -108,7 +108,7 @@ material Examples/Cloud
 	}
 }
 
-material Examples/Ground
+material Examples/GroundScroll
 {
 	technique
 	{
@@ -125,3 +125,108 @@ material Examples/Ground
 		}
 	}
 }
+
+material Examples/GroundStill
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				texture land.jpg
+			}
+		}
+	}
+}
+
+material TransWhite
+ {
+   technique
+   {
+     pass
+     {
+       scene_blend alpha_blend
+       depth_write off
+ 
+       texture_unit
+       {
+         colour_op_ex source1 src_manual src_current 1 1 1
+         alpha_op_ex source1 src_manual src_current 0.5
+       }
+     }
+   }
+ }
+
+material Color/Red
+  {
+    technique
+    {
+      pass
+      {
+        texture_unit
+        {
+          colour_op_ex source1 src_manual src_current 1 0 0
+        }
+      } 
+    }
+  }
+
+material Color/Blue
+  {
+    technique
+    {
+      pass
+      {
+        texture_unit
+        {
+          colour_op_ex source1 src_manual src_current 0 0 1
+        }
+      } 
+    }
+  }
+
+material Color/Green
+  {
+    technique
+    {
+      pass
+      {
+        texture_unit
+        {
+          colour_op_ex source1 src_manual src_current 0 1 0
+        }
+      } 
+    }
+  }
+
+material Color/Yellow
+  {
+    technique
+    {
+      pass
+      {
+        texture_unit
+        {
+          colour_op_ex source1 src_manual src_current 1 1 0
+        }
+      } 
+    }
+  }
+
+material Color/Black
+  {
+    technique
+    {
+      pass
+      {
+        texture_unit
+        {
+          colour_op_ex source1 src_manual src_current 0 0 0
+        }
+      } 
+    }
+  }

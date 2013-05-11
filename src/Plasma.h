@@ -23,7 +23,6 @@ namespace Arsenal {
 			void update(float delta);
 			void pause();
 			void unpause();
-			std::string getID();
 			//~Plasma() {} // We need to delete plasmas when they get out of range.
 
 			static const unsigned int HP = 1;
@@ -41,7 +40,6 @@ namespace Arsenal {
 			float velZ;
 
 			bool paused;
-			std::string id;
 	};
 }
 

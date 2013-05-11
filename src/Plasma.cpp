@@ -28,7 +28,6 @@ Plasma::Plasma(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* dynamicsW
 	velocity = coord3f(startVelocity);
 	sceneMgr = mSceneMgr;
 	paused = false;
-	id = "plasma";
 
 	mHP = HP;
 	mAttack = ATK;
@@ -67,6 +66,4 @@ void Plasma::unpause() {
 	mBody->setLinearVelocity(btVector3(velX,velY,velZ));
 }
 
-std::string Plasma::getID() {
-	return id;
-}
+

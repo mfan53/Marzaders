@@ -36,6 +36,7 @@ Entity::~Entity() {
 	destroyPhysics();
 }
 
+
 void Entity::destroyScene() {
 	if(mScene) {
 		if(mNode) {

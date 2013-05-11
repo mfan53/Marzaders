@@ -20,6 +20,10 @@ namespace Arsenal {
 		//const static float zSpawn = -2000;
 
 		MoveBehaviour* mBehaviour;
+		void setColor();
+		const static int maxColors = 5;
+		const static int minColors = 1;
+		int color;
 	};
 }
 

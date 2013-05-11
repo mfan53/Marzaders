@@ -59,12 +59,31 @@ void AirTraffic::createScene(void)
 	mSceneMgr->setSkyBox(true,"Examples/EveningSkyBox");
 	//mSceneMgr->showBoundingBoxes(true);
 
+	//load cegui stuff
+	mRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
+	CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
+	CEGUI::Font::setDefaultResourceGroup("Fonts");
+	CEGUI::Scheme::setDefaultResourceGroup("Schemes");
+	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
+	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
+
+	//main menu gui
+	maingui = new Arsenal::MainGUI();
+	maingui->launch();
+
+	//create the in game gui
+	ingui = new Arsenal::InGUI();
+	ingui->create();
+}
+
+void AirTraffic::createEntities() {
 	//plane entity
 	mPlane = new Arsenal::Plane(mSceneMgr,mWorld,"plane",mCamera);
 	entities.push_back(mPlane);
 
-	//space sky plane
-	entities.push_back(new Arsenal::Wall(mSceneMgr,mWorld,0,-100,0,"Examples/Ground","back wall"));
+	//land entity
+	ground = new Arsenal::Wall(mSceneMgr,mWorld,0,-100,0,"Examples/GroundScroll","ground");
+	entities.push_back(ground);
 
 	// Spawn Boxes
 	spawnBoxes();
@@ -83,23 +102,6 @@ void AirTraffic::createScene(void)
 	Arsenal::Enemy* forwardEnemy = new Arsenal::Enemy(mSceneMgr, mWorld, 
 	 			new Arsenal::ForwardMoveBehaviour(100.0f), 0, 0, -1900.0f);
 	entities.push_back(forwardEnemy);
-
-
-	//load cegui stuff
-	mRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
-	CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
-	CEGUI::Font::setDefaultResourceGroup("Fonts");
-	CEGUI::Scheme::setDefaultResourceGroup("Schemes");
-	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
-	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
-
-	//main menu gui
-	maingui = new Arsenal::MainGUI();
-	maingui->launch();
-
-	//create the in game gui
-	ingui = new Arsenal::InGUI();
-	ingui->create();
 }
 
 bool isDead (const Arsenal::Entity* value) { return value->isDead(); }
@@ -206,6 +208,9 @@ bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 		//shootSound->play(0);
 		mPlane->shoot(bulletNumber, &entities);
 	}
+	else if (arg.key == OIS::KC_ESCAPE) {
+		mShutDown = true;
+	}
 	else if (arg.key == OIS::KC_P) {
 		if (!insideGUI) {
 			ingui->launch();
@@ -259,6 +264,9 @@ void AirTraffic::startGame() {
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0f,1.0f,1.0f));
 	gamePaused = false;
 	mSoundManager->createSound(SND_WELCOME)->play(0);
+	ground->setmat("Examples/GroundScroll");
+	//create the entities
+	createEntities();
 }
 
 void AirTraffic::quitGame() {
@@ -280,37 +288,30 @@ void AirTraffic::hideIngame() {
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0f,1.0f,1.0f));
 	insideGUI = false;
 	gamePaused = false;
+	ground->setmat("Examples/GroundScroll");
 }
 
 void AirTraffic::reset() {
-	//reset plane
-	mPlane->reset();
-	//clean up all plasmas
-	deletePlasmas();
-	//respawn boxes
-	spawnBoxes();
-
+	deleteEntities();
+	
 	maingui->show();
 	insideGUI = false;
 	pauseGame();
 }
 
-void AirTraffic::deletePlasmas() {
-	/*list<Arsenal::Entity*>::iterator it = entities.begin();
+void AirTraffic::deleteEntities() {
+	list<Arsenal::Entity*>::iterator it = entities.begin();
 	while (it != entities.end()) {
-		if (((Arsenal::Plasma *)*it)->getID().compare("plasma")) {
-			delete *it;
-			entities.erase(it++);
-		}
-		++it;
-	}*/
-	printf("implement deleting plasmas \n");
+		delete *it;
+		entities.erase(it++);
+	}	
 }
 
 void AirTraffic::pauseGame() {
 	gamePaused = true;
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5f,0.5f,0.5f));
 	//pause plasma 
+	ground->setmat("Examples/GroundStill");
 	
 }
 
@@ -318,6 +319,7 @@ void AirTraffic::unpauseGame() {
 	gamePaused = false;
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0f,1.0f,1.0f));
 	//unpause plasma 
+	ground->setmat("Examples/GroundScroll");
 }
 
 void AirTraffic::inIP() {

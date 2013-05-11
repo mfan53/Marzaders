@@ -28,6 +28,7 @@ extern "C" {
 
 		try {
 			Arsenal::Globals::airInst = &app;
+			srand(time(NULL));
 			app.go();
 		} catch( Ogre::Exception& e ) {
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32

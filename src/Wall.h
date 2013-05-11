@@ -8,6 +8,7 @@ namespace Arsenal {
 	public:
 		Wall(Ogre::SceneManager* mSceneMgr,btDiscreteDynamicsWorld* dynamicsWorld,int xcoord,int ycoord,int zcoord, std::string material, 			std::string name);
 		virtual ~Wall();
+		void setmat(std::string str);
 
 	private:
 		const static float initXScale = 100;

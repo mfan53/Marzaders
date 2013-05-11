@@ -20,6 +20,8 @@ Enemy::Enemy(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 	setPos(xPos, yPos, zPos);
 	//cout << "\n" << getIDStr() << " starting xpos: " << xPos << "\n" << endl;
 	mStartX = xPos;
+	color = (rand() % (maxColors - minColors + 1)) + minColors;
+	setColor();
 }
 
 Enemy::~Enemy() {
@@ -33,4 +35,26 @@ void Enemy::update(float delta) {
 
 float Enemy::getWidth() {
 	return mRender->getBoundingBox().getMaximum().x * .01 * 2;
+}
+
+void Enemy::setColor() {
+	switch(color) {
+		case 1:
+			mRender->setMaterialName("Color/Red");
+			break;
+		case 2:
+			mRender->setMaterialName("Color/Blue");
+			break;
+		case 3:
+			mRender->setMaterialName("Color/Green");
+			break;
+		case 4:
+			mRender->setMaterialName("Color/Yellow");
+			break;
+		case 5:
+			mRender->setMaterialName("Color/Black");
+			break;
+		default:
+			break;
+	}
 }
