@@ -6,6 +6,10 @@
 #include "Timer.h"
 
 namespace Arsenal {
+	enum movementType {
+		FORWARD = 1,
+		SHIFTER = 2
+	};
 	class Spawner {
 	public:
 		Spawner();
@@ -15,7 +19,7 @@ namespace Arsenal {
 
 		void update(float delta);
 
-		static const float Z_POS = -2000; // Default z spawning position
+		static const float Z_POS = -1000; // Default z spawning position
 
 	private:
 		// The timer the spawner uses to decide when to spawn the next wave
@@ -27,6 +31,18 @@ namespace Arsenal {
 		btDiscreteDynamicsWorld* m_dynamics;
 		// Pointer to list of entities that the Spawner will add entites to
 		std::list<Arsenal::Entity*>* m_list;
+
+		static const float gridStartX = -100.0f;
+		static const float gridStartY = -50.0f;
+		movementType currentMovement;
+		float zSpeed;
+
+		/*
+		 * Spawns a grid of enemies.
+		 * rowSpacing: horizontal spacing between enemies.
+		 * colSpacing: vertical " ".
+		*/
+		void spawnEnemyGrid(int numRows, int numCols, float rowSpacing, float colSpacing);
 	};
 }
 

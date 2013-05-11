@@ -6,7 +6,7 @@ using namespace std;
 
 Enemy::Enemy(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 			MoveBehaviour* behaviour, float xPos, float yPos, float zPos, unsigned int hp, unsigned int atk)
-		: Entity(scene, dynamics, btVector3(2,2,2), hp, atk, 10, xPos, yPos, zPos),
+		: Entity(scene, dynamics, btVector3(15.3,15.3,15.3), hp, atk, 10, xPos, yPos, zPos),
 		  mBehaviour(behaviour) {
 	// Convert the ID into a string
 	std::string idString = "ENEMY-"+getIDStr();
@@ -15,7 +15,7 @@ Enemy::Enemy(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 	mRender->setCastShadows(true);
 	mNode = scene->getRootSceneNode()->createChildSceneNode();
 	mNode->attachObject(mRender);
-	mNode->setScale(0.1f,0.1f,0.1f);
+	mNode->setScale(0.3f,0.3f,0.3f);
 	//cout << "\n" << getIDStr() << " starting xpos: " << xPos << "\n" << endl;
 	mStartX = xPos;
 }
@@ -30,5 +30,5 @@ void Enemy::update(float delta) {
 }
 
 float Enemy::getWidth() {
-	return mRender->getBoundingBox().getMaximum().x * .01 * 2;
+	return mRender->getBoundingBox().getMaximum().x * 0.3 * 2;
 }

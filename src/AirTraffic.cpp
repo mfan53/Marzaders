@@ -68,21 +68,6 @@ void AirTraffic::createScene(void)
 	// Spawn Boxes
 	spawnBoxes();
 
-	// Spawn Enemies
-	Arsenal::Enemy* sideEnemy = new Arsenal::Enemy(mSceneMgr, mWorld, 
-	 			new Arsenal::SideToSideMoveBehaviour(100.0f, 50.0f, 50.0f), -60.0f, 0, -2000.0f);
-	entities.push_back(sideEnemy);
-	//cout << "sideEnemy: " << sideEnemy->getIDStr() << endl;
-
-	Arsenal::Enemy* sideEnemy2 = new Arsenal::Enemy(mSceneMgr, mWorld, 
-	 			new Arsenal::SideToSideMoveBehaviour(100.0f, -50.0f, 50.0f), 60.0f, 0, -2000.0f);
-	entities.push_back(sideEnemy2);
-	cout << "sideEnemy2: " << sideEnemy2->getIDStr() << endl;
-
-	Arsenal::Enemy* forwardEnemy = new Arsenal::Enemy(mSceneMgr, mWorld, 
-	 			new Arsenal::ForwardMoveBehaviour(100.0f), 0, 0, -1900.0f);
-	entities.push_back(forwardEnemy);
-
 	//load cegui stuff
 	mRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
 	CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
@@ -126,6 +111,7 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 	while (iter != entities.end()) {
    		(*iter)->update(delta);
 		if ((*iter)->isDead()) {
+			//cout << "\ndeleting shit\n" << endl;
 			// printf("deleting %s; %d dmg / %d hp\n",
 			// 		(*iter)->getRender()->getName().c_str(),
 			// 		(*iter)->getDamage(), (*iter)->getHP());
@@ -251,7 +237,7 @@ bool AirTraffic::keyReleased(const OIS::KeyEvent &arg) {
 void AirTraffic::spawnBoxes() {
 	// Spawn Boxes
 	for(float x = -100; x <= 100; x += 50) {
-		for(float y = -100; y <= 100; y+= 50) {
+		for(float y = -50; y <= 150; y+= 50) {
 			Arsenal::Box* mBox = new Arsenal::Box(mSceneMgr,mWorld,x,y);
 			boxes.push_back(mBox);
 			entities.push_back(mBox);
