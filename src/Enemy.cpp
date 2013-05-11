@@ -1,9 +1,12 @@
 #include "Enemy.h"
 #include "Globals.h"
 #include <iostream>
+#include "OgreParticleSystem.h"
 
 using namespace Arsenal;
 using namespace std;
+
+Ogre::ParticleSystem* smoke;
 
 Enemy::Enemy(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,MoveBehaviour* behaviour,
 		float xPos, float yPos, float zPos, unsigned int hp, unsigned int atk)
@@ -22,6 +25,11 @@ Enemy::Enemy(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,MoveBe
 	// color = (rand() % (maxColors - minColors + 1)) + minColors;
 	setColor();
 	enemy = true;
+
+	std::string smokeID = "Smoke-" + getIDStr();
+	smoke = scene->createParticleSystem(smokeID,"Examples/Smoke");
+	mNode->attachObject(smoke);
+	smoke->setVisible(false);
 }
 
 Enemy::~Enemy() {
@@ -38,6 +46,10 @@ void Enemy::update(float delta) {
 
 float Enemy::getWidth() {
 	return mRender->getBoundingBox().getMaximum().x * 0.3 * 2;
+}
+
+void explode() {
+	smoke->setVisible(true);
 }
 
 void Enemy::setColor() {

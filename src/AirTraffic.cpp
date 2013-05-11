@@ -138,6 +138,8 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 	if (mPlane == NULL) {
 		pauseGame();
 		CEGUI::MouseCursor::getSingleton().show();
+		window->enable();
+		window->show();
 		CEGUI::System::getSingleton().setGUISheet(window);
 	}
 	
@@ -174,6 +176,9 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 			if(strcmp((*iter)->getRender()->getName().c_str(),"plane")==0) {
 				mPlane = NULL;
 			}
+			//if ((*iter)->isEnemy()) {
+			//	(*iter)->explode();
+			//}
 			delete *iter;
 			entities.erase(iter++);
 		}

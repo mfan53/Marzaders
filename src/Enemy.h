@@ -21,6 +21,8 @@ namespace Arsenal {
 
 		float getWidth();
 
+		void explode();
+
 	private:
 		MoveBehaviour* mBehaviour;
 		void setColor();

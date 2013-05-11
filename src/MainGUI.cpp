@@ -6,7 +6,7 @@ using namespace Arsenal;
 MainGUI::MainGUI() {
 	//load scheme for gui
 	//background image
-	CEGUI::Imageset& MenuImageset = CEGUI::ImagesetManager::getSingleton().createFromImageFile("Background","minecraft.png");
+	CEGUI::Imageset& MenuImageset = CEGUI::ImagesetManager::getSingleton().createFromImageFile("Background","mars.jpg");
 	//sheet
 	CEGUI::SchemeManager::getSingleton().create("TaharezLook.scheme");
 	CEGUI::System::getSingleton().setDefaultMouseCursor("TaharezLook","MouseArrow");
