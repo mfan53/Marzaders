@@ -9,6 +9,7 @@ SideToSideMoveBehaviour::SideToSideMoveBehaviour(float zSpeed, float xSpeed, flo
 	mXSpeed = xSpeed;
 	mBound = bound;
 	mCalibrated = false;
+	direction = (xSpeed < 0) ? 0 : 1;
 }
 
 SideToSideMoveBehaviour::~SideToSideMoveBehaviour() {
@@ -23,14 +24,27 @@ void SideToSideMoveBehaviour::update(float delta, Entity *e) {
 	}
 
 	if (fabs(mStartX - e->getX()) > mBound) {
+		cout << "crossed the boundary" << endl;
+		cout << "My direction is " << direction << endl;
 		if (mStartX > e->getX()) {
-			e->setPos(mStartX - mBound + 0.5, e->getY(), e->getZ());
-			//cout << e->getIDStr() << " set xpos to " << mStartX - mBound << endl;
+			cout << "I am to the left of where I started " << endl;
+			// The entity is to the left of where it started.
+			// If you're going left, go right. Otherwise you're going right
+			// and you haven't crossed over the boundary before the current update loop.
+			if (direction == 0) {
+				mXSpeed *= -1.0f;
+				direction = 1;
+				cout << "I pulled a switcharoonie" << endl;
+			}
 		} else {
-			e->setPos(mStartX + mBound - 0.5, e->getY(), e->getZ());
-			//cout << e->getIDStr() << " set xpos to " << mStartX + mBound << endl;
+			cout << "I am to the right of where I started" << endl;
+			if (direction == 1) {
+				mXSpeed *= -1.0f;
+				direction = 0;
+				cout << "I pulled a switcharoonie" << endl;
+			}
 		}
-		mXSpeed *= -1.0f;
+		//mXSpeed *= -1.0f;
 	}
 
 	e->setVel(mXSpeed, 0, mSpeed);

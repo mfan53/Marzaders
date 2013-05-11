@@ -17,13 +17,14 @@ Plasma::Plasma(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* dynamicsW
 	Ogre::Vector3 boundingBoxMaxCorner = scaleFactor * mRender->getBoundingBox().getMaximum();
 
 	// Bullet
-	initPhysics(dynamicsWorld, btVector3(boundingBoxMaxCorner.x, boundingBoxMaxCorner.y, boundingBoxMaxCorner.z));
+	initPhysics(dynamicsWorld,
+		btVector3(boundingBoxMaxCorner.x, boundingBoxMaxCorner.y, boundingBoxMaxCorner.z),
+		10, startPos.x, startPos.y, startPos.z);
 
 	mBody->setRestitution(1);
 	mBody->setActivationState(DISABLE_DEACTIVATION);
 	mBody->setLinearFactor(btVector3(0, 0, 1)); // only allow movement on z axis
 	//mBody->setAngularFactor(btVector3(0,0,0)); // Allow no rotations
-	setPos(startPos.x, startPos.y, startPos.z);
 
 	velocity = coord3f(startVelocity);
 	sceneMgr = mSceneMgr;

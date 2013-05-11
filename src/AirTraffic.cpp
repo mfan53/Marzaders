@@ -19,10 +19,9 @@ AirTraffic::AirTraffic(void)
 	mSolver = new btSequentialImpulseConstraintSolver;
 	mWorld = new btDiscreteDynamicsWorld
 		(mDispatcher,mOverlappingPairCache,mSolver,mCollisionConfig);
+	mWorld->setGravity(btVector3(0,0,0));
 	mWorld->setInternalTickCallback(&physicsTickCallback);
 
-	//mWorld->setGravity(btVector3(0,-9.8,0));
-	mWorld->setGravity(btVector3(0,0,0));
 	mEventQueue = EventManager::EventQueue::getEventQueue();
 	mSoundManager = SoundManager::getSoundManager(10);  // 10 different sounds.
 	//shootSound = mSoundManager->createSound(SND_HI_HAT);
@@ -86,22 +85,10 @@ void AirTraffic::createEntities() {
 	entities.push_back(ground);
 
 	// Spawn Boxes
-	spawnBoxes();
+	spawnBoxes(); 
 
-	// Spawn Enemies
-	Arsenal::Enemy* sideEnemy = new Arsenal::Enemy(mSceneMgr, mWorld, 
-	 			new Arsenal::SideToSideMoveBehaviour(100.0f, 50.0f, 50.0f), -50.0f, 0, -2000.0f);
-	entities.push_back(sideEnemy);
-	//cout << "sideEnemy: " << sideEnemy->getIDStr() << endl;
-
-	Arsenal::Enemy* sideEnemy2 = new Arsenal::Enemy(mSceneMgr, mWorld, 
-	 			new Arsenal::SideToSideMoveBehaviour(100.0f, 50.0f, 50.0f), 50, 0, -2000.0f);
-	entities.push_back(sideEnemy2);
-	//cout << "sideEnemy2: " << sideEnemy2->getIDStr() << endl;
-
-	Arsenal::Enemy* forwardEnemy = new Arsenal::Enemy(mSceneMgr, mWorld, 
-	 			new Arsenal::ForwardMoveBehaviour(100.0f), 0, 0, -1900.0f);
-	entities.push_back(forwardEnemy);
+	// Create the spawner
+	mSpawner = Spawner(mSceneMgr, mWorld, &entities);
 }
 
 bool isDead (const Arsenal::Entity* value) { return value->isDead(); }
@@ -118,6 +105,9 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 
 	float delta = evt.timeSinceLastFrame;
 	
+	// Spawn enemies
+	mSpawner.update(delta);
+
 	mWorld->stepSimulation(delta,10);
 
 	list<Arsenal::Entity*>::iterator iter = entities.begin();
