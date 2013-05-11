@@ -23,7 +23,7 @@ namespace Arsenal {
 		Entity(Ogre::SceneManager* scene, unsigned int hp, unsigned int attack);
 		Entity(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 				btVector3 hitbox, unsigned int hp, unsigned int attack,
-				btScalar mass = 10);
+				btScalar mass=10, float xPos=0, float yPos=0, float zPos=0);
 		virtual ~Entity();
 
 		void destroyScene();
@@ -85,7 +85,7 @@ namespace Arsenal {
 		btDefaultMotionState* mMotion;
 
 		void initPhysics(btDiscreteDynamicsWorld* world, btVector3 hitbox,
-				btScalar mass = 10);
+				btScalar mass=10, float xPos=0, float yPos=0, float zPos=0);
 
 	private:
 		// True if physics has been initialized

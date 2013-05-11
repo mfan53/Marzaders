@@ -21,14 +21,15 @@ Entity::Entity(Ogre::SceneManager* scene, unsigned int hp, unsigned int attack) 
 }
 
 Entity::Entity(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
-		btVector3 hitbox, unsigned int hp, unsigned int attack, btScalar mass) {
+		btVector3 hitbox, unsigned int hp, unsigned int attack, btScalar mass,
+		float xPos, float yPos, float zPos) {
 	initID();
 	mPhysics = false;
 	mScene = scene;
 	mHP = hp;
 	mDamage = 0;
 	mAttack = attack;
-	initPhysics(dynamics, hitbox, mass);
+	initPhysics(dynamics, hitbox, mass, xPos, yPos, zPos);
 }
 
 Entity::~Entity() {
@@ -71,14 +72,14 @@ void Entity::update(float delta) {
 }
 
 void Entity::initPhysics(btDiscreteDynamicsWorld* dynamics, btVector3 hitbox,
-		btScalar mass) {
+		btScalar mass, float xPos, float yPos, float zPos) {
 	if(!mPhysics) {
 		mPhysics = true;
 
 		btVector3 localInertia = btVector3(btScalar(0),btScalar(0),btScalar(0));
 		btTransform transform;
 		transform.setIdentity();
-		transform.setOrigin(btVector3(0,0,0));
+		transform.setOrigin(btVector3(xPos,yPos,zPos));
 		mMotion = new btDefaultMotionState(transform);
 		mShape = new btBoxShape(hitbox);
 		btRigidBody::btRigidBodyConstructionInfo rbInfo
