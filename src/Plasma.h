@@ -15,6 +15,9 @@ namespace Arsenal {
 
 			static const unsigned int HP = 1;
 			static const unsigned int ATK = 1;
+
+		private:
+			bool m_isEnemyShot;
 	};
 }
 

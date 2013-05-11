@@ -1,7 +1,5 @@
 #include "AirTraffic.h"
 
-//#include "stdlib.h"
-
 using namespace Arsenal;
 
 bool insideGUI; //toggle gui menu
@@ -10,7 +8,6 @@ CEGUI::Window* window;
 // Forward declarations
 static void physicsTickCallback(btDynamicsWorld *world, btScalar timeStep);
 
-//-------------------------------------------------------------------------------------
 AirTraffic::AirTraffic(void)
 {
 	// Initialize bullet
@@ -37,7 +34,7 @@ AirTraffic::AirTraffic(void)
 	mScore = 0;
 	mPlane = NULL;
 }
-//-------------------------------------------------------------------------------------
+
 AirTraffic::~AirTraffic(void)
 {
 	for (std::list<Arsenal::Entity*>::iterator iter = entities.begin();
@@ -53,7 +50,6 @@ AirTraffic::~AirTraffic(void)
 	delete mCollisionConfig; 
 }
 
-//-------------------------------------------------------------------------------------
 void AirTraffic::createScene(void)
 {
 	const char * file = (MUS_PLASMA);
@@ -397,9 +393,8 @@ void AirTraffic::deleteEntities() {
 
 void AirTraffic::pauseGame() {
 	gamePaused = true;
-	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5f,0.5f,0.5f)); 
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5f,0.5f,0.5f));
 	ground->setmat("Examples/GroundStill");
-	
 }
 
 void AirTraffic::unpauseGame() {
