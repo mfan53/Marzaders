@@ -39,3 +39,7 @@ Wall::~Wall() {
 	
 }
 
+void Wall::setmat(std::string str) {
+	mRender->setMaterialName(str);
+}
+

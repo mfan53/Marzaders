@@ -4,8 +4,13 @@
 #include "../Entity.h"
 
 namespace Arsenal {
+	enum movementType {
+		FORWARD = 1,
+		SHIFTER = 2
+	};
 	class MoveBehaviour {
 	public:
+		movementType type;
 		virtual void update(float delta, Entity *e) = 0;
 	};
 }

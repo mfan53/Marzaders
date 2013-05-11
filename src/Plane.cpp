@@ -48,16 +48,16 @@ void Plane::update(float delta) {
 	float x = 0;
 	float yLowerBound = mRender->getBoundingBox().getMinimum().y;
 	if (mMoveUp) {
-		y += 50.0f;
+		y += mSpeed;
 	}
 	if (mMoveDown && this->getY() + yLowerBound > Globals::floorY) {
-		y -= 50.0f;
+		y -= mSpeed;
 	}
 	if (mMoveLeft) {
-		x -= 50.0f;
+		x -= mSpeed;
 	}
 	if (mMoveRight) {
-		x += 50.0f;
+		x += mSpeed;
 	}
 	mBody->setLinearVelocity(btVector3(x, y, 0.0f));
 	Entity::update(delta);
@@ -115,7 +115,7 @@ void Plane::shoot(int& bulletNumber, std::list<Arsenal::Entity*> * entities) {
 	string name;
 	shootSound->play(0);
 
-	if (bulletNumber >= 9999) bulletNumber = 0;
+	if (bulletNumber >= 999) bulletNumber = 1;
 
 	switch (shot_type) {
 

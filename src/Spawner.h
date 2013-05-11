@@ -4,12 +4,12 @@
 #include <vector>
 #include "Entity.h"
 #include "Timer.h"
+#include "behaviour/SideToSideMoveBehaviour.h"
+#include "behaviour/ForwardMoveBehaviour.h"
+#include "behaviour/MoveBehaviour.h"
+#include "Enemy.h"
 
 namespace Arsenal {
-	enum movementType {
-		FORWARD = 1,
-		SHIFTER = 2
-	};
 	class Spawner {
 	public:
 		Spawner();
@@ -31,10 +31,11 @@ namespace Arsenal {
 		btDiscreteDynamicsWorld* m_dynamics;
 		// Pointer to list of entities that the Spawner will add entites to
 		std::list<Arsenal::Entity*>* m_list;
+		// Pointer to the bulletNumber
 
 		static const float gridStartX = -100.0f;
 		static const float gridStartY = -50.0f;
-		movementType currentMovement;
+		Arsenal::movementType currentMovement;
 		float zSpeed;
 
 		/*

@@ -33,6 +33,7 @@ namespace Arsenal {
 
 		virtual void damage(unsigned int damage) { mDamage += damage; };
 
+
 		int getId() const { return mID; }
 		std::string getIDStr() const;
 		float getX() const;
@@ -49,11 +50,14 @@ namespace Arsenal {
 		unsigned int getAttack() const { return mAttack; };
 		float getStartX() {return mStartX;}
 		bool isDead() const { return mHP == 0 ? false : mDamage >= mHP; };
+		bool isEnemy() {return enemy;}
 
 		void setPos(float x, float y, float z);
 		void setVel(float vx, float vy, float vz);
 
 	protected:
+		bool enemy;
+
 		// The starting position of the Entity
 		float mStartX;
 

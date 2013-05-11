@@ -31,6 +31,7 @@ AirTraffic::AirTraffic(void)
 	bulletNumber = 1;
 	gamePaused = true;
 	insideIPMenu = false;
+	mTimer = Arsenal::Timer(3,2);
 }
 //-------------------------------------------------------------------------------------
 AirTraffic::~AirTraffic(void)
@@ -58,16 +59,6 @@ void AirTraffic::createScene(void)
 	mSceneMgr->setSkyBox(true,"Examples/EveningSkyBox");
 	//mSceneMgr->showBoundingBoxes(true);
 
-	//plane entity
-	mPlane = new Arsenal::Plane(mSceneMgr,mWorld,"plane",mCamera);
-	entities.push_back(mPlane);
-
-	//space sky plane
-	entities.push_back(new Arsenal::Wall(mSceneMgr,mWorld,0,-100,0,"Examples/Ground","back wall"));
-
-	// Spawn Boxes
-	spawnBoxes();
-
 	//load cegui stuff
 	mRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
 	CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
@@ -83,6 +74,20 @@ void AirTraffic::createScene(void)
 	//create the in game gui
 	ingui = new Arsenal::InGUI();
 	ingui->create();
+}
+
+void AirTraffic::createEntities() {
+	//plane entity
+	mPlane = new Arsenal::Plane(mSceneMgr,mWorld,"plane",mCamera);
+	entities.push_back(mPlane);
+
+	//land entity
+	ground = new Arsenal::Wall(mSceneMgr,mWorld,0,-100,0,"Examples/GroundScroll","ground");
+	ground->setmat("Examples/GroundScroll");
+	entities.push_back(ground);
+
+	// Spawn Boxes
+	spawnBoxes(); 
 
 	// Create the spawner
 	mSpawner = Spawner(mSceneMgr, mWorld, &entities);
@@ -121,11 +126,25 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 		++iter;
 	}
 
+	if(mTimer.check(delta)) {
+		enemiesShoot();
+	}
+	
 	// Update camera position
 	mCamera->setPosition(Ogre::Vector3(mPlane->getX(), mPlane->getY()+20, 95));
 	mCamera->lookAt(Ogre::Vector3(mPlane->getX(), mPlane->getY(),-500));
 
 	return true;
+}
+
+void AirTraffic::enemiesShoot() {
+	list<Arsenal::Entity*>::iterator iter = entities.begin();
+	while (iter != entities.end()) {
+		if ((*iter)->isEnemy()) {
+			((Enemy*)(*iter))->shoot(bulletNumber, &entities);
+		}
+		++iter;
+	}
 }
 
 static void physicsTickCallback(btDynamicsWorld *world, btScalar timeStep) {
@@ -196,6 +215,9 @@ bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 		//shootSound->play(0);
 		mPlane->shoot(bulletNumber, &entities);
 	}
+	else if (arg.key == OIS::KC_ESCAPE) {
+		mShutDown = true;
+	}
 	else if (arg.key == OIS::KC_P) {
 		if (!insideGUI) {
 			ingui->launch();
@@ -249,6 +271,8 @@ void AirTraffic::startGame() {
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0f,1.0f,1.0f));
 	gamePaused = false;
 	mSoundManager->createSound(SND_WELCOME)->play(0);
+	//create the entities
+	createEntities();
 }
 
 void AirTraffic::quitGame() {
@@ -270,37 +294,30 @@ void AirTraffic::hideIngame() {
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0f,1.0f,1.0f));
 	insideGUI = false;
 	gamePaused = false;
+	ground->setmat("Examples/GroundScroll");
 }
 
 void AirTraffic::reset() {
-	//reset plane
-	mPlane->reset();
-	//clean up all plasmas
-	deletePlasmas();
-	//respawn boxes
-	spawnBoxes();
-
+	deleteEntities();
+	
 	maingui->show();
 	insideGUI = false;
 	pauseGame();
 }
 
-void AirTraffic::deletePlasmas() {
-	/*list<Arsenal::Entity*>::iterator it = entities.begin();
+void AirTraffic::deleteEntities() {
+	list<Arsenal::Entity*>::iterator it = entities.begin();
 	while (it != entities.end()) {
-		if (((Arsenal::Plasma *)*it)->getID().compare("plasma")) {
-			delete *it;
-			entities.erase(it++);
-		}
-		++it;
-	}*/
-	printf("implement deleting plasmas \n");
+		delete *it;
+		entities.erase(it++);
+	}	
 }
 
 void AirTraffic::pauseGame() {
 	gamePaused = true;
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5f,0.5f,0.5f));
 	//pause plasma 
+	ground->setmat("Examples/GroundStill");
 	
 }
 
@@ -308,6 +325,7 @@ void AirTraffic::unpauseGame() {
 	gamePaused = false;
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0f,1.0f,1.0f));
 	//unpause plasma 
+	ground->setmat("Examples/GroundScroll");
 }
 
 void AirTraffic::inIP() {

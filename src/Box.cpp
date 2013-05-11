@@ -18,8 +18,11 @@ Box::Box(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 	mNode->attachObject(mRender);
 	mNode->setScale(SIZE/100.0f,SIZE/100.0f,0.1f);
 	mRender->setCastShadows(true);
+	mRender->setMaterialName("TransWhite");
 
 	setPos(xPos,yPos,Z_POS);
+	enemy = false;
+
 }
 
 Box::~Box() {
@@ -44,7 +47,11 @@ void Box::damage(unsigned int damage) {
 	mNode->attachObject(mRender);
 	mNode->setScale(SIZE*ratio/100.0f,SIZE*ratio/100.0f,0.1f);
 	mRender->setCastShadows(true);
+	mRender->setMaterialName("TransWhite");
+
 	
 	destroyPhysics();
+
 	initPhysics(mDynamics, btVector3(SIZE*ratio/2,SIZE*ratio/2,SIZE*ratio/4),10,xPos,yPos,Z_POS);
+	setPos(xPos,yPos,Z_POS);
 }

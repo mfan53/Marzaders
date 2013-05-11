@@ -37,6 +37,7 @@ namespace Arsenal {
 		const static float xcoord = 0.0;
 		const static float ycoord = 0.0;
 		const static float zcoord = 0.0;
+		const static float mSpeed = 90.0;
 
 		Sound * shootSound;
 

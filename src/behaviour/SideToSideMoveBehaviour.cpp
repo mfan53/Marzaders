@@ -10,6 +10,7 @@ SideToSideMoveBehaviour::SideToSideMoveBehaviour(float zSpeed, float xSpeed, flo
 	mBound = bound;
 	mCalibrated = false;
 	direction = (xSpeed < 0) ? 0 : 1;
+	type = SHIFTER;
 }
 
 SideToSideMoveBehaviour::~SideToSideMoveBehaviour() {

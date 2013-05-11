@@ -1,7 +1,4 @@
 #include "Spawner.h"
-#include "behaviour/SideToSideMoveBehaviour.h"
-#include "behaviour/ForwardMoveBehaviour.h"
-#include "Enemy.h"
 #include <iostream>
 
 using namespace std;
@@ -9,7 +6,6 @@ using namespace Arsenal;
 
 Spawner::Spawner()
 {
-
 }
 
 Spawner::Spawner(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
@@ -21,6 +17,7 @@ Spawner::Spawner(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 	m_timer = Arsenal::Timer(10,10);
 	currentMovement = FORWARD;
 	zSpeed = 25.0f;
+	m_list = entities;
 }
 
 Spawner::~Spawner()
@@ -31,10 +28,6 @@ Spawner::~Spawner()
 void Spawner::update(float delta)
 {
 	if(m_timer.check(delta)) {
-		// Arsenal::Enemy* enemy = new Arsenal::Enemy(m_scene, m_dynamics, 
-		// 		new Arsenal::SideToSideMoveBehaviour(100.0f, 50.0f, 50.0f),
-		// 		0, 0, Z_POS);
-		// m_list->push_back(enemy);
 		spawnEnemyGrid(5, 5, 50.0f, 50.0f);
 	}
 }

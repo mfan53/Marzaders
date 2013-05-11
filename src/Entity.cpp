@@ -1,6 +1,7 @@
 #include "Entity.h"
 #include <iostream>
 
+using namespace std;
 using namespace Arsenal;
 
 Entity::Entity() {
@@ -9,6 +10,7 @@ Entity::Entity() {
 	mHP = 0;
 	mDamage = 0;
 	mAttack = 0;
+	enemy = false;
 }
 
 Entity::Entity(Ogre::SceneManager* scene, unsigned int hp, unsigned int attack) {
@@ -18,6 +20,7 @@ Entity::Entity(Ogre::SceneManager* scene, unsigned int hp, unsigned int attack) 
 	mHP = hp;
 	mDamage = 0;
 	mAttack = attack;
+	enemy = false;
 }
 
 Entity::Entity(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
@@ -36,6 +39,7 @@ Entity::~Entity() {
 	destroyScene();
 	destroyPhysics();
 }
+
 
 void Entity::destroyScene() {
 	if(mScene) {
@@ -155,3 +159,5 @@ void Entity::setPos(float x, float y, float z) {
 void Entity::setVel(float xv, float yv, float zv) {
 	mBody->setLinearVelocity(btVector3(xv,yv,zv));
 }
+
+
