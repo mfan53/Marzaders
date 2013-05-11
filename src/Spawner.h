@@ -4,6 +4,10 @@
 #include <vector>
 #include "Entity.h"
 #include "Timer.h"
+#include "behaviour/SideToSideMoveBehaviour.h"
+#include "behaviour/ForwardMoveBehaviour.h"
+#include "behaviour/MoveBehaviour.h"
+#include "Enemy.h"
 
 namespace Arsenal {
 	class Spawner {
@@ -15,7 +19,7 @@ namespace Arsenal {
 
 		void update(float delta);
 
-		static const float Z_POS = -2000; // Default z spawning position
+		static const float Z_POS = -1000; // Default z spawning position
 
 	private:
 		// The timer the spawner uses to decide when to spawn the next wave
@@ -27,6 +31,19 @@ namespace Arsenal {
 		btDiscreteDynamicsWorld* m_dynamics;
 		// Pointer to list of entities that the Spawner will add entites to
 		std::list<Arsenal::Entity*>* m_list;
+		// Pointer to the bulletNumber
+
+		static const float gridStartX = -100.0f;
+		static const float gridStartY = -50.0f;
+		Arsenal::movementType currentMovement;
+		float zSpeed;
+
+		/*
+		 * Spawns a grid of enemies.
+		 * rowSpacing: horizontal spacing between enemies.
+		 * colSpacing: vertical " ".
+		*/
+		void spawnEnemyGrid(int numRows, int numCols, float rowSpacing, float colSpacing);
 	};
 }
 

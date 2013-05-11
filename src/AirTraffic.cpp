@@ -32,6 +32,7 @@ AirTraffic::AirTraffic(void)
 	bulletNumber = 1;
 	gamePaused = true;
 	insideIPMenu = false;
+	mTimer = Arsenal::Timer(4);
 
 	mScore = 0;
 	mPlane = NULL;
@@ -161,6 +162,7 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 	while (iter != entities.end()) {
    		(*iter)->update(delta);
 		if ((*iter)->isDead()) {
+			//cout << "\ndeleting shit\n" << endl;
 			// printf("deleting %s; %d dmg / %d hp\n",
 			// 		(*iter)->getRender()->getName().c_str(),
 			// 		(*iter)->getDamage(), (*iter)->getHP());
@@ -173,6 +175,10 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 		++iter;
 	}
 
+	if(mTimer.check(delta)) {
+		enemiesShoot();
+	}
+	
 	// Update camera position
 
 	if(mPlane != NULL) {
@@ -181,6 +187,16 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 	}
 
 	return true;
+}
+
+void AirTraffic::enemiesShoot() {
+	list<Arsenal::Entity*>::iterator iter = entities.begin();
+	while (iter != entities.end()) {
+		if ((*iter)->isEnemy()) {
+			((Enemy*)(*iter))->shoot(bulletNumber, &entities);
+		}
+		++iter;
+	}
 }
 
 static void physicsTickCallback(btDynamicsWorld *world, btScalar timeStep) {
@@ -299,7 +315,7 @@ bool AirTraffic::keyReleased(const OIS::KeyEvent &arg) {
 void AirTraffic::spawnBoxes() {
 	// Spawn Boxes
 	for(float x = -100; x <= 100; x += 50) {
-		for(float y = -100; y <= 100; y+= 50) {
+		for(float y = -50; y <= 150; y+= 50) {
 			Arsenal::Box* mBox = new Arsenal::Box(mSceneMgr,mWorld,x,y);
 			boxes.push_back(mBox);
 			entities.push_back(mBox);

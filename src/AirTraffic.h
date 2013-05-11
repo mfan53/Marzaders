@@ -27,6 +27,7 @@
 #include "net/Host.h"
 #include "net/Socket.h"
 #include "sound/SoundManager.h"
+#include "Timer.h"
 
 class AirTraffic : public BaseApplication
 {
@@ -64,6 +65,7 @@ protected:
 	void spawnBoxes();
 	void createEntities();
 	void deleteEntities();
+	void enemiesShoot();
 
 	Arsenal::Spawner mSpawner;
 	std::list<Arsenal::Entity*> entities;
@@ -71,6 +73,7 @@ protected:
 	Arsenal::Plane *mPlane;
 	Arsenal::Wall *ground;
 	int bulletNumber;
+	Arsenal::Timer mTimer;
 	
 	btDefaultCollisionConfiguration* mCollisionConfig;
 	btCollisionDispatcher* mDispatcher;

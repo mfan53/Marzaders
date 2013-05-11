@@ -51,7 +51,11 @@ namespace Arsenal {
 		unsigned int getAttack() const { return mAttack; };
 		float getStartX() {return mStartX;}
 		bool isDead() const { return mHP == 0 ? false : mDamage >= mHP; };
+<<<<<<< HEAD
 		int getCurrentHP();
+=======
+		bool isEnemy() {return enemy;}
+>>>>>>> a7a483c5252e8b1e3005f7a75f73eae2191a1010
 
 		void setPos(float x, float y, float z);
 		void setVel(float vx, float vy, float vz);
@@ -66,6 +70,8 @@ namespace Arsenal {
 		};
 
 	protected:
+		bool enemy;
+
 		// The starting position of the Entity
 		float mStartX;
 

@@ -4,28 +4,35 @@ using namespace Arsenal;
 using namespace std;
 
 Plasma::Plasma(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* dynamicsWorld,
-				std::string name, const coord3f startPos, const coord3f startVelocity) {
+				std::string name, const coord3f startPos, const coord3f startVelocity, bool isEnemyShot) {
 	// OGRE
 	mScene = mSceneMgr;
 	mRender = mSceneMgr->createEntity(name,Ogre::SceneManager::PT_SPHERE);
 	mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	mNode->attachObject(mRender);
 	mRender->setCastShadows(true);
-	mRender->setMaterialName("Examples/SphereMappedDroplet");
-	float scaleFactor = 0.04f;
+	if (isEnemyShot) {
+		mRender->setMaterialName("Color/Red");
+		scaleFactor = 0.03f;
+	} else {
+		mRender->setMaterialName("Examples/SphereMappedDroplet");
+		scaleFactor = 0.04f;
+	}
+	
 	mNode->scale(scaleFactor, scaleFactor, scaleFactor * 10);
 	Ogre::Vector3 boundingBoxMaxCorner = scaleFactor * mRender->getBoundingBox().getMaximum();
-
 	// Bullet
+
+	int coll = isEnemyShot ? COL_BULLET : COL_PLASMA;
+	int collW = isEnemyShot ? COL_PLASMA | COL_SHIP | COL_BOX : COL_BULLET | COL_ENEMY;
 	initPhysics(dynamicsWorld,
 		btVector3(boundingBoxMaxCorner.x, boundingBoxMaxCorner.y, boundingBoxMaxCorner.z),
-		COL_PLASMA, COL_BULLET | COL_ENEMY,10, startPos.x, startPos.y, startPos.z);
+		coll, collW,10, startPos.x, startPos.y, startPos.z);
 
 	mBody->setRestitution(1);
 	mBody->setActivationState(DISABLE_DEACTIVATION);
 	mBody->setLinearFactor(btVector3(0, 0, 1)); // only allow movement on z axis
 	//mBody->setAngularFactor(btVector3(0,0,0)); // Allow no rotations
-
 	velocity = coord3f(startVelocity);
 	sceneMgr = mSceneMgr;
 	paused = false;

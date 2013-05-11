@@ -4,6 +4,7 @@ using namespace Arsenal;
 
 ForwardMoveBehaviour::ForwardMoveBehaviour(float zSpeed) {
 	mSpeed = zSpeed;
+	type = FORWARD;
 }
 
 ForwardMoveBehaviour::~ForwardMoveBehaviour() {

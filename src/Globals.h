@@ -7,6 +7,7 @@
 #include "sound/SoundManager.h"
 #include "ScoreManager.h"
 #include "AirTraffic.h"
+#include <string.h>
 
 namespace Arsenal {
 	class Globals {
@@ -16,6 +17,7 @@ namespace Arsenal {
 			static const float floorY = -100.0f;
 			static std::string mHostIP;
 			static SoundManager* gSoundManager;
+			static int bulletNumber;
 	};
 }
 
