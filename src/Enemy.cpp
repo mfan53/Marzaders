@@ -26,10 +26,10 @@ Enemy::Enemy(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,MoveBe
 	setColor();
 	enemy = true;
 
-	std::string smokeID = "Smoke-" + getIDStr();
-	smoke = scene->createParticleSystem(smokeID,"Examples/Smoke");
-	mNode->attachObject(smoke);
-	smoke->setVisible(false);
+	//std::string smokeID = "Smoke-" + getIDStr();
+	//smoke = scene->createParticleSystem(smokeID,"Examples/Smoke");
+	//mNode->attachObject(smoke);
+	//smoke->setVisible(false);
 }
 
 Enemy::~Enemy() {

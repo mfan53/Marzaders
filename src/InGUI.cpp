@@ -18,6 +18,7 @@ void InGUI::create() {
 	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
 	window = wmgr.createWindow("DefaultWindow","InGameSheet");
 	window->setPosition(CEGUI::UVector2(CEGUI::UDim(xwindow,0),CEGUI::UDim(ywindow,0)));
+	window->setSize(CEGUI::UVector2(CEGUI::UDim(1,0),CEGUI::UDim(1,0)));
 
 	//resume game button
 	CEGUI::Window *resume = wmgr.createWindow("TaharezLook/Button","CEGUI/ResumeButton");
