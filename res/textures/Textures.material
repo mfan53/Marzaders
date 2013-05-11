@@ -138,13 +138,8 @@ material Examples/GroundStill
 
 			texture_unit
 			{
-<<<<<<< HEAD
-				texture land.jpg
-				scale 0.1 0.1
-=======
 				texture fireland.jpg
 				scale 0.05 0.05
->>>>>>> a7a483c5252e8b1e3005f7a75f73eae2191a1010
 			}
 		}
 	}
