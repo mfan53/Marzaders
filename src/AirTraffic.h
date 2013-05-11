@@ -50,6 +50,12 @@ public:
 	bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 	bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
+	unsigned int getScore() { return mScore; };
+	unsigned int increaseScore(unsigned int points)
+		{ mScore += points; return mScore; };
+	unsigned int decreaseScore(unsigned int points)
+		{ mScore = points > mScore ? 0 : mScore - points; return mScore; };
+
 protected:
    	virtual void createScene(void);
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
@@ -81,6 +87,10 @@ protected:
 	Arsenal::MainGUI* maingui;
 	bool gamePaused;
 	bool insideIPMenu;
+
+private:
+	unsigned int mScore;
+
 };
 
 #endif // #ifndef _AIRTRAFFIC_h

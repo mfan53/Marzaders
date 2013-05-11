@@ -108,9 +108,11 @@ void BaseApplication::createFrameListener(void)
 	mTrayMgr->hideCursor();
 	//mTrayMgr->showLogo(OgreBites::TL_BOTTOMRIGHT);
 
-	//create the gui for the game
-	//sound buttons
+	
 	Ogre::FontManager::getSingleton().getByName("SdkTrays/Caption")->load();
+
+	OgreBites::Label* hp = mTrayMgr->createLabel(OgreBites::TL_BOTTOM,"hp","HP: 0",100);
+	OgreBites::Label* score = mTrayMgr->createLabel(OgreBites::TL_BOTTOM,"score","Score: 0",100);
 	
 	// create a params panel for displaying sample details
 	Ogre::StringVector items;

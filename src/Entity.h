@@ -22,8 +22,9 @@ namespace Arsenal {
 		Entity();
 		Entity(Ogre::SceneManager* scene, unsigned int hp, unsigned int attack);
 		Entity(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
-				btVector3 hitbox, unsigned int hp, unsigned int attack,
-				btScalar mass=10, float xPos=0, float yPos=0, float zPos=0);
+				btVector3 hitbox, int collide, int collidesWith, unsigned int hp,
+				unsigned int attack, btScalar mass=10, float xPos=0,
+				float yPos=0, float zPos=0);
 		virtual ~Entity();
 
 		void destroyScene();
@@ -54,6 +55,15 @@ namespace Arsenal {
 
 		void setPos(float x, float y, float z);
 		void setVel(float vx, float vy, float vz);
+
+		enum collisiontypes {
+			COL_NOTHING = 0,   // Collide with nothing
+			COL_BOX = 1,       // Collide with ship
+			COL_SHIP = 1<<1,   // Collide with boxes
+			COL_ENEMY = 1<<2,  // Collide with enemies
+			COL_PLASMA = 1<<3, // Collide with player bullets
+			COL_BULLET = 1<<4, // Collide with enemy bullets
+		};
 
 	protected:
 		bool enemy;
@@ -89,7 +99,8 @@ namespace Arsenal {
 		btDefaultMotionState* mMotion;
 
 		void initPhysics(btDiscreteDynamicsWorld* world, btVector3 hitbox,
-				btScalar mass=10, float xPos=0, float yPos=0, float zPos=0);
+				int collide, int collidesWith, btScalar mass=10, float xPos=0,
+				float yPos=0, float zPos=0);
 
 	private:
 		// True if physics has been initialized

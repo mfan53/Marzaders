@@ -5,6 +5,7 @@
 #include "behaviour/MoveBehaviour.h"
 #include "Plasma.h"
 #include <string.h>
+#include <cmath>
 
 namespace Arsenal {
 	class Enemy : public Entity {

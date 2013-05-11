@@ -23,9 +23,11 @@ Plasma::Plasma(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* dynamicsW
 	Ogre::Vector3 boundingBoxMaxCorner = scaleFactor * mRender->getBoundingBox().getMaximum();
 	// Bullet
 
+	int coll = isEnemyShot ? COL_BULLET : COL_PLASMA;
+	int collW = isEnemyShot ? COL_PLASMA | COL_SHIP | COL_BOX : COL_BULLET | COL_ENEMY;
 	initPhysics(dynamicsWorld,
 		btVector3(boundingBoxMaxCorner.x, boundingBoxMaxCorner.y, boundingBoxMaxCorner.z),
-		10, startPos.x, startPos.y, startPos.z);
+		coll, collW,10, startPos.x, startPos.y, startPos.z);
 
 	mBody->setRestitution(1);
 	mBody->setActivationState(DISABLE_DEACTIVATION);

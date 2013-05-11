@@ -4,7 +4,8 @@ using namespace Arsenal;
 
 Box::Box(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 			float xPos, float yPos)
-		: Entity(scene, dynamics, btVector3(SIZE/2,SIZE/2,SIZE/4), HP, ATK) {
+		: Entity(scene, dynamics, btVector3(SIZE/2,SIZE/2,SIZE/4), COL_BOX,
+			COL_BULLET | COL_ENEMY, HP, ATK, 10, xPos, yPos, Z_POS) {
 	// Modify bullet behaviour
 	mBody->setActivationState(DISABLE_DEACTIVATION);
 	mBody->setLinearFactor(btVector3(0,0,0)); // Allow no movement
@@ -20,7 +21,6 @@ Box::Box(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 	mRender->setCastShadows(true);
 	mRender->setMaterialName("TransWhite");
 
-	setPos(xPos,yPos,Z_POS);
 	enemy = false;
 
 }
@@ -48,10 +48,8 @@ void Box::damage(unsigned int damage) {
 	mNode->setScale(SIZE*ratio/100.0f,SIZE*ratio/100.0f,0.1f);
 	mRender->setCastShadows(true);
 	mRender->setMaterialName("TransWhite");
-
 	
 	destroyPhysics();
-
-	initPhysics(mDynamics, btVector3(SIZE*ratio/2,SIZE*ratio/2,SIZE*ratio/4),10,xPos,yPos,Z_POS);
-	setPos(xPos,yPos,Z_POS);
+	initPhysics(mDynamics, btVector3(SIZE*ratio/2,SIZE*ratio/2,SIZE*ratio/4),
+			COL_BOX, COL_BULLET | COL_ENEMY, 10, xPos, yPos, Z_POS);
 }

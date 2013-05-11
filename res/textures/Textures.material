@@ -119,8 +119,9 @@ material Examples/GroundScroll
 
 			texture_unit
 			{
-				texture land.jpg
+				texture fireland.jpg
 				scroll_anim 0.15 0
+				scale 0.05 0.05
 			}
 		}
 	}
@@ -137,7 +138,8 @@ material Examples/GroundStill
 
 			texture_unit
 			{
-				texture land.jpg
+				texture fireland.jpg
+				scale 0.05 0.05
 			}
 		}
 	}

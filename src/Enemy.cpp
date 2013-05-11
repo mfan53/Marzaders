@@ -4,9 +4,11 @@
 using namespace Arsenal;
 using namespace std;
 
-Enemy::Enemy(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
-			MoveBehaviour* behaviour, float xPos, float yPos, float zPos, unsigned int hp, unsigned int atk) : 
-			Entity(scene, dynamics, btVector3(15.3,15.3,15.3), hp, atk, 10, xPos, yPos, zPos), mBehaviour(behaviour) {
+Enemy::Enemy(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,MoveBehaviour* behaviour,
+		float xPos, float yPos, float zPos, unsigned int hp, unsigned int atk)
+		: Entity(scene, dynamics, btVector3(15.3,15.3,15.3), COL_ENEMY,
+			COL_BOX | COL_SHIP | COL_PLASMA, hp, atk, 10, xPos, yPos, zPos),
+			mBehaviour(behaviour) {
 	// Convert the ID into a string
 	std::string idString = "ENEMY-"+getIDStr();
 
@@ -36,25 +38,6 @@ float Enemy::getWidth() {
 }
 
 void Enemy::setColor() {
-	// switch(color) {
-	// 	case 1:
-	// 		mRender->setMaterialName("Color/Red");
-	// 		break;
-	// 	case 2:
-	// 		mRender->setMaterialName("Color/Blue");
-	// 		break;
-	// 	case 3:
-	// 		mRender->setMaterialName("Color/Green");
-	// 		break;
-	// 	case 4:
-	// 		mRender->setMaterialName("Color/Yellow");
-	// 		break;
-	// 	case 5:
-	// 		mRender->setMaterialName("Color/Black");
-	// 		break;
-	// 	default:
-	// 		break;
-	// }
 	switch (mBehaviour->type) {
 		case SHIFTER :
 			mRender->setMaterialName("Enemy/Water");
