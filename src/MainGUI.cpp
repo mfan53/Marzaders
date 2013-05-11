@@ -24,25 +24,25 @@ void MainGUI::launch() {
 
 	//single player button
 	CEGUI::Window *single = wmgr.createWindow("TaharezLook/Button","CEGUI/SinglePlayer");
-	single->setText("Single Player");
+	single->setText("Start Game");
 	single->setSize(CEGUI::UVector2(CEGUI::UDim(button_xsize_main,0),CEGUI::UDim(button_ysize_main,0)));
 	single->setPosition(CEGUI::UVector2(CEGUI::UDim(button_xpos_main,0),CEGUI::UDim(button_ypos_main + (0 * yspread),0)));
 	window->addChildWindow(single);
 	single->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainGUI::start, this));
 
 	//multi player button
-	CEGUI::Window *multi = wmgr.createWindow("TaharezLook/Button","CEGUI/MultiPlayer");
+	/*CEGUI::Window *multi = wmgr.createWindow("TaharezLook/Button","CEGUI/MultiPlayer");
 	multi->setText("Multi Player");
 	multi->setSize(CEGUI::UVector2(CEGUI::UDim(button_xsize_main,0),CEGUI::UDim(button_ysize_main,0)));
 	multi->setPosition(CEGUI::UVector2(CEGUI::UDim(button_xpos_main,0),CEGUI::UDim(button_ypos_main + (1 * yspread),0)));
 	window->addChildWindow(multi);
-	multi->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainGUI::multi, this));
+	multi->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainGUI::multi, this));*/
 
 	//sound toggle button
 	CEGUI::Window *sound= wmgr.createWindow("TaharezLook/Button","CEGUI/SoundToggleBtMain");
 	sound->setText("Sound Toggle");
 	sound->setSize(CEGUI::UVector2(CEGUI::UDim(button_xsize_main, 0), CEGUI::UDim(button_ysize_main, 0)));
-	sound->setPosition(CEGUI::UVector2(CEGUI::UDim(button_xpos_main,0),CEGUI::UDim(button_ypos_main + (2 * yspread),0)));
+	sound->setPosition(CEGUI::UVector2(CEGUI::UDim(button_xpos_main,0),CEGUI::UDim(button_ypos_main + (1 * yspread),0)));
 	window->addChildWindow(sound);
 	sound->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainGUI::soundToggle, this));
 
@@ -50,7 +50,7 @@ void MainGUI::launch() {
 	CEGUI::Window *quitMain = wmgr.createWindow("TaharezLook/Button","CEGUI/QuitButtonMain");
 	quitMain->setText("Quit Game");
 	quitMain->setSize(CEGUI::UVector2(CEGUI::UDim(button_xsize_main,0),CEGUI::UDim(button_ysize_main,0)));
-	quitMain->setPosition(CEGUI::UVector2(CEGUI::UDim(button_xpos_main,0),CEGUI::UDim(button_ypos_main + (3 * yspread),0)));
+	quitMain->setPosition(CEGUI::UVector2(CEGUI::UDim(button_xpos_main,0),CEGUI::UDim(button_ypos_main + (2 * yspread),0)));
 	window->addChildWindow(quitMain);
 	quitMain->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainGUI::quit, this));
 

@@ -138,6 +138,7 @@ material Examples/GroundStill
 			texture_unit
 			{
 				texture land.jpg
+				scale 0.1 0.1
 			}
 		}
 	}

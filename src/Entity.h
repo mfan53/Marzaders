@@ -51,6 +51,7 @@ namespace Arsenal {
 		unsigned int getAttack() const { return mAttack; };
 		float getStartX() {return mStartX;}
 		bool isDead() const { return mHP == 0 ? false : mDamage >= mHP; };
+		int getCurrentHP();
 
 		void setPos(float x, float y, float z);
 		void setVel(float vx, float vy, float vz);

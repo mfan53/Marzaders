@@ -111,8 +111,8 @@ void BaseApplication::createFrameListener(void)
 	
 	Ogre::FontManager::getSingleton().getByName("SdkTrays/Caption")->load();
 
-	OgreBites::Label* hp = mTrayMgr->createLabel(OgreBites::TL_BOTTOM,"hp","HP: 0",100);
-	OgreBites::Label* score = mTrayMgr->createLabel(OgreBites::TL_BOTTOM,"score","Score: 0",100);
+	OgreBites::Label* hp = mTrayMgr->createLabel(OgreBites::TL_BOTTOM,"hp","HP remaining: 3",175);
+	OgreBites::Label* score = mTrayMgr->createLabel(OgreBites::TL_BOTTOM,"score","Score: 0",175);
 	
 	// create a params panel for displaying sample details
 	Ogre::StringVector items;

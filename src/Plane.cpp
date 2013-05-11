@@ -32,8 +32,8 @@ Plane::Plane(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* world,
 	mMoveLeft = false;
 	mMoveRight = false;
 
-	mHP = 2;
-	mAttack = 0;
+	mHP = 1;
+	mAttack = 1;
 	mDamage = 0;
 
 	shootSound = SoundManager::getSoundManager()->createSound(SND_BULLET);
