@@ -21,7 +21,7 @@ Plane::Plane(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* world,
 	mNode->yaw(Ogre::Radian(M_PI));
 
 	// Setup bullet
-	initPhysics(world, btVector3(bounds,bounds,bounds));
+	initPhysics(world, btVector3(bounds,bounds,bounds), COL_SHIP, COL_ENEMY | COL_BULLET);
 	mBody->setActivationState(DISABLE_DEACTIVATION);
 	mBody->setRestitution(1);
 	mBody->setLinearFactor(btVector3(1,1,0)); // only allow movement on x,y axis
@@ -32,7 +32,7 @@ Plane::Plane(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* world,
 	mMoveLeft = false;
 	mMoveRight = false;
 
-	mHP = 0;
+	mHP = 2;
 	mAttack = 0;
 	mDamage = 0;
 
@@ -68,6 +68,9 @@ void Plane::update(float delta) {
 	if (mMoveRight) {
 		x += 50.0f;
 	}
+	x = (getX() < -100 && x < 0) || (getX() > 100 && x > 0) ? 0 : x;
+	y = (getY() < -100 && y < 0) || (getY() > 100 && y > 0) ? 0 : y;
+
 	mBody->setLinearVelocity(btVector3(x, y, 0.0f));
 	Entity::update(delta);
 }
