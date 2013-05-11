@@ -53,8 +53,7 @@ public:
 	bool exitGame(const CEGUI::EventArgs &e);
 
 	unsigned int getScore() { return mScore; };
-	unsigned int increaseScore(unsigned int points)
-		{ mScore += points; return mScore; };
+	unsigned int increaseScore(unsigned int points);
 	unsigned int decreaseScore(unsigned int points)
 		{ mScore = points > mScore ? 0 : mScore - points; return mScore; };
 

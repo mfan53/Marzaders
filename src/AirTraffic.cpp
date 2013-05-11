@@ -1,7 +1,5 @@
 #include "AirTraffic.h"
 
-//#include "stdlib.h"
-
 using namespace Arsenal;
 
 bool insideGUI; //toggle gui menu
@@ -10,7 +8,6 @@ CEGUI::Window* window;
 // Forward declarations
 static void physicsTickCallback(btDynamicsWorld *world, btScalar timeStep);
 
-//-------------------------------------------------------------------------------------
 AirTraffic::AirTraffic(void)
 {
 	// Initialize bullet
@@ -37,7 +34,7 @@ AirTraffic::AirTraffic(void)
 	mScore = 0;
 	mPlane = NULL;
 }
-//-------------------------------------------------------------------------------------
+
 AirTraffic::~AirTraffic(void)
 {
 	for (std::list<Arsenal::Entity*>::iterator iter = entities.begin();
@@ -53,7 +50,6 @@ AirTraffic::~AirTraffic(void)
 	delete mCollisionConfig; 
 }
 
-//-------------------------------------------------------------------------------------
 void AirTraffic::createScene(void)
 {
 	const char * file = (MUS_PLASMA);
@@ -119,9 +115,6 @@ void AirTraffic::createEntities() {
 
 	// Create the spawner
 	mSpawner = Spawner(mSceneMgr, mWorld, &entities);
-
-	cout << "\nshoot rate " << Enemy::getShootProb() << "\n" << endl;
-
 }
 
 bool isDead (const Arsenal::Entity* value) { return value->isDead(); }
@@ -155,7 +148,7 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 	float delta = evt.timeSinceLastFrame;
 	
 	if(mPlane!=NULL && mScoreTimer.check(delta)) {
-		mScore++;
+		increaseScore(1);
 	}
 	
 	// Shoot Bullets
@@ -185,11 +178,6 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 	if(mPlane != NULL) {
 		mCamera->setPosition(Ogre::Vector3(mPlane->getX(), mPlane->getY()+20, 95));
 		mCamera->lookAt(Ogre::Vector3(mPlane->getX(), mPlane->getY(),-500));
-	}
-
-	if (mScore % 2 == 0 && mScore > 0) {
-		Enemy::increaseShootRate();
-		cout << "shootProb = " << Enemy::getShootProb() << endl;
 	}
 
 	return true;
@@ -321,6 +309,14 @@ bool AirTraffic::keyReleased(const OIS::KeyEvent &arg) {
 	return true;
 }
 
+unsigned int AirTraffic::increaseScore(unsigned int points) {
+	mScore += points;
+	if (mScore % 2 == 0 && mScore > 0) {
+		Enemy::increaseShootRate();
+	}
+	return mScore;
+}
+
 void AirTraffic::spawnBoxes() {
 	// Spawn Boxes
 	for(float x = -100; x <= 100; x += 50) {
@@ -398,9 +394,8 @@ void AirTraffic::deleteEntities() {
 
 void AirTraffic::pauseGame() {
 	gamePaused = true;
-	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5f,0.5f,0.5f)); 
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5f,0.5f,0.5f));
 	ground->setmat("Examples/GroundStill");
-	
 }
 
 void AirTraffic::unpauseGame() {

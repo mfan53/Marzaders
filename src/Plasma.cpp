@@ -34,8 +34,10 @@ Plasma::Plasma(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 	initPhysics(dynamics, btVector3(hitbox.x, hitbox.y, hitbox.z), coll, collW,
 		10, pos.x, pos.y, pos.z);
 
-	mBody->setRestitution(1);
+	mBody->setRestitution(0);
 	mBody->setLinearVelocity(btVector3(vel.x, vel.y, vel.z));
+
+	m_isEnemyShot = isEnemyShot;
 }
 
 Plasma::~Plasma() {
@@ -47,6 +49,11 @@ void Plasma::update(float delta) {
 
 	// Remove the bullet if it is out of range
 	if(getZ() > Globals::WORLD_END || getZ() < Globals::WORLD_START) {
+		damage(mHP);
+	}
+
+	// Remove the bullet if it is moving in the wrong direction
+	if(m_isEnemyShot == getZV() < 0) {
 		damage(mHP);
 	}
 }
