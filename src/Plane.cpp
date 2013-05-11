@@ -32,7 +32,7 @@ Plane::Plane(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* world,
 	mMoveLeft = false;
 	mMoveRight = false;
 
-	mHP = 0;
+	mHP = 2;
 	mAttack = 0;
 	mDamage = 0;
 
@@ -61,6 +61,9 @@ void Plane::update(float delta) {
 	}
 	mBody->setLinearVelocity(btVector3(x, y, 0.0f));
 	Entity::update(delta);
+	if(isDead()) {
+		printf("\nPLAYER IS DEAD ###################\n");
+	}
 }
 
 void Plane::move(direction_t dir) {

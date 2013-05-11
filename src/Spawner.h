@@ -15,7 +15,7 @@ namespace Arsenal {
 
 		void update(float delta);
 
-		static const float Z_POS = -2000; // Default z spawning position
+		static const float Z_POS = -200; // Default z spawning position
 
 	private:
 		// The timer the spawner uses to decide when to spawn the next wave

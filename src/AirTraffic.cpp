@@ -118,6 +118,9 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 			// printf("deleting %s; %d dmg / %d hp\n",
 			// 		(*iter)->getRender()->getName().c_str(),
 			// 		(*iter)->getDamage(), (*iter)->getHP());
+			if(strcmp((*iter)->getRender()->getName().c_str(),"plane")==0) {
+				mPlane = NULL;
+			}
 			delete *iter;
 			entities.erase(iter++);
 		}
@@ -125,8 +128,10 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 	}
 
 	// Update camera position
-	mCamera->setPosition(Ogre::Vector3(mPlane->getX(), mPlane->getY()+20, 95));
-	mCamera->lookAt(Ogre::Vector3(mPlane->getX(), mPlane->getY(),-500));
+	if(mPlane != NULL) {
+		mCamera->setPosition(Ogre::Vector3(mPlane->getX(), mPlane->getY()+20, 95));
+		mCamera->lookAt(Ogre::Vector3(mPlane->getX(), mPlane->getY(),-500));
+	}
 
 	return true;
 }
@@ -174,30 +179,32 @@ bool AirTraffic::keyPressed(const OIS::KeyEvent &arg) {
 		return true;
 	if (insideIPMenu && arg.key != OIS::KC_RETURN)
 		return true;
-	if (arg.key == OIS::KC_W) {
-		mPlane->move(Arsenal::UP);
-	} 
-	else if (arg.key == OIS::KC_S) {
-		mPlane->move(Arsenal::DOWN);
-	}
-	else if (arg.key == OIS::KC_D) {
-		mPlane->move(Arsenal::RIGHT);
-	}
-	else if (arg.key == OIS::KC_A) {
-		mPlane->move(Arsenal::LEFT);
-	}
-	else if (arg.key == OIS::KC_1) {
-		mPlane->setShot(Arsenal::SINGLE);
-	}
-	else if (arg.key == OIS::KC_2) {
-		mPlane->setShot(Arsenal::SPRAY3);
-	}
-	else if (arg.key == OIS::KC_3) {
-		mPlane->setShot(Arsenal::SPRAY5);
-	}
-	else if (arg.key == OIS::KC_SPACE) {
-		//shootSound->play(0);
-		mPlane->shoot(bulletNumber, &entities);
+	if(mPlane != NULL) {
+		if (arg.key == OIS::KC_W) {
+			mPlane->move(Arsenal::UP);
+		} 
+		else if (arg.key == OIS::KC_S) {
+			mPlane->move(Arsenal::DOWN);
+		}
+		else if (arg.key == OIS::KC_D) {
+			mPlane->move(Arsenal::RIGHT);
+		}
+		else if (arg.key == OIS::KC_A) {
+			mPlane->move(Arsenal::LEFT);
+		}
+		else if (arg.key == OIS::KC_1) {
+			mPlane->setShot(Arsenal::SINGLE);
+		}
+		else if (arg.key == OIS::KC_2) {
+			mPlane->setShot(Arsenal::SPRAY3);
+		}
+		else if (arg.key == OIS::KC_3) {
+			mPlane->setShot(Arsenal::SPRAY5);
+		}
+		else if (arg.key == OIS::KC_SPACE) {
+			//shootSound->play(0);
+			mPlane->shoot(bulletNumber, &entities);
+		}
 	}
 	else if (arg.key == OIS::KC_ESCAPE) {
 		mShutDown = true;
@@ -223,20 +230,22 @@ bool AirTraffic::keyReleased(const OIS::KeyEvent &arg) {
 	//CEGUI input handling
 	CEGUI::System::getSingleton().injectKeyUp(arg.key);	
 
-	switch (arg.key) {
-		case OIS::KC_W :
-			mPlane->stop(Arsenal::UP);
-			break; 
-		case OIS::KC_S :
-			mPlane->stop(Arsenal::DOWN);
-			break; 
-		case OIS::KC_A :
-			mPlane->stop(Arsenal::LEFT);
-			break; 
-		case OIS::KC_D :
-			mPlane->stop(Arsenal::RIGHT);
-			break;
-	} 
+	if(mPlane != NULL) {
+		switch (arg.key) {
+			case OIS::KC_W :
+				mPlane->stop(Arsenal::UP);
+				break; 
+			case OIS::KC_S :
+				mPlane->stop(Arsenal::DOWN);
+				break; 
+			case OIS::KC_A :
+				mPlane->stop(Arsenal::LEFT);
+				break; 
+			case OIS::KC_D :
+				mPlane->stop(Arsenal::RIGHT);
+				break;
+		}
+	}
 	return true;
 }
 
