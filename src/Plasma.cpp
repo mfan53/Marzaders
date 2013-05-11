@@ -19,7 +19,7 @@ Plasma::Plasma(Ogre::SceneManager* mSceneMgr, btDiscreteDynamicsWorld* dynamicsW
 	// Bullet
 	initPhysics(dynamicsWorld,
 		btVector3(boundingBoxMaxCorner.x, boundingBoxMaxCorner.y, boundingBoxMaxCorner.z),
-		10, startPos.x, startPos.y, startPos.z);
+		COL_PLASMA, COL_BULLET | COL_ENEMY,10, startPos.x, startPos.y, startPos.z);
 
 	mBody->setRestitution(1);
 	mBody->setActivationState(DISABLE_DEACTIVATION);

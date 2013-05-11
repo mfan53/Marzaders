@@ -21,7 +21,7 @@ Plane::Plane(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* world,
 	mNode->yaw(Ogre::Radian(M_PI));
 
 	// Setup bullet
-	initPhysics(world, btVector3(bounds,bounds,bounds));
+	initPhysics(world, btVector3(bounds,bounds,bounds), COL_SHIP, COL_ENEMY | COL_BULLET);
 	mBody->setActivationState(DISABLE_DEACTIVATION);
 	mBody->setRestitution(1);
 	mBody->setLinearFactor(btVector3(1,1,0)); // only allow movement on x,y axis

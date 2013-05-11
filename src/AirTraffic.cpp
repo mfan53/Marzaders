@@ -32,6 +32,7 @@ AirTraffic::AirTraffic(void)
 	gamePaused = true;
 	insideIPMenu = false;
 	mScore = 0;
+	mPlane = NULL;
 }
 //-------------------------------------------------------------------------------------
 AirTraffic::~AirTraffic(void)

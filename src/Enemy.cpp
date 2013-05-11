@@ -6,8 +6,9 @@ using namespace std;
 
 Enemy::Enemy(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
 			MoveBehaviour* behaviour, float xPos, float yPos, float zPos, unsigned int hp, unsigned int atk)
-		: Entity(scene, dynamics, btVector3(2,2,2), hp, atk, 10, xPos, yPos, zPos),
-		  mBehaviour(behaviour) {
+		: Entity(scene, dynamics, btVector3(2,2,2), COL_ENEMY,
+			COL_BOX | COL_SHIP | COL_PLASMA, hp, atk, 10, xPos, yPos, zPos),
+			mBehaviour(behaviour) {
 	// Convert the ID into a string
 	std::string idString = "ENEMY-"+getIDStr();
 

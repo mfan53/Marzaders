@@ -21,15 +21,15 @@ Entity::Entity(Ogre::SceneManager* scene, unsigned int hp, unsigned int attack) 
 }
 
 Entity::Entity(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,
-		btVector3 hitbox, unsigned int hp, unsigned int attack, btScalar mass,
-		float xPos, float yPos, float zPos) {
+		btVector3 hitbox, int collide, int collidesWith, unsigned int hp,
+		unsigned int attack, btScalar mass, float xPos, float yPos, float zPos) {
 	initID();
 	mPhysics = false;
 	mScene = scene;
 	mHP = hp;
 	mDamage = 0;
 	mAttack = attack;
-	initPhysics(dynamics, hitbox, mass, xPos, yPos, zPos);
+	initPhysics(dynamics, hitbox, collide, collidesWith, mass, xPos, yPos, zPos);
 }
 
 Entity::~Entity() {
@@ -73,7 +73,8 @@ void Entity::update(float delta) {
 }
 
 void Entity::initPhysics(btDiscreteDynamicsWorld* dynamics, btVector3 hitbox,
-		btScalar mass, float xPos, float yPos, float zPos) {
+		int collide, int collidesWith, btScalar mass, float xPos, float yPos,
+		float zPos) {
 	if(!mPhysics) {
 		mPhysics = true;
 
@@ -90,7 +91,7 @@ void Entity::initPhysics(btDiscreteDynamicsWorld* dynamics, btVector3 hitbox,
 		mBody->setUserPointer(this);
 
 		mDynamics = dynamics;
-		mDynamics->addRigidBody(mBody);
+		mDynamics->addRigidBody(mBody,collide,collidesWith);
 	} else {
 		printf("Warning: Attempted to re-initialize physics for entity.\n");
 	}
