@@ -59,6 +59,9 @@ void Plane::update(float delta) {
 	if (mMoveRight) {
 		x += 50.0f;
 	}
+	x = (getX() < -100 && x < 0) || (getX() > 100 && x > 0) ? 0 : x;
+	y = (getY() < -100 && y < 0) || (getY() > 100 && y > 0) ? 0 : y;
+
 	mBody->setLinearVelocity(btVector3(x, y, 0.0f));
 	Entity::update(delta);
 }
