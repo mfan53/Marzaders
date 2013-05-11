@@ -53,8 +53,7 @@ public:
 	bool exitGame(const CEGUI::EventArgs &e);
 
 	unsigned int getScore() { return mScore; };
-	unsigned int increaseScore(unsigned int points)
-		{ mScore += points; return mScore; };
+	unsigned int increaseScore(unsigned int points);
 	unsigned int decreaseScore(unsigned int points)
 		{ mScore = points > mScore ? 0 : mScore - points; return mScore; };
 
@@ -72,7 +71,7 @@ protected:
 	std::list<Arsenal::Box*> boxes;
 	Arsenal::Plane *mPlane;
 	Arsenal::Wall *ground;
-	Arsenal::Timer mTimer;
+	Arsenal::Timer mEnemyBulletTimer;
 	Arsenal::Timer mScoreTimer;
 	
 	btDefaultCollisionConfiguration* mCollisionConfig;

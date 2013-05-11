@@ -28,7 +28,7 @@ AirTraffic::AirTraffic(void)
 	insideGUI = false;
 	gamePaused = true;
 	insideIPMenu = false;
-	mTimer = Arsenal::Timer(4);
+	mEnemyBulletTimer = Arsenal::Timer(1);
 	mScoreTimer = Arsenal::Timer(5);
 
 	mScore = 0;
@@ -98,7 +98,6 @@ void AirTraffic::createScene(void)
 	quit->setPosition(CEGUI::UVector2(CEGUI::UDim(0,0),CEGUI::UDim(.12,0)));
 	window->addChildWindow(quit);
 	quit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&AirTraffic::exitGame, this));
-
 }
 
 void AirTraffic::createEntities() {
@@ -116,7 +115,6 @@ void AirTraffic::createEntities() {
 
 	// Create the spawner
 	mSpawner = Spawner(mSceneMgr, mWorld, &entities);
-
 }
 
 bool isDead (const Arsenal::Entity* value) { return value->isDead(); }
@@ -152,11 +150,11 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 	float delta = evt.timeSinceLastFrame;
 	
 	if(mPlane!=NULL && mScoreTimer.check(delta)) {
-		mScore++;
+		increaseScore(1);
 	}
 	
 	// Shoot Bullets
-	if(mTimer.check(delta)) {
+	if(mEnemyBulletTimer.check(delta)) {
 		enemiesShoot();
 	}
 
@@ -316,6 +314,14 @@ bool AirTraffic::keyReleased(const OIS::KeyEvent &arg) {
 	return true;
 }
 
+unsigned int AirTraffic::increaseScore(unsigned int points) {
+	mScore += points;
+	if (mScore % 2 == 0 && mScore > 0) {
+		Enemy::increaseShootRate();
+	}
+	return mScore;
+}
+
 void AirTraffic::spawnBoxes() {
 	// Spawn Boxes
 	for(float x = -100; x <= 100; x += 50) {
@@ -379,7 +385,7 @@ void AirTraffic::reset() {
 	insideGUI = false;
 	pauseGame();
 	mScore = 0;
-	mTimer = Arsenal::Timer(4);
+	mEnemyBulletTimer = Arsenal::Timer(1);
 	mScoreTimer = Arsenal::Timer(5);
 }
 
