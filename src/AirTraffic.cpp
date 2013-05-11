@@ -5,6 +5,7 @@
 using namespace Arsenal;
 
 bool insideGUI; //toggle gui menu
+CEGUI::Window* window;
 
 // Forward declarations
 static void physicsTickCallback(btDynamicsWorld *world, btScalar timeStep);
@@ -78,6 +79,30 @@ void AirTraffic::createScene(void)
 	ingui = new Arsenal::InGUI();
 	ingui->create();
 
+	//quit game gui
+	CEGUI::SchemeManager::getSingleton().create("TaharezLook.scheme");
+	CEGUI::System::getSingleton().setDefaultMouseCursor("TaharezLook","MouseArrow");
+	//CEGUI::MouseCursor::getSingleton().show();
+	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
+	window = wmgr.createWindow("DefaultWindow","GameOverWindow");
+	window->setPosition(CEGUI::UVector2(CEGUI::UDim(0.38,0),CEGUI::UDim(0.35,0)));
+
+	//main menu
+	CEGUI::Window *rtmain = wmgr.createWindow("TaharezLook/Button","QuitMain");
+	rtmain->setText("Return To Main Menu");
+	rtmain->setSize(CEGUI::UVector2(CEGUI::UDim(0.25, 0), CEGUI::UDim(0.1, 0)));
+	rtmain->setPosition(CEGUI::UVector2(CEGUI::UDim(0,0),CEGUI::UDim(0,0)));
+	window->addChildWindow(rtmain);
+	rtmain->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&AirTraffic::quitMain, this));
+
+	//quit game
+	CEGUI::Window *quit = wmgr.createWindow("TaharezLook/Button","Exit");
+	quit->setText("Exit Game");
+	quit->setSize(CEGUI::UVector2(CEGUI::UDim(0.25, 0), CEGUI::UDim(0.1, 0)));
+	quit->setPosition(CEGUI::UVector2(CEGUI::UDim(0,0),CEGUI::UDim(.12,0)));
+	window->addChildWindow(quit);
+	quit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&AirTraffic::exitGame, this));
+
 }
 
 void AirTraffic::createEntities() {
@@ -95,6 +120,7 @@ void AirTraffic::createEntities() {
 
 	// Create the spawner
 	mSpawner = Spawner(mSceneMgr, mWorld, &entities);
+
 }
 
 bool isDead (const Arsenal::Entity* value) { return value->isDead(); }
@@ -108,8 +134,22 @@ bool AirTraffic::frameRenderingQueued(const Ogre::FrameEvent& evt) {
 	if(gamePaused) {
 		return true;
 	}
+
+	if (mPlane == NULL) {
+		pauseGame();
+		CEGUI::MouseCursor::getSingleton().show();
+		CEGUI::System::getSingleton().setGUISheet(window);
+	}
 	
 	//OgreBites::Label* health = mTrayMgr->createLabel(OgreBites::TL_TOP,"hp","hp remaining: 0",300);
+	if (mPlane == NULL) 
+		((OgreBites::Label*)mTrayMgr->getWidget("hp"))->setCaption("HP remaining: 0");
+	else {
+		std::string str = static_cast<ostringstream*>( &(ostringstream() << mPlane->getCurrentHP()) )->str();
+		((OgreBites::Label*)mTrayMgr->getWidget("hp"))->setCaption("HP remaining: "+str);
+	}
+	std::string str = static_cast<ostringstream*>( &(ostringstream() << mScore) )->str();
+	((OgreBites::Label*)mTrayMgr->getWidget("score"))->setCaption("Score: "+str);
 
 	float delta = evt.timeSinceLastFrame;
 	
@@ -296,6 +336,21 @@ void AirTraffic::startGame() {
 
 void AirTraffic::quitGame() {
 	mShutDown = true;
+}
+
+bool AirTraffic::quitMain(const CEGUI::EventArgs &e) {
+	window->hide();
+	window->disable();
+	reset();
+	return true;
+}
+
+bool AirTraffic::exitGame(const CEGUI::EventArgs &e) {
+	window->hide();
+	window->disable();
+	CEGUI::MouseCursor::getSingleton().hide();
+	mShutDown = true;
+	return true;
 }
 
 void AirTraffic::soundToggle() {

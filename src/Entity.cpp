@@ -40,6 +40,10 @@ Entity::~Entity() {
 	destroyPhysics();
 }
 
+int Entity::getCurrentHP() {
+	return mHP - mDamage;
+}
+
 
 void Entity::destroyScene() {
 	if(mScene) {

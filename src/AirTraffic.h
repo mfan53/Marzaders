@@ -49,6 +49,8 @@ public:
 	bool mouseMoved( const OIS::MouseEvent &arg);
 	bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 	bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+	bool quitMain(const CEGUI::EventArgs &e);
+	bool exitGame(const CEGUI::EventArgs &e);
 
 	unsigned int getScore() { return mScore; };
 	unsigned int increaseScore(unsigned int points)
