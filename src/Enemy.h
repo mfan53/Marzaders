@@ -18,6 +18,9 @@ namespace Arsenal {
 		void update(float delta);
 
 		void shoot(std::list<Arsenal::Entity*>* entities, float planeX, float planeY, float planeZ);
+		static void increaseShootRate();
+		static void resetShootRate() {shootProbability = 40;}
+		static int getShootProb() {return shootProbability;}
 
 		float getWidth();
 
@@ -26,6 +29,7 @@ namespace Arsenal {
 		void setColor();
 		const static int maxColors = 5;
 		const static int minColors = 1;
+		static int shootProbability;
 		int color;
 	};
 }

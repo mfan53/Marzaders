@@ -72,7 +72,7 @@ protected:
 	std::list<Arsenal::Box*> boxes;
 	Arsenal::Plane *mPlane;
 	Arsenal::Wall *ground;
-	Arsenal::Timer mTimer;
+	Arsenal::Timer mEnemyBulletTimer;
 	Arsenal::Timer mScoreTimer;
 	
 	btDefaultCollisionConfiguration* mCollisionConfig;
