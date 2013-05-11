@@ -6,6 +6,7 @@
 using namespace Arsenal;
 using namespace std;
 
+int Enemy::shootProbability = 50;
 Ogre::ParticleSystem* smoke;
 
 Enemy::Enemy(Ogre::SceneManager* scene, btDiscreteDynamicsWorld* dynamics,MoveBehaviour* behaviour,
@@ -39,7 +40,7 @@ Enemy::~Enemy() {
 void Enemy::update(float delta) {
 	mBehaviour->update(delta, this);
 	Entity::update(delta);
-	if(getZ() < Globals::WORLD_START) {
+	if(getZ() > Globals::WORLD_END) {
 		damage(mHP);
 	}
 }
@@ -81,10 +82,19 @@ void Enemy::shoot(std::list<Arsenal::Entity*>* entities, float planeX, float pla
 	x = x/mag * 400.0f;
 	y = y/mag * 400.0f;
 	z = z/mag * 400.0f;
-	// if ((rand() % (15 - 1 + 1) + 1) == 1) {
+
+	if ((rand() % (shootProbability) + 1) == 2) {
 		Arsenal::Plasma* p = new Arsenal::Plasma(mScene, mDynamics,
 					Arsenal::coord3f(getX(),getY(),getZ()+getWidth() + 5.0f),
 					Arsenal::coord3f(x, y, z), true);
 		entities->push_back(p);
-	// }
+	}
+}
+
+void Enemy::increaseShootRate() {
+	if (shootProbability > 4) {
+		shootProbability -= 2;
+	} else {
+		shootProbability = 4;
+	}
 }
